@@ -1,4 +1,4 @@
-package pack.un_artista_falso_the_game;
+package pack.faux_artista_the_game;
 
 import io.flutter.embedding.android.FlutterActivity;
 
