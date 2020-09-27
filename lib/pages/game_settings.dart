@@ -1,3 +1,4 @@
+import 'package:faux_artista_the_game/controller/controller_logic.dart';
 import 'package:faux_artista_the_game/controller/controller_view.dart';
 import 'package:faux_artista_the_game/locale/app_localization.dart';
 import 'package:flutter/material.dart';
@@ -20,17 +21,18 @@ class GameSettings extends StatefulWidget {
 class _GameSettingsState extends State<GameSettings> {
 
   final ControllerView _controller = ControllerView();
+  ControllerLogic _controllerLogic = ControllerLogic();
   int _numImpostors = 1;
-  int _numPlayers = 6;
+  int _numPlayers = 5;
   Color _allImpostorsColor, _noImpostorsColor;
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _allImpostorsColor = Colors.transparent;
     _noImpostorsColor = Colors.transparent;
   }
+
   @override
   Widget build(BuildContext context) {
     final double _safePadding = MediaQuery.of(context).padding.top;
@@ -47,7 +49,7 @@ class _GameSettingsState extends State<GameSettings> {
                 width: _widthTotal,
                 child: Container(
                   color: Colors.black12,
-                  child: _categorySelector(_widthTotal, _heightTotal * 0.525),
+                  child: _categorySelector(_widthTotal, _heightTotal * 0.525, _controllerLogic),
                 ),
               ),
               SizedBox(
@@ -55,14 +57,23 @@ class _GameSettingsState extends State<GameSettings> {
                 width: _widthTotal,
                 child: Container(
                   color: Colors.black12,
-                  child: _playerSelector(_widthTotal, _heightTotal * 0.4),
+                  child: _playerSelector(_widthTotal, _heightTotal * 0.4, _controllerLogic),
                 ),
               ),
               SizedBox(
                 height: _heightTotal * 0.075,
                 width: _widthTotal,
                 child: Container(
-                  child: Center(child: Text(AppLocalization.of(context).translate('game_settings_begin'))),
+                  child: InkWell(
+                    onTap: () {
+                      Map<String, dynamic> res = _controllerLogic.returnGame();
+                      print(res);
+                    },
+                    child: Center(
+                        child: Text(AppLocalization.of(context).translate('game_settings_begin')
+                        )
+                    )
+                  ),
                   color: Colors.green,
                 ),
               ),
@@ -73,7 +84,7 @@ class _GameSettingsState extends State<GameSettings> {
     );
   }
 
-  Container _categorySelector(double parentWidth, double parentHeight) {
+  Container _categorySelector(double parentWidth, double parentHeight, ControllerLogic controller) {
     return Container(
       width: parentWidth,
       height: parentHeight,
@@ -117,7 +128,7 @@ class _GameSettingsState extends State<GameSettings> {
                   scrollDirection: Axis.vertical,
                   child: Column(
                     children: [
-                      _controller.getCategoryList(context),
+                      _controller.getCategoryList(context, controller),
                     ],
                   ),
                 ),
@@ -129,7 +140,7 @@ class _GameSettingsState extends State<GameSettings> {
     );
   }
 
-  Container _playerSelector(double parentWidth, double parentheight) {
+  Container _playerSelector(double parentWidth, double parentheight, ControllerLogic controller) {
     return Container(
       child: Column(
         children: [
@@ -154,8 +165,9 @@ class _GameSettingsState extends State<GameSettings> {
                         minValue: 5,
                         maxValue: 10,
                         step: 1,
-                        onChanged: (value){ setState(() { _numPlayers = value; });
-                        print(value);
+                        onChanged: (value){
+                          controller.setNumberOfPlayers(value);
+                          setState(() { _numPlayers = value; });
                         }
                     )
                   ],
@@ -175,7 +187,9 @@ class _GameSettingsState extends State<GameSettings> {
                         minValue: 1,
                         maxValue: 2,
                         step: 1,
-                        onChanged: (value){ setState(() { _numImpostors = value; });
+                        onChanged: (value){
+                          controller.setNumberOfImpostors(value);
+                          setState(() { _numImpostors = value; });
                         print(value);
                         }
                     )
@@ -202,9 +216,10 @@ class _GameSettingsState extends State<GameSettings> {
                   color: Colors.transparent,
                   child: InkWell(
                     onTap: (){
+                      controller.setAllImpostors();
                       setState(() {
                         _allImpostorsColor == Colors.transparent
-                            ? _allImpostorsColor = Colors.deepPurple
+                            ? _allImpostorsColor = Colors.deepPurple[300]
                             : _allImpostorsColor = Colors.transparent;
                       });
                     },
@@ -235,9 +250,10 @@ class _GameSettingsState extends State<GameSettings> {
                   color: Colors.transparent,
                   child: InkWell(
                     onTap:(){
+                      controller.setNoImpostors();
                       setState(() {
                         _noImpostorsColor == Colors.transparent
-                            ? _noImpostorsColor = Colors.deepPurple
+                            ? _noImpostorsColor = Colors.deepPurple[300]
                             : _noImpostorsColor = Colors.transparent;
                       });
                     },
@@ -267,15 +283,6 @@ class _GameSettingsState extends State<GameSettings> {
           )
         ],
       ),
-    );
-  }
-
-  Widget _image(String asset) {
-    return Image.asset(
-      asset,
-      height: 30.0,
-      width: 30.0,
-      color: Colors.amber,
     );
   }
 }

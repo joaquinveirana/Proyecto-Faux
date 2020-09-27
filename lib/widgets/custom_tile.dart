@@ -1,14 +1,19 @@
+import 'package:faux_artista_the_game/controller/controller_logic.dart';
 import 'package:faux_artista_the_game/controller/general_parameters.dart';
 import 'package:faux_artista_the_game/locale/app_localization.dart';
 import 'package:flutter/material.dart';
 
 class CustomTile extends StatefulWidget {
   final int _id;
-
-  CustomTile({int id}) : this._id = id;
+  final ControllerLogic _controller;
+  CustomTile({int id, ControllerLogic controller}) : this._id = id, this._controller = controller;
 
   int getId() {
     return this._id;
+  }
+
+  ControllerLogic getController() {
+    return this._controller;
   }
 
   @override
@@ -42,6 +47,8 @@ class CustomTileState extends State<CustomTile> {
       child: InkWell(
         onTap: () {
           _selected = !_selected;
+          // Al tocar, guardo el id en la lista de categorias a sortear
+          widget.getController().editCategories(widget.getId());
           setState(() {
             _selected == true
                 ? color = selectedColor
@@ -91,7 +98,7 @@ class CustomTileState extends State<CustomTile> {
         artistDificultyFontColor = Colors.green;
       } break;
       case 2: {
-        artistDificultyFontColor = Colors.yellow;
+        artistDificultyFontColor = Colors.amber;
       } break;
       case 3: {
         artistDificultyFontColor = Colors.red;
@@ -109,7 +116,7 @@ class CustomTileState extends State<CustomTile> {
         impostorDificultyFontColor = Colors.green;
       } break;
       case 2: {
-        impostorDificultyFontColor = Colors.yellow;
+        impostorDificultyFontColor = Colors.amber;
       } break;
       case 3: {
         impostorDificultyFontColor = Colors.red;
