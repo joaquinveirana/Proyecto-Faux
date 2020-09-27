@@ -4,22 +4,9 @@ import 'package:faux_artista_the_game/pages/game_settings.dart';
 import 'package:faux_artista_the_game/language_enum.dart';
 
 class HomePage extends StatefulWidget {
-
-
-
   @override
   State<StatefulWidget> createState() => _HomePageState();
 }
-
-/*
-setState(() {
-  AppLocalization.load(Locale('es', 'ESP'));
-});
-Text(
-  AppLocalization.of(context).heyWorld,
-  style: TextStyle(fontSize: 20),
-)
- */
 
 
 class _HomePageState extends State<HomePage> {
@@ -68,7 +55,7 @@ class _HomePageState extends State<HomePage> {
         color: Colors.red,
         child: InkWell(
           onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => GameSettings(lang: _lang))),
-          child: Text("Play"),
+          child: Center(child: Text("Play", style: TextStyle(fontSize: 20),)),
         ),
       ),
     );
@@ -85,7 +72,7 @@ class _HomePageState extends State<HomePage> {
           onTap: () {
             _setLanguage(Language.ES);
           },
-          child: Text(AppLocalization.of(context).translate('lang')),
+          child: Center(child: Text(AppLocalization.of(context).translate('lang'), style: TextStyle(fontSize: 15),)),
         ),
       ),
     );
