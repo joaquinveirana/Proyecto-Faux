@@ -43,19 +43,19 @@ class _GameSettingsState extends State<GameSettings> {
           child: Column(
             children: [
               SizedBox(
-                height: _heightTotal * 0.55,
+                height: _heightTotal * 0.525,
                 width: _widthTotal,
                 child: Container(
                   color: Colors.black12,
-                  child: _categorySelector(_widthTotal, _heightTotal * 0.55),
+                  child: _categorySelector(_widthTotal, _heightTotal * 0.525),
                 ),
               ),
               SizedBox(
-                height: _heightTotal * 0.375,
+                height: _heightTotal * 0.4,
                 width: _widthTotal,
                 child: Container(
                   color: Colors.black12,
-                  child: _playerSelector(_widthTotal, _heightTotal * 0.3),
+                  child: _playerSelector(_widthTotal, _heightTotal * 0.4),
                 ),
               ),
               SizedBox(
@@ -211,7 +211,7 @@ class _GameSettingsState extends State<GameSettings> {
                     child: Container(
                       color: _allImpostorsColor,
                       padding: EdgeInsets.symmetric(horizontal: 20),
-                      margin: EdgeInsets.symmetric(horizontal: 10),
+                      margin: EdgeInsets.all(10),
                       child: Column(
                         children: [
                           Text(AppLocalization.of(context).translate('game_settings_more_options_all_impostors'),
@@ -244,7 +244,7 @@ class _GameSettingsState extends State<GameSettings> {
                     child: Container(
                       color: _noImpostorsColor,
                       padding: EdgeInsets.symmetric(horizontal: 20),
-                      margin: EdgeInsets.symmetric(horizontal: 10),
+                      margin: EdgeInsets.all(10),
                       child: Column(
                         children: [
                           Text(AppLocalization.of(context).translate('game_settings_more_options_no_impostors'),

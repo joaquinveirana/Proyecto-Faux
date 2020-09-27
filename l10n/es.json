@@ -62,8 +62,8 @@
     "game_settings_number_of_impostors_title": "Impostores",
     "game_settings_more_options_title": "Mas opciones!",
     "game_settings_more_options_all_impostors": "Todos Impostores",
-    "game_settings_more_options_all_impostors_desc": "Habilita con una baja probabilidad de que todos sean impostores",
+    "game_settings_more_options_all_impostors_desc": "Pequeña probabilidad de todos ser impostores",
     "game_settings_more_options_no_impostors": "Sin Impostores",
-    "game_settings_more_options_no_impostors_desc": "Habilita con una baja probabilidad de que no hayan impostores",
+    "game_settings_more_options_no_impostors_desc": "Pequeña probabilidad de que no hayan impostores",
     "game_settings_begin": "A Jugar!"
 }
