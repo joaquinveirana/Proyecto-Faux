@@ -45,25 +45,22 @@ class _GameSettingsState extends State<GameSettings> {
         body: Container(
           child: Column(
             children: [
-              SizedBox(
-                height: _heightTotal * 0.525,
-                width: _widthTotal,
+              Expanded(
+                flex: 7,
                 child: Container(
                   color: Colors.black12,
-                  child: _categorySelector(_widthTotal, _heightTotal * 0.525, _controllerLogic),
+                  child: _categorySelector(_widthTotal, _heightTotal * 0.5, _controllerLogic),
                 ),
               ),
-              SizedBox(
-                height: _heightTotal * 0.4,
-                width: _widthTotal,
+              Expanded(
+                flex: 6,
                 child: Container(
                   color: Colors.black12,
-                  child: _playerSelector(_widthTotal, _heightTotal * 0.4, _controllerLogic),
+                  child: _playerSelector(_widthTotal, _heightTotal * 0.425, _controllerLogic),
                 ),
               ),
-              SizedBox(
-                height: _heightTotal * 0.075,
-                width: _widthTotal,
+              Expanded(
+                flex: 1,
                 child: Container(
                   child: InkWell(
                     onTap: () {
@@ -154,16 +151,7 @@ class _GameSettingsState extends State<GameSettings> {
             child: Container(
               height: parentHeight * 0.765,
               width: parentWidth,
-              child: Scrollbar(
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.vertical,
-                  child: Column(
-                    children: [
-                      _controller.getCategoryList(context, controller),
-                    ],
-                  ),
-                ),
-              ),
+              child: _controller.getCategoryList(context, controller),
             )
           )
         ],
