@@ -2,6 +2,9 @@ import 'dart:math';
 
 import 'package:faux_artista_the_game/controller/general_parameters.dart';
 
+// Clase encargada de crear los parametros de una partida a partir de los datos de GameSettings
+// Define la categoria y la palabra de la partida y la lista de jugadores/impostores
+
 class ControllerLogic {
 
   final _random = new Random();
@@ -41,10 +44,12 @@ class ControllerLogic {
     Map<String, dynamic> res = {};
     if(_listOfCategories.length > 0) {
       // Defino la categoria y la palabra de esa categoria
+      // Selecciono indice al azar de la lista de categorias marcadas
       int randomIndexCategory = 0 + _random.nextInt(_listOfCategories.length);
+      // Selecciono indice de palabra aleatoria en la categoria
       int randomWord = 1 + _random.nextInt(GeneralParameters.NUMBER_OF_TOPIC_WORDS[_listOfCategories[randomIndexCategory]]);
-      res.putIfAbsent('word', () => 'topic_'+randomIndexCategory.toString()+'_'+randomWord.toString());
-      res.putIfAbsent('category', () => 'topic_'+randomIndexCategory.toString());
+      res.putIfAbsent('word', () => 'topic_'+_listOfCategories[randomIndexCategory].toString()+'_'+randomWord.toString());
+      res.putIfAbsent('category', () => 'topic_'+_listOfCategories[randomIndexCategory].toString());
 
       // Defino los jugadores y las opciones especiales
       var players = List<int>.filled(_numberOfPlayers, 0, growable: true);
@@ -54,7 +59,6 @@ class ControllerLogic {
         for(var i=0; i<this._numberOfPlayers; i++) {
           players[i] = -1;
         }
-        print(players);
       } else if (_noImpostors == true && randomSpecialOption >= 95) { // 5% SIN IMPOSTORES
         for(var i=0; i<this._numberOfPlayers; i++) {
           players[i] = 0;
@@ -64,6 +68,7 @@ class ControllerLogic {
           players[0 + _random.nextInt(_numberOfPlayers)] = -1;
         }
       }
+      print(players);
       res.putIfAbsent("players", () => players);
     }
     return res;

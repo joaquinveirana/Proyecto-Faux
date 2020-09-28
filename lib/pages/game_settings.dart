@@ -1,6 +1,7 @@
 import 'package:faux_artista_the_game/controller/controller_logic.dart';
 import 'package:faux_artista_the_game/controller/controller_view.dart';
 import 'package:faux_artista_the_game/locale/app_localization.dart';
+import 'package:faux_artista_the_game/pages/game_stage.dart';
 import 'package:flutter/material.dart';
 import 'package:faux_artista_the_game/language_enum.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -67,7 +68,37 @@ class _GameSettingsState extends State<GameSettings> {
                   child: InkWell(
                     onTap: () {
                       Map<String, dynamic> res = _controllerLogic.returnGame();
-                      print(res);
+                      if(res.isNotEmpty) {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => GameStage(data: res)));
+                      } else {
+                        showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                              title: Text(AppLocalization.of(context).translate('game_settings_error_dialog')),
+                              backgroundColor: Colors.white,
+                              content: Container(
+                                  height: 40,
+                                  child: Column(
+                                    children: <Widget>[
+                                      Material(
+                                        child: InkWell(
+                                          onTap: () {
+                                            Navigator.pop(context);
+                                          },
+                                          child: Container(
+                                              padding: EdgeInsets.all(10),
+                                              alignment: Alignment.bottomCenter,
+                                              color: Colors.black12,
+                                              child: Text(AppLocalization.of(context).translate('game_settings_error_dialog_button'))
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  )
+                              ),
+                            )
+                        );
+                      }
                     },
                     child: Center(
                         child: Text(AppLocalization.of(context).translate('game_settings_begin')
