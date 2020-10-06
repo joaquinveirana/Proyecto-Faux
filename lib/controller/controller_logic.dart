@@ -55,11 +55,11 @@ class ControllerLogic {
       var players = List<int>.filled(_numberOfPlayers, 0, growable: true);
       // Sorteo si decido aplicar las opciones especiales
       int randomSpecialOption = 0 + _random.nextInt(100);
-      if (_allImpostors == true && randomSpecialOption >= 95) { // 5% TODOS IMPOSTORES
+      if (_allImpostors == true && randomSpecialOption >= 90) { // 5% TODOS IMPOSTORES
         for(var i=0; i<this._numberOfPlayers; i++) {
           players[i] = -1;
         }
-      } else if (_noImpostors == true && randomSpecialOption >= 95) { // 5% SIN IMPOSTORES
+      } else if (_noImpostors == true && randomSpecialOption >= 90) { // 5% SIN IMPOSTORES
         for(var i=0; i<this._numberOfPlayers; i++) {
           players[i] = 0;
         }
@@ -68,7 +68,6 @@ class ControllerLogic {
           players[0 + _random.nextInt(_numberOfPlayers)] = -1;
         }
       }
-      print(players);
       res.putIfAbsent("players", () => players);
     }
     return res;

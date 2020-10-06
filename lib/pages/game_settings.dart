@@ -1,11 +1,13 @@
-import 'package:faux_artista_the_game/controller/controller_logic.dart';
-import 'package:faux_artista_the_game/controller/controller_view.dart';
-import 'package:faux_artista_the_game/locale/app_localization.dart';
-import 'package:faux_artista_the_game/pages/game_stage.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:faux_artista_the_game/language_enum.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:numberpicker/numberpicker.dart';
+
+import '../controller/controller_logic.dart';
+import '../controller/controller_view.dart';
+import '../fonts/styles.dart';
+import '../locale/app_localization.dart';
+import '../pages/game_stage.dart';
+import '../language_enum.dart';
 
 class GameSettings extends StatefulWidget {
   final Language _lang;
@@ -22,22 +24,27 @@ class GameSettings extends StatefulWidget {
 class _GameSettingsState extends State<GameSettings> {
 
   final ControllerView _controller = ControllerView();
+  final FontStyles _fontStyles = FontStyles();
   ControllerLogic _controllerLogic = ControllerLogic();
+
   int _numImpostors = 1;
   int _numPlayers = 5;
-  Color _allImpostorsColor, _noImpostorsColor;
+  List<int> _categoriesSelected = [];
+  Color _allImpostorsColor, _noImpostorsColor, _beginButtonColor;
+  PageController _pageController;
 
   @override
   void initState() {
     super.initState();
     _allImpostorsColor = Colors.transparent;
     _noImpostorsColor = Colors.transparent;
+    _beginButtonColor = Colors.black38;
+    _pageController = PageController(initialPage: 0);
   }
 
   @override
   Widget build(BuildContext context) {
     final double _safePadding = MediaQuery.of(context).padding.top;
-    final double _widthTotal = MediaQuery.of(context).size.width;
     final double _heightTotal = MediaQuery.of(context).size.height - _safePadding;
 
     return SafeArea(
@@ -49,60 +56,33 @@ class _GameSettingsState extends State<GameSettings> {
                 flex: 7,
                 child: Container(
                   color: Colors.black12,
-                  child: _categorySelector(_widthTotal, _heightTotal * 0.5, _controllerLogic),
+                  child: _categorySelector(_heightTotal * 0.5 , _controllerLogic),
                 ),
               ),
               Expanded(
                 flex: 6,
                 child: Container(
                   color: Colors.black12,
-                  child: _playerSelector(_widthTotal, _heightTotal * 0.425, _controllerLogic),
+                  child: Column(
+                    children: [
+                      _playerSelector( _heightTotal * 0.42, _controllerLogic),
+                      _moreOptions(_controllerLogic)
+                    ],
+                  ),
                 ),
               ),
               Expanded(
                 flex: 1,
                 child: Container(
                   child: InkWell(
-                    onTap: () {
-                      Map<String, dynamic> res = _controllerLogic.returnGame();
-                      if(res.isNotEmpty) {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => GameStage(data: res)));
-                      } else {
-                        showDialog(
-                            context: context,
-                            builder: (context) => AlertDialog(
-                              title: Text(AppLocalization.of(context).translate('game_settings_error_dialog')),
-                              backgroundColor: Colors.white,
-                              content: Container(
-                                  height: 40,
-                                  child: Column(
-                                    children: <Widget>[
-                                      Material(
-                                        child: InkWell(
-                                          onTap: () {
-                                            Navigator.pop(context);
-                                          },
-                                          child: Container(
-                                              padding: EdgeInsets.all(10),
-                                              alignment: Alignment.bottomCenter,
-                                              color: Colors.black12,
-                                              child: Text(AppLocalization.of(context).translate('game_settings_error_dialog_button'))
-                                          ),
-                                        ),
-                                      )
-                                    ],
-                                  )
-                              ),
-                            )
-                        );
-                      }
-                    },
+                    onTap: () => _validateBeginButton(),
                     child: Center(
-                        child: Text(AppLocalization.of(context).translate('game_settings_begin')
+                        child: Text(AppLocalization.of(context).translate('game_settings_begin',),
+                          style: _fontStyles.openSansBold(18),
                         )
                     )
                   ),
-                  color: Colors.green,
+                  color: _beginButtonColor,
                 ),
               ),
             ],
@@ -112,72 +92,82 @@ class _GameSettingsState extends State<GameSettings> {
     );
   }
 
-  Container _categorySelector(double parentWidth, double parentHeight, ControllerLogic controller) {
+  // ================== Sections ==================
+
+  Container _categorySelector(double containerHeight, ControllerLogic controller) {
     return Container(
-      width: parentWidth,
-      height: parentHeight,
       child: Column(
         children: [
           Center(
             child: Container(
-              height: parentHeight * 0.1,
-              margin: EdgeInsets.only(top: parentHeight * 0.025),
+              margin: EdgeInsets.only(top: containerHeight * 0.025),
               child: Text(AppLocalization.of(context).translate('game_settings_main_title'),
-                  style: GoogleFonts.playfairDisplay(
-                    fontSize: 30,
-                    fontWeight: FontWeight.w700,
-                  )),
+                  style: _fontStyles.openSansBold(29)),
             ),
           ),
           Center(
             child: Container(
-              height: parentHeight * 0.1,
-              child: Text(AppLocalization.of(context).translate('game_settings_topic_title'),
-                  style: GoogleFonts.playfairDisplay(
-                    fontSize: 22,
-                    fontWeight: FontWeight.w700,
-                  )),
+              margin: EdgeInsets.symmetric(vertical: containerHeight * 0.025),
+              child: Text(AppLocalization.of(context).translate('game_settings_categories_title'),
+                  style: _fontStyles.openSans(22)),
             ),
           ),
           Container(
-            height: parentHeight * 0.01,
-            child: Divider(
-              thickness: 1.5,
-              indent: 20,
-              endIndent: 20,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.5),
+                  spreadRadius: 2,
+                  blurRadius: 5,
+                  offset: Offset(0, 1), // changes position of shadow
+                ),
+              ],
             ),
-          ),
-          Center(
-            child: Container(
-              height: parentHeight * 0.765,
-              width: parentWidth,
-              child: _controller.getCategoryList(context, controller),
-            )
+            height: containerHeight * 0.9 - 60,
+            child: _controller.getCategoryList(context, controller, _changeBeginButtonColor),
           )
         ],
       ),
     );
   }
 
-  Container _playerSelector(double parentWidth, double parentheight, ControllerLogic controller) {
+  void _changeBeginButtonColor(int id) {
+    _categoriesSelected.contains(id) ? _categoriesSelected.remove(id) : _categoriesSelected.add(id);
+    if(_categoriesSelected.length > 0) {
+      setState(() {
+        _beginButtonColor = Colors.blue;
+      });
+    } else {
+      setState(() {
+        _beginButtonColor = Colors.black38;
+      });
+    }
+
+  }
+
+  Container _playerSelector(double containerHeight, ControllerLogic controller) {
     return Container(
+      padding: EdgeInsets.symmetric(vertical: containerHeight * 0.05),
       child: Column(
         children: [
-          Divider(
-            thickness: 1.5,
-            indent: 20,
-            endIndent: 20,
-          ),
-          Row(
-            children: [
-              Expanded(
-                child: Column(
+          SizedBox(
+            height: containerHeight * 0.55,
+            child: CarouselSlider(
+              options: CarouselOptions(
+                initialPage: 0,
+                enlargeCenterPage: true,
+                autoPlay: false,
+                reverse: false,
+                enableInfiniteScroll: false,
+                scrollDirection: Axis.horizontal,
+                viewportFraction: 0.4,
+              ),
+              items: [
+                Column(
                   children: [
                     Text(AppLocalization.of(context).translate('game_settings_number_of_players_title') + ":  $_numPlayers",
-                        style: GoogleFonts.playfairDisplay(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w700,
-                        )
+                        style: _fontStyles.openSans(16)
                     ),
                     NumberPicker.integer(
                         initialValue: _numPlayers,
@@ -191,15 +181,10 @@ class _GameSettingsState extends State<GameSettings> {
                     )
                   ],
                 ),
-              ),
-              Expanded(
-                child: Column(
+                Column(
                   children: [
                     Text(AppLocalization.of(context).translate('game_settings_number_of_impostors_title') + ":  $_numImpostors",
-                        style: GoogleFonts.playfairDisplay(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w700,
-                        )
+                        style: _fontStyles.openSans(16)
                     ),
                     NumberPicker.integer(
                         initialValue: _numImpostors,
@@ -213,95 +198,144 @@ class _GameSettingsState extends State<GameSettings> {
                         }
                     )
                   ],
-                ),
-              )
-            ],
-          ),
-          Divider(
-            thickness: 1.5,
-            indent: 20,
-            endIndent: 20,
-          ),
-          Text(AppLocalization.of(context).translate('game_settings_more_options_title'),
-              style: GoogleFonts.playfairDisplay(
-                fontSize: 16,
-                fontWeight: FontWeight.w700,
-              )
-          ),
-          Row(
-            children: [
-              Expanded(
-                child: Material(
-                  color: Colors.transparent,
-                  child: InkWell(
-                    onTap: (){
-                      controller.setAllImpostors();
-                      setState(() {
-                        _allImpostorsColor == Colors.transparent
-                            ? _allImpostorsColor = Colors.deepPurple[300]
-                            : _allImpostorsColor = Colors.transparent;
-                      });
-                    },
-                    child: Container(
-                      color: _allImpostorsColor,
-                      padding: EdgeInsets.symmetric(horizontal: 20),
-                      margin: EdgeInsets.all(10),
-                      child: Column(
-                        children: [
-                          Text(AppLocalization.of(context).translate('game_settings_more_options_all_impostors'),
-                              style: GoogleFonts.openSans(
-                                fontSize: 13,
-                                fontWeight: FontWeight.w700,
-                              )),
-                          Text(AppLocalization.of(context).translate('game_settings_more_options_all_impostors_desc'),
-                              style: GoogleFonts.openSans(
-                                fontSize: 12,
-                                color: Colors.black87
-                              )),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              Expanded(
-                child: Material(
-                  color: Colors.transparent,
-                  child: InkWell(
-                    onTap:(){
-                      controller.setNoImpostors();
-                      setState(() {
-                        _noImpostorsColor == Colors.transparent
-                            ? _noImpostorsColor = Colors.deepPurple[300]
-                            : _noImpostorsColor = Colors.transparent;
-                      });
-                    },
-                    child: Container(
-                      color: _noImpostorsColor,
-                      padding: EdgeInsets.symmetric(horizontal: 20),
-                      margin: EdgeInsets.all(10),
-                      child: Column(
-                        children: [
-                          Text(AppLocalization.of(context).translate('game_settings_more_options_no_impostors'),
-                              style: GoogleFonts.openSans(
-                                fontSize: 13,
-                                fontWeight: FontWeight.w700,
-                              )),
-                          Text(AppLocalization.of(context).translate('game_settings_more_options_no_impostors_desc'),
-                              style: GoogleFonts.openSans(
-                                fontSize: 12,
-                                color: Colors.black87
-                              )),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              )
-            ],
+                )
+              ],
+            ),
           )
         ],
       ),
     );
+  }
+
+  Container _moreOptions(ControllerLogic controller) {
+    return Container(
+      child: Column(
+        children: [
+          Container(
+            child: Divider(
+              thickness: 1.5,
+              indent: 20,
+              endIndent: 20,
+            ),
+          ),
+          Container(
+            child: Text(AppLocalization.of(context).translate('game_settings_more_options_title'),
+                style: _fontStyles.openSans(16)
+            ),
+          ),
+          Container(
+            child: Row(
+              children: [
+                Expanded(
+                  child: Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      onTap: (){
+                        controller.setAllImpostors();
+                        setState(() {
+                          _allImpostorsColor == Colors.transparent
+                              ? _allImpostorsColor = Colors.blue[100]
+                              : _allImpostorsColor = Colors.transparent;
+                        });
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: _allImpostorsColor,
+                          border: Border.all(
+                            color: Colors.black,
+                            width: 1,
+                          ),
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                        padding: EdgeInsets.symmetric(horizontal: 20),
+                        margin: EdgeInsets.all(10),
+                        child: Column(
+                          children: [
+                            Text(AppLocalization.of(context).translate('game_settings_more_options_all_impostors'),
+                                style: _fontStyles.openSansBold(13)),
+                            Text(AppLocalization.of(context).translate('game_settings_more_options_all_impostors_desc'),
+                                style: _fontStyles.openSans(12)),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      onTap:(){
+                        controller.setNoImpostors();
+                        setState(() {
+                          _noImpostorsColor == Colors.transparent
+                              ? _noImpostorsColor = Colors.blue[100]
+                              : _noImpostorsColor = Colors.transparent;
+                        });
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: _noImpostorsColor,
+                          border: Border.all(
+                            color: Colors.black,
+                            width: 1,
+                          ),
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                        padding: EdgeInsets.symmetric(horizontal: 20),
+                        margin: EdgeInsets.all(10),
+                        child: Column(
+                          children: [
+                            Text(AppLocalization.of(context).translate('game_settings_more_options_no_impostors'),
+                                style: _fontStyles.openSansBold(13)),
+                            Text(AppLocalization.of(context).translate('game_settings_more_options_no_impostors_desc'),
+                                style: _fontStyles.openSans(12)),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                )
+              ],
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  void _validateBeginButton() {
+    Map<String, dynamic> res = _controllerLogic.returnGame();
+    if(res.isNotEmpty) {
+      Navigator.push(context, MaterialPageRoute(builder: (context) => GameStage(data: res)));
+    } else {
+      showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text(AppLocalization.of(context).translate('game_settings_error_dialog')),
+            backgroundColor: Colors.white,
+            content: Container(
+                height: 40,
+                child: Column(
+                  children: <Widget>[
+                    Material(
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: Container(
+                            padding: EdgeInsets.all(10),
+                            alignment: Alignment.bottomCenter,
+                            color: Colors.black12,
+                            child: Text(AppLocalization.of(context).translate('game_settings_error_dialog_button'))
+                        ),
+                      ),
+                    )
+                  ],
+                )
+            ),
+          )
+      );
+    }
   }
 }

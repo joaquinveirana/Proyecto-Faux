@@ -5,17 +5,24 @@ import 'package:flutter/material.dart';
 
 class ControllerView {
   // Retorna una lista con botones para las categorias en el menu de opciones del juego
-  ListView getCategoryList(BuildContext context, ControllerLogic controllerLogic) {
+  ScrollConfiguration getCategoryList(BuildContext context, ControllerLogic controllerLogic, dynamic changeBeginButtonColor) {
      List listings = List<Widget>();
      for(var i = 1; i<=GeneralParameters.NUMBER_OF_CATEGORIES; i++){
        listings.add(
-         CustomTile(id: i, controller: controllerLogic)
+         CustomTile(id: i, controller: controllerLogic, notifyParentFunction: changeBeginButtonColor)
        );
      }
-     return ListView(
-       scrollDirection: Axis.vertical,
-       shrinkWrap: true,
-       children: listings,
+     return ScrollConfiguration(
+       behavior: ScrollBehavior(),
+       child: GlowingOverscrollIndicator(
+         axisDirection: AxisDirection.down,
+         color: Colors.deepPurple[100],
+         child: ListView(
+           scrollDirection: Axis.vertical,
+           shrinkWrap: true,
+           children: listings,
+         ),
+       ),
      );
   }
 }

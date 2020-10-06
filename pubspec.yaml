@@ -15,6 +15,7 @@ dependencies:
   intl_translation: ^0.17.10+1
   google_fonts: ^1.1.0
   numberpicker: ^1.2.1
+  carousel_slider: ^2.2.1
 
 
   # The following adds the Cupertino Icons font to your application.

@@ -6,15 +6,14 @@ import 'package:flutter/material.dart';
 class CustomTile extends StatefulWidget {
   final int _id;
   final ControllerLogic _controller;
-  CustomTile({int id, ControllerLogic controller}) : this._id = id, this._controller = controller;
+  final dynamic _notifyParentFunction;
+  CustomTile({int id, ControllerLogic controller, dynamic notifyParentFunction}) : this._id = id, this._controller = controller, this._notifyParentFunction = notifyParentFunction;
 
-  int getId() {
-    return this._id;
-  }
+  int getId() => this._id;
 
-  ControllerLogic getController() {
-    return this._controller;
-  }
+  ControllerLogic getController() => this._controller;
+
+  dynamic getNotifyParentFunction() => this._notifyParentFunction;
 
   @override
   CustomTileState createState() => CustomTileState();
@@ -34,18 +33,24 @@ class CustomTileState extends State<CustomTile> {
 
   @override
   Widget build(BuildContext context) {
-
-    String topic = "topic_"+widget.getId().toString();
-    // Lista de tres ejemplos de palabras de la categoria
+    // Ejemplo de palabra de la categoria
     String example =  AppLocalization.of(context).translate("game_settings_example_label")
-        + AppLocalization.of(context).translate("topic_"+widget.getId().toString()+"_0");
+        + AppLocalization.of(context).translateTopic("topic_"+widget.getId().toString(), 'example');
     List<int> difficulty = GeneralParameters.LEVELS_OF_DIFFICULTY[widget.getId()];
     _setColors(difficulty);
     
     return Container(
-      color: color,
+      decoration: BoxDecoration(
+        color: color,
+        border: Border.all(
+          color: Colors.black,
+          width: 0.3,
+        ),
+      ),
       child: InkWell(
         onTap: () {
+          // Llamo funcion en el padre para modificar color de comenzar
+          widget.getNotifyParentFunction()(widget.getId());
           _selected = !_selected;
           // Al tocar, guardo el id en la lista de categorias a sortear
           widget.getController().editCategories(widget.getId());
@@ -64,7 +69,7 @@ class CustomTileState extends State<CustomTile> {
                     fontWeight: FontWeight.w500
                 ),
                 children: <TextSpan>[
-                  TextSpan(text: AppLocalization.of(context).translate(topic)),
+                  TextSpan(text: AppLocalization.of(context).translateTopic("topic_"+widget.getId().toString(), 'title')),
                   TextSpan(text: "   "),
                   TextSpan(text: "["+ GeneralParameters.NUMBER_OF_TOPIC_WORDS[widget.getId()].toString() +"]",
                     style: TextStyle(fontSize: 12)
