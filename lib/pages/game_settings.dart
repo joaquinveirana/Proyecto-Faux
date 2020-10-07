@@ -1,4 +1,3 @@
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:numberpicker/numberpicker.dart';
 
@@ -30,16 +29,29 @@ class _GameSettingsState extends State<GameSettings> {
   int _numImpostors = 1;
   int _numPlayers = 5;
   List<int> _categoriesSelected = [];
-  Color _allImpostorsColor, _noImpostorsColor, _beginButtonColor;
-  PageController _pageController;
+  LinearGradient _allImpostorsColor, _noImpostorsColor, _beginButtonColor;
+  LinearGradient _selectedOptionButton = LinearGradient(
+      begin: Alignment.centerLeft,
+      end: Alignment.centerRight,
+      colors: [Color(0xff19c5ff), Color(0xff33A3fC)]
+  );
+  LinearGradient _unselectedOptionButton = LinearGradient(
+      begin: Alignment.centerLeft,
+      end: Alignment.centerRight,
+      colors: [Colors.black12, Colors.black12]
+  );
+  LinearGradient _unselectedBeginButton = LinearGradient(
+      begin: Alignment.centerLeft,
+      end: Alignment.centerRight,
+      colors: [Colors.black26, Colors.black26]
+  );
 
   @override
   void initState() {
     super.initState();
-    _allImpostorsColor = Colors.transparent;
-    _noImpostorsColor = Colors.transparent;
-    _beginButtonColor = Colors.black38;
-    _pageController = PageController(initialPage: 0);
+    _allImpostorsColor = _unselectedOptionButton;
+    _noImpostorsColor = _unselectedOptionButton;
+    _beginButtonColor = _unselectedBeginButton;
   }
 
   @override
@@ -74,15 +86,20 @@ class _GameSettingsState extends State<GameSettings> {
               Expanded(
                 flex: 1,
                 child: Container(
-                  child: InkWell(
-                    onTap: () => _validateBeginButton(),
-                    child: Center(
-                        child: Text(AppLocalization.of(context).translate('game_settings_begin',),
-                          style: _fontStyles.openSansBold(18),
-                        )
-                    )
+                  decoration: BoxDecoration(
+                    gradient: _beginButtonColor
                   ),
-                  color: _beginButtonColor,
+                  child: Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      onTap: () => _validateBeginButton(),
+                      child: Center(
+                          child: Text(AppLocalization.of(context).translate('game_settings_begin',),
+                            style: _fontStyles.openSansBold(18, Colors.black),
+                          )
+                      )
+                    ),
+                  )
                 ),
               ),
             ],
@@ -92,7 +109,7 @@ class _GameSettingsState extends State<GameSettings> {
     );
   }
 
-  // ================== Sections ==================
+  // ============================== SECTIONS ==============================
 
   Container _categorySelector(double containerHeight, ControllerLogic controller) {
     return Container(
@@ -102,25 +119,26 @@ class _GameSettingsState extends State<GameSettings> {
             child: Container(
               margin: EdgeInsets.only(top: containerHeight * 0.025),
               child: Text(AppLocalization.of(context).translate('game_settings_main_title'),
-                  style: _fontStyles.openSansBold(29)),
+                  style: _fontStyles.openSansSemiBold(29, Colors.black)),
             ),
           ),
           Center(
             child: Container(
               margin: EdgeInsets.symmetric(vertical: containerHeight * 0.025),
               child: Text(AppLocalization.of(context).translate('game_settings_categories_title'),
-                  style: _fontStyles.openSans(22)),
+                  style: _fontStyles.openSans(22, Colors.black)),
             ),
           ),
           Container(
             decoration: BoxDecoration(
               color: Colors.white,
+              border: Border.all(color: Colors.black, width: 0.5),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.grey.withOpacity(0.5),
-                  spreadRadius: 2,
-                  blurRadius: 5,
-                  offset: Offset(0, 1), // changes position of shadow
+                  color: Colors.grey.withOpacity(0.6),
+                  spreadRadius: 1.5,
+                  blurRadius: 3,
+                  offset: Offset(0, 2.5),
                 ),
               ],
             ),
@@ -133,77 +151,65 @@ class _GameSettingsState extends State<GameSettings> {
   }
 
   void _changeBeginButtonColor(int id) {
-    _categoriesSelected.contains(id) ? _categoriesSelected.remove(id) : _categoriesSelected.add(id);
-    if(_categoriesSelected.length > 0) {
+    _categoriesSelected.contains(id)
+        ? _categoriesSelected.remove(id)
+        : _categoriesSelected.add(id);
+    if (_categoriesSelected.length > 0) {
       setState(() {
-        _beginButtonColor = Colors.blue;
+        _beginButtonColor = _selectedOptionButton;
       });
     } else {
       setState(() {
-        _beginButtonColor = Colors.black38;
+        _beginButtonColor = _unselectedBeginButton;
       });
     }
-
   }
 
   Container _playerSelector(double containerHeight, ControllerLogic controller) {
     return Container(
       padding: EdgeInsets.symmetric(vertical: containerHeight * 0.05),
-      child: Column(
+      child: Row(
         children: [
-          SizedBox(
-            height: containerHeight * 0.55,
-            child: CarouselSlider(
-              options: CarouselOptions(
-                initialPage: 0,
-                enlargeCenterPage: true,
-                autoPlay: false,
-                reverse: false,
-                enableInfiniteScroll: false,
-                scrollDirection: Axis.horizontal,
-                viewportFraction: 0.4,
-              ),
-              items: [
-                Column(
-                  children: [
-                    Text(AppLocalization.of(context).translate('game_settings_number_of_players_title') + ":  $_numPlayers",
-                        style: _fontStyles.openSans(16)
-                    ),
-                    NumberPicker.integer(
-                        initialValue: _numPlayers,
-                        minValue: 5,
-                        maxValue: 10,
-                        step: 1,
-                        onChanged: (value){
-                          controller.setNumberOfPlayers(value);
-                          setState(() { _numPlayers = value; });
-                        }
-                    )
-                  ],
+          Expanded(
+            child: Column(
+              children: [
+                Text(AppLocalization.of(context).translate('game_settings_number_of_players_title') + ":  $_numPlayers",
+                    style: _fontStyles.openSans(16, Colors.black)
                 ),
-                Column(
-                  children: [
-                    Text(AppLocalization.of(context).translate('game_settings_number_of_impostors_title') + ":  $_numImpostors",
-                        style: _fontStyles.openSans(16)
+                NumberPicker.integer(
+                    initialValue: _numPlayers,
+                    minValue: 5,
+                    maxValue: 10,
+                    step: 1,
+                    onChanged: (value){
+                      controller.setNumberOfPlayers(value);
+                      setState(() { _numPlayers = value; });
+                    }
+                )
+              ],
+            ),
+          ),
+          Expanded(
+            child: Column(
+              children: [
+                Text(AppLocalization.of(context).translate('game_settings_number_of_impostors_title') + ":  $_numImpostors",
+                    style: _fontStyles.openSans(16, Colors.black)
                     ),
-                    NumberPicker.integer(
-                        initialValue: _numImpostors,
-                        minValue: 1,
-                        maxValue: 2,
-                        step: 1,
-                        onChanged: (value){
-                          controller.setNumberOfImpostors(value);
-                          setState(() { _numImpostors = value; });
-                        print(value);
-                        }
-                    )
-                  ],
+                NumberPicker.integer(
+                    initialValue: _numImpostors,
+                    minValue: 1,
+                    maxValue: 2,
+                    step: 1,
+                    onChanged: (value){
+                      controller.setNumberOfImpostors(value);
+                      setState(() { _numImpostors = value; });
+                    }
                 )
               ],
             ),
           )
         ],
-      ),
+      )
     );
   }
 
@@ -213,93 +219,79 @@ class _GameSettingsState extends State<GameSettings> {
         children: [
           Container(
             child: Divider(
-              thickness: 1.5,
+              thickness: 1,
+              color: Colors.black54,
               indent: 20,
               endIndent: 20,
             ),
           ),
           Container(
             child: Text(AppLocalization.of(context).translate('game_settings_more_options_title'),
-                style: _fontStyles.openSans(16)
+                style: _fontStyles.openSans(16, Colors.black)
             ),
           ),
           Container(
             child: Row(
               children: [
-                Expanded(
-                  child: Material(
-                    color: Colors.transparent,
-                    child: InkWell(
-                      onTap: (){
-                        controller.setAllImpostors();
-                        setState(() {
-                          _allImpostorsColor == Colors.transparent
-                              ? _allImpostorsColor = Colors.blue[100]
-                              : _allImpostorsColor = Colors.transparent;
-                        });
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: _allImpostorsColor,
-                          border: Border.all(
-                            color: Colors.black,
-                            width: 1,
-                          ),
-                          borderRadius: BorderRadius.circular(4),
-                        ),
-                        padding: EdgeInsets.symmetric(horizontal: 20),
-                        margin: EdgeInsets.all(10),
-                        child: Column(
-                          children: [
-                            Text(AppLocalization.of(context).translate('game_settings_more_options_all_impostors'),
-                                style: _fontStyles.openSansBold(13)),
-                            Text(AppLocalization.of(context).translate('game_settings_more_options_all_impostors_desc'),
-                                style: _fontStyles.openSans(12)),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
+                _optionButton(
+                    controller, () => {
+                  setState(() {
+                    controller.setNoImpostors();
+                    _allImpostorsColor == _unselectedOptionButton
+                        ? _allImpostorsColor = _selectedOptionButton
+                        : _allImpostorsColor = _unselectedOptionButton;
+                  })},
+                    _allImpostorsColor,
+                    'game_settings_more_options_all_impostors',
+                    'game_settings_more_options_all_impostors_desc'
                 ),
-                Expanded(
-                  child: Material(
-                    color: Colors.transparent,
-                    child: InkWell(
-                      onTap:(){
-                        controller.setNoImpostors();
-                        setState(() {
-                          _noImpostorsColor == Colors.transparent
-                              ? _noImpostorsColor = Colors.blue[100]
-                              : _noImpostorsColor = Colors.transparent;
-                        });
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: _noImpostorsColor,
-                          border: Border.all(
-                            color: Colors.black,
-                            width: 1,
-                          ),
-                          borderRadius: BorderRadius.circular(4),
-                        ),
-                        padding: EdgeInsets.symmetric(horizontal: 20),
-                        margin: EdgeInsets.all(10),
-                        child: Column(
-                          children: [
-                            Text(AppLocalization.of(context).translate('game_settings_more_options_no_impostors'),
-                                style: _fontStyles.openSansBold(13)),
-                            Text(AppLocalization.of(context).translate('game_settings_more_options_no_impostors_desc'),
-                                style: _fontStyles.openSans(12)),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
+                _optionButton(
+                    controller, () => {
+                    setState(() {
+                    controller.setNoImpostors();
+                    _noImpostorsColor == _unselectedOptionButton
+                      ? _noImpostorsColor = _selectedOptionButton
+                      : _noImpostorsColor = _unselectedOptionButton;
+                    })},
+                    _noImpostorsColor,
+                    'game_settings_more_options_no_impostors',
+                    'game_settings_more_options_no_impostors_desc'
                 )
               ],
             ),
           )
         ],
+      ),
+    );
+  }
+
+  // ============================== FUNCTIONS ==============================
+
+  Expanded _optionButton(ControllerLogic controller, dynamic tapFunction, LinearGradient color, String title, String subTitle) {
+    return Expanded(
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap:(){
+            tapFunction();
+          },
+          child: Container(
+            decoration: BoxDecoration(
+              gradient: color,
+              borderRadius: BorderRadius.circular(4),
+            ),
+            padding: EdgeInsets.symmetric(horizontal: 20),
+            margin: EdgeInsets.all(10),
+            child: Column(
+              children: [
+                Text(AppLocalization.of(context).translate(title),
+                    style: _fontStyles.openSansBold(13, Colors.black)),
+                Text(AppLocalization.of(context).translate(subTitle),
+                    style: _fontStyles.openSans(12, Colors.black)),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }

@@ -16,10 +16,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
+        debugShowCheckedModeBanner: false,
         supportedLocales: [
             Locale('en', 'US'),
             Locale('es', 'ESP'),

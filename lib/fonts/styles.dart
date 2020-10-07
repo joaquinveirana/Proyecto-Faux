@@ -9,16 +9,26 @@ class FontStyles {
     );
   }
 
-  TextStyle openSans(double size) {
+  TextStyle openSans(double size, Color color) {
     return GoogleFonts.openSans(
       fontSize: size,
+      color: color
     );
   }
 
-  TextStyle openSansBold(double size) {
+  TextStyle openSansSemiBold(double size, Color color) {
     return GoogleFonts.openSans(
       fontSize: size,
-      fontWeight: FontWeight.w700,
+      fontWeight: FontWeight.w600,
+      color: color
+    );
+  }
+
+  TextStyle openSansBold(double size, Color color) {
+    return GoogleFonts.openSans(
+        fontSize: size,
+        fontWeight: FontWeight.w700,
+        color: color
     );
   }
 }

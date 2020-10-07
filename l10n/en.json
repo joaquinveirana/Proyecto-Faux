@@ -1,5 +1,8 @@
 {
-  "lang": "English",
+  "home_page_play_button_label": "Play!",
+  "home_page_lang_button_label": "English",
+  "home_page_how_to_play_button_label": "How to play",
+  "home_page_about_button_label": "About",
   "game_settings_main_title": "Game Settings",
   "game_settings_categories_title": "Select your favourite categories!",
   "game_settings_difficulty_label_impostor": "Difficulty for the impostor",
@@ -30,6 +33,7 @@
   "game_stage_next_player": "Next player",
 
   "topic_1": {
+    "id": "1",
     "title": "Animals I",
     "example": "Goat",
     "elem_1": "Lion",
@@ -44,6 +48,7 @@
     "elem_10": "Tiger"
   },
   "topic_2": {
+    "id": "2",
     "title": "Superheroes I",
     "example": "Spiderman",
     "elem_1": "Captain America",
@@ -58,6 +63,7 @@
     "elem_10": "Hulk"
   },
   "topic_3": {
+    "id": "3",
     "title": "House Objects I",
     "example": "Microwave",
     "elem_1": "Cup",
@@ -77,6 +83,7 @@
     "elem_15": "TV"
   },
   "topic_4": {
+    "id": "4",
     "title": "Abstaract Concepts I",
     "example": "Civilization",
     "elem_1": "Math",
@@ -88,6 +95,7 @@
     "elem_7": "Time"
   },
   "topic_5": {
+    "id": "5",
     "title": "Generic monsters I",
     "example": "Ghost",
     "elem_1": "Hydra",
@@ -107,6 +115,7 @@
     "elem_15": "Golem"
   },
   "topic_6": {
+    "id": "6",
     "title": "Buildings I",
     "example": "Police Station",
     "elem_1": "Office",

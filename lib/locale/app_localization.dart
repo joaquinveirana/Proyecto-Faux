@@ -25,6 +25,9 @@ class AppLocalization {
   }
 
   Future<bool> load() async {
+    _localizedStrings.clear();
+    _gameTopics.clear();
+
     // Load the language JSON file from the "lang" folder
     String jsonString =
         await rootBundle.loadString('l10n/${locale.languageCode}.json');

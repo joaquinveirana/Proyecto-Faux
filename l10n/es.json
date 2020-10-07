@@ -1,5 +1,8 @@
 {
-  "lang": "Español",
+  "home_page_play_button_label": "Jugar!",
+  "home_page_lang_button_label": "Español",
+  "home_page_how_to_play_button_label": "Como jugar",
+  "home_page_about_button_label": "Acerca de",
   "game_settings_main_title": "Opciones del juego",
   "game_settings_categories_title": "Elige las categorias!",
   "game_settings_difficulty_label_impostor": "Dificultad para el impostor",
@@ -30,6 +33,7 @@
   "game_stage_next_player": "Siguiente jugador",
 
   "topic_1": {
+    "id": "1",
     "title": "Animales I",
     "example": "Cabra",
     "elem_1": "León",
@@ -44,6 +48,7 @@
     "elem_10": "Tigre"
   },
   "topic_2": {
+    "id": "2",
     "title": "Superhéroes I",
     "example": "El Hombre Araña",
     "elem_1": "Capitán América",
@@ -58,6 +63,7 @@
     "elem_10": "Hulk"
   },
   "topic_3": {
+    "id": "3",
     "title": "Objetos del Hogar I",
     "example": "Microondas",
     "elem_1": "Taza",
@@ -77,6 +83,7 @@
     "elem_15": "TV/Televisor"
   },
   "topic_4": {
+    "id": "4",
     "title": "Conceptos Abstractos I",
     "example": "Civilización",
     "elem_1": "Matemáticas",
@@ -88,6 +95,7 @@
     "elem_7": "Tiempo"
   },
   "topic_5": {
+    "id": "5",
     "title": "Mounstruos Genéricos I",
     "example": "Fantasma",
     "elem_1": "Hidra",
@@ -107,6 +115,7 @@
     "elem_15": "Golem"
   },
   "topic_6": {
+    "id": "6",
     "title": "Edificios I",
     "example": "Comisaría",
     "elem_1": "Oficina",

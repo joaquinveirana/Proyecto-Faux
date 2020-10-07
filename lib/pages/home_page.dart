@@ -20,24 +20,18 @@ class _HomePageState extends State<HomePage> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Expanded(
-              flex: 5,
               child: Container(
                 color: Colors.blue,
               ),
             ),
             Expanded(
-              flex: 3,
               child: Column(
                 children: [
                   _startGameButton(),
                   _languageButton(),
+                  _howToPlayButton(),
+                  _moreInformationButton()
                 ],
-              ),
-            ),
-            Expanded(
-              flex: 3,
-              child: Container(
-                color: Colors.green,
               ),
             )
           ],
@@ -45,6 +39,8 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
+
+  // =========================== SECTIONS ===========================
 
   Container _startGameButton() {
     return Container(
@@ -55,7 +51,8 @@ class _HomePageState extends State<HomePage> {
         color: Colors.red,
         child: InkWell(
           onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => GameSettings(lang: _lang))),
-          child: Center(child: Text("Play", style: TextStyle(fontSize: 20),)),
+          child: Center(
+              child: Text(AppLocalization.of(context).translate('home_page_play_button_label'), style: TextStyle(fontSize: 20),)),
         ),
       ),
     );
@@ -72,14 +69,47 @@ class _HomePageState extends State<HomePage> {
           onTap: () {
             _setLanguage(Language.ES);
           },
-          child: Center(child: Text(AppLocalization.of(context).translate('lang'), style: TextStyle(fontSize: 15),)),
+          child: Center(child: Text(AppLocalization.of(context).translate('home_page_lang_button_label'), style: TextStyle(fontSize: 15),)),
         ),
       ),
     );
   }
 
-  void _setLanguage(Language lang) async {
+  Container _howToPlayButton() {
+    return Container(
+      height: 60,
+      width: 150,
+      margin: EdgeInsets.all(10),
+      child: Material(
+        color: Colors.green,
+        child: InkWell(
+          onTap: () {
+          },
+          child: Center(child: Text(AppLocalization.of(context).translate('home_page_how_to_play_button_label'), style: TextStyle(fontSize: 15),)),
+        ),
+      ),
+    );
+  }
 
+  Container _moreInformationButton() {
+    return Container(
+      height: 60,
+      width: 150,
+      margin: EdgeInsets.all(10),
+      child: Material(
+        color: Colors.green,
+        child: InkWell(
+          onTap: () {
+          },
+          child: Center(child: Text(AppLocalization.of(context).translate('home_page_about_button_label'), style: TextStyle(fontSize: 15),)),
+        ),
+      ),
+    );
+  }
+
+  // =========================== FUNCTIONS ===========================
+
+  void _setLanguage(Language lang) async {
     switch(lang) {
       case Language.ES:
         await AppLocalization.of(context).setLocale(Locale('es', 'ESP'));
@@ -89,7 +119,6 @@ class _HomePageState extends State<HomePage> {
         setState(() {
           //AppLocalization.load(Locale('en', 'US'));
         });
-        print("Ingles");
         break;
     }
 

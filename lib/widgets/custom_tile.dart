@@ -1,6 +1,8 @@
-import 'package:faux_artista_the_game/controller/controller_logic.dart';
-import 'package:faux_artista_the_game/controller/general_parameters.dart';
-import 'package:faux_artista_the_game/locale/app_localization.dart';
+import '../controller/controller_logic.dart';
+import '../controller/general_parameters.dart';
+import '../fonts/styles.dart';
+import '../locale/app_localization.dart';
+import '../functions/custom_tile_functions.dart';
 import 'package:flutter/material.dart';
 
 class CustomTile extends StatefulWidget {
@@ -20,13 +22,25 @@ class CustomTile extends StatefulWidget {
 }
 
 class CustomTileState extends State<CustomTile> {
-  Color color, selectedColor, artistDificultyFontColor, impostorDificultyFontColor;
+  final FontStyles _fontStyles = FontStyles();
+  final CustomTileFunctions _functions = CustomTileFunctions();
+  Color selectedColor, artistDificultyFontColor, impostorDificultyFontColor;
   bool _selected;
+
+  LinearGradient color;
+  LinearGradient selectedGradientColor = LinearGradient(
+      begin: Alignment.centerLeft,
+      end: Alignment.centerRight,
+      colors: [Color(0xff19c5ff), Color(0xff33A3fC)]);
+  LinearGradient unselectedGradientColor = LinearGradient(
+      begin: Alignment.topLeft,
+      end: Alignment.centerRight,
+      colors: [Color(0xffc7c8d0), Color(0xffcacbd3)]);
 
   @override
   void initState() {
     super.initState();
-    color = Colors.transparent;
+    color = unselectedGradientColor;
     selectedColor = Colors.blue[200];
     _selected = false;
   }
@@ -37,101 +51,70 @@ class CustomTileState extends State<CustomTile> {
     String example =  AppLocalization.of(context).translate("game_settings_example_label")
         + AppLocalization.of(context).translateTopic("topic_"+widget.getId().toString(), 'example');
     List<int> difficulty = GeneralParameters.LEVELS_OF_DIFFICULTY[widget.getId()];
-    _setColors(difficulty);
+    artistDificultyFontColor = _functions.setColors(difficulty[0]);
+    impostorDificultyFontColor = _functions.setColors(difficulty[1]);
     
     return Container(
+      margin: EdgeInsets.all(10),
       decoration: BoxDecoration(
-        color: color,
-        border: Border.all(
-          color: Colors.black,
-          width: 0.3,
-        ),
+        gradient: color,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.3),
+            spreadRadius: 2,
+            blurRadius: 3,
+            offset: Offset(2, 2), // changes position of shadow
+          ),
+        ],
+        borderRadius: BorderRadius.circular(8)
       ),
-      child: InkWell(
-        onTap: () {
-          // Llamo funcion en el padre para modificar color de comenzar
-          widget.getNotifyParentFunction()(widget.getId());
-          _selected = !_selected;
-          // Al tocar, guardo el id en la lista de categorias a sortear
-          widget.getController().editCategories(widget.getId());
-          setState(() {
-            _selected == true
-                ? color = selectedColor
-                : color = Colors.transparent;
-          });
-        },
-        child: ListTile(
-          title: RichText(
+      child: Material(
+        color: Colors.transparent,
+        borderRadius: BorderRadius.circular(8),
+        child: InkWell(
+          onTap: () {
+            // Llamo funcion en el padre para modificar color de comenzar
+            widget.getNotifyParentFunction()(widget.getId());
+            _selected = !_selected;
+            // Al tocar, guardo el id en la lista de categorias a sortear
+            widget.getController().editCategories(widget.getId());
+            setState(() {
+              _selected == true
+                  ? color = selectedGradientColor
+                  : color = unselectedGradientColor;
+            });
+          },
+          child: ListTile(
+            title: RichText(
+                text: TextSpan(
+                  style: _fontStyles.openSansSemiBold(20, Colors.black),
+                  children: <TextSpan>[
+                    TextSpan(text: AppLocalization.of(context).translateTopic("topic_"+widget.getId().toString(), 'title')),
+                    TextSpan(text: "   "),
+                    TextSpan(text: "["+ GeneralParameters.NUMBER_OF_TOPIC_WORDS[widget.getId()].toString() +"]",
+                      style: TextStyle(fontSize: 12)
+                    )
+                  ]
+                )
+            ),
+            subtitle: RichText(
               text: TextSpan(
-                style: TextStyle(
-                    fontSize: 18,
-                    color: Colors.black,
-                    fontWeight: FontWeight.w500
-                ),
+                style: _fontStyles.openSans(13, Colors.black),
                 children: <TextSpan>[
-                  TextSpan(text: AppLocalization.of(context).translateTopic("topic_"+widget.getId().toString(), 'title')),
-                  TextSpan(text: "   "),
-                  TextSpan(text: "["+ GeneralParameters.NUMBER_OF_TOPIC_WORDS[widget.getId()].toString() +"]",
-                    style: TextStyle(fontSize: 12)
-                  )
+                  TextSpan(text: AppLocalization.of(context).translate("game_settings_difficulty_label_artists") + ": "),
+                  TextSpan(text: AppLocalization.of(context).translate("game_settings_difficulty_"+difficulty[0].toString()) + "\n", style: _fontStyles.openSansBold(14, artistDificultyFontColor)),
+                  TextSpan(text: AppLocalization.of(context).translate("game_settings_difficulty_label_impostor") + ": "),
+                  TextSpan(text: AppLocalization.of(context).translate("game_settings_difficulty_"+difficulty[1].toString()) + "\n", style: _fontStyles.openSansBold(14, impostorDificultyFontColor)),
+                  TextSpan(text: example , style: _fontStyles.openSans(13, Colors.grey[700])),
                 ]
               )
+            ),
+            trailing: _functions.setIcon(widget.getId().toString()),
           ),
-          subtitle: RichText(
-            text: TextSpan(
-              style: TextStyle(
-                  color: Colors.black87,
-                  fontSize: 13
-              ),
-              children: <TextSpan>[
-                TextSpan(text: AppLocalization.of(context).translate("game_settings_difficulty_label_artists") + ": "),
-                TextSpan(text: AppLocalization.of(context).translate("game_settings_difficulty_"+difficulty[0].toString()) + "\n", style: TextStyle(fontWeight: FontWeight.bold, color: artistDificultyFontColor)),
-                TextSpan(text: AppLocalization.of(context).translate("game_settings_difficulty_label_impostor") + ": "),
-                TextSpan(text: AppLocalization.of(context).translate("game_settings_difficulty_"+difficulty[1].toString()) + "\n", style: TextStyle(fontWeight: FontWeight.bold, color: impostorDificultyFontColor)),
-                TextSpan(text: example , style: TextStyle(color: Colors.black54)),
-              ]
-            )
-          )
         ),
       ),
     );
   }
 
-  void _setColors(List<int> difficulty) {
-    switch(difficulty[0]){
-      case 1: {
-        artistDificultyFontColor = Colors.green;
-      } break;
-      case 2: {
-        artistDificultyFontColor = Colors.amber;
-      } break;
-      case 3: {
-        artistDificultyFontColor = Colors.red;
-      } break;
-      case 4: {
-        artistDificultyFontColor = Colors.deepPurple;
-      } break;
-      case 5: {
-        selectedColor = Colors.black54;
-        artistDificultyFontColor = Colors.black;
-      } break;
-    }
-    switch(difficulty[1]){
-      case 1: {
-        impostorDificultyFontColor = Colors.green;
-      } break;
-      case 2: {
-        impostorDificultyFontColor = Colors.amber;
-      } break;
-      case 3: {
-        impostorDificultyFontColor = Colors.red;
-      } break;
-      case 4: {
-        impostorDificultyFontColor = Colors.deepPurple;
-      } break;
-      case 5: {
-        impostorDificultyFontColor = Colors.black;
-      } break;
-    }
-  }
+
 }
