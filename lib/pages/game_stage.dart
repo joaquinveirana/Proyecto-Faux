@@ -16,13 +16,12 @@ class GameStage extends StatefulWidget {
 
 class _GameStageState extends State<GameStage> {
 
-  bool _showRole, _roleRevealed;
-
+  bool _showRole;
   PageController _pageController;
+
   @override
   void initState() {
     _showRole = false;
-    _roleRevealed = false;
     _pageController = PageController(initialPage: 0);
     super.initState();
   }
@@ -127,7 +126,6 @@ class _GameStageState extends State<GameStage> {
             onTap: (){
               setState(() {
                 _showRole = true;
-                _roleRevealed = true;
               });
             },
             child: Container(

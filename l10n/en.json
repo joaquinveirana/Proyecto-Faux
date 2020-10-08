@@ -1,6 +1,7 @@
 {
   "home_page_play_button_label": "Play!",
-  "home_page_lang_button_label": "English",
+  "home_page_lang_button_label_en": "English",
+  "home_page_lang_button_label_es": "Spanish",
   "home_page_how_to_play_button_label": "How to play",
   "home_page_about_button_label": "About",
   "game_settings_main_title": "Game Settings",

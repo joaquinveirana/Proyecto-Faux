@@ -1,6 +1,6 @@
 import '../controller/controller_logic.dart';
 import '../controller/general_parameters.dart';
-import '../fonts/styles.dart';
+import '../styles/fonts.dart';
 import '../locale/app_localization.dart';
 import '../functions/custom_tile_functions.dart';
 import 'package:flutter/material.dart';

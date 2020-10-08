@@ -3,10 +3,11 @@ import 'package:numberpicker/numberpicker.dart';
 
 import '../controller/controller_logic.dart';
 import '../controller/controller_view.dart';
-import '../fonts/styles.dart';
+import '../styles/fonts.dart';
 import '../locale/app_localization.dart';
 import '../pages/game_stage.dart';
 import '../language_enum.dart';
+import '../styles/colors.dart';
 
 class GameSettings extends StatefulWidget {
   final Language _lang;
@@ -24,31 +25,20 @@ class _GameSettingsState extends State<GameSettings> {
 
   final ControllerView _controller = ControllerView();
   final FontStyles _fontStyles = FontStyles();
+  final AppColors _colors = AppColors();
   ControllerLogic _controllerLogic = ControllerLogic();
 
   int _numImpostors = 1;
   int _numPlayers = 5;
   List<int> _categoriesSelected = [];
-  LinearGradient _allImpostorsColor, _noImpostorsColor, _beginButtonColor;
-  LinearGradient _selectedOptionButton = LinearGradient(
-      begin: Alignment.centerLeft,
-      end: Alignment.centerRight,
-      colors: [Color(0xff19c5ff), Color(0xff33A3fC)]
-  );
-  LinearGradient _unselectedOptionButton = LinearGradient(
-      begin: Alignment.centerLeft,
-      end: Alignment.centerRight,
-      colors: [Colors.black12, Colors.black12]
-  );
-  LinearGradient _unselectedBeginButton = LinearGradient(
-      begin: Alignment.centerLeft,
-      end: Alignment.centerRight,
-      colors: [Colors.black26, Colors.black26]
-  );
+  LinearGradient _allImpostorsColor, _noImpostorsColor, _beginButtonColor, _selectedOptionButton, _unselectedOptionButton, _unselectedBeginButton;
 
   @override
   void initState() {
     super.initState();
+    _selectedOptionButton = _colors.gameSettingsSelectedButtonGradient();
+    _unselectedOptionButton = _colors.gameSettingsUnselectedButtonGradient();
+    _unselectedBeginButton = _colors.gameSettingsUnselectedButtonGradient();
     _allImpostorsColor = _unselectedOptionButton;
     _noImpostorsColor = _unselectedOptionButton;
     _beginButtonColor = _unselectedBeginButton;

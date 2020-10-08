@@ -1,6 +1,7 @@
 {
   "home_page_play_button_label": "Jugar!",
-  "home_page_lang_button_label": "Español",
+  "home_page_lang_button_label_en": "Inglés",
+  "home_page_lang_button_label_es": "Español",
   "home_page_how_to_play_button_label": "Como jugar",
   "home_page_about_button_label": "Acerca de",
   "game_settings_main_title": "Opciones del juego",
