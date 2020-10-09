@@ -9,6 +9,14 @@ class AppColors {
     );
   }
 
+  LinearGradient gameSettingsBannerGradient() {
+    return LinearGradient(
+        begin: Alignment.centerLeft,
+        end: Alignment.centerRight,
+        colors: [Color(0xff30c0cc), Color(0xff33A3fC)]
+    );
+  }
+
   LinearGradient gameSettingsUnselectedButtonGradient() {
     return LinearGradient(
         begin: Alignment.centerLeft,

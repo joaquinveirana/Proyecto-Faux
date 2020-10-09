@@ -3,6 +3,7 @@ import '../pages/game_settings.dart';
 import '../language_enum.dart';
 import '../styles/fonts.dart';
 import '../locale/app_localization.dart';
+import '../widgets/bezier_container.dart';
 import 'package:flag/flag.dart';
 
 class HomePage extends StatefulWidget {
@@ -29,38 +30,46 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
   }
   @override
   Widget build(BuildContext context) {
+    final height = MediaQuery.of(context).size.height;
     return SafeArea(
       child: Scaffold(
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            Expanded(
-              child: Container(
-                color: Colors.blue,
-                child: RotationTransition(
-                  turns: turnsTween.animate(_controller),
+        body: Stack(
+          children: [
+            Positioned(
+                top: -height * .15,
+                right: -MediaQuery.of(context).size.width * .4,
+                child: BezierContainer()),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                Expanded(
                   child: Container(
-                    child: Container(
-                      width: 200,
-                      height: 200,
-                      padding: EdgeInsets.all(20),
-                      child: FlutterLogo(),
+                    child: RotationTransition(
+                      turns: turnsTween.animate(_controller),
+                      child: Container(
+                        child: Container(
+                          width: 200,
+                          height: 200,
+                          padding: EdgeInsets.all(20),
+                          child: FlutterLogo(),
+                        ),
+                      ),
                     ),
                   ),
                 ),
-              ),
+                Expanded(
+                  child: Column(
+                    children: [
+                      _startGameButton(),
+                      _languageButtons(),
+                      _howToPlayButton(),
+                      _moreInformationButton()
+                    ],
+                  ),
+                )
+              ],
             ),
-            Expanded(
-              child: Column(
-                children: [
-                  _startGameButton(),
-                  _languageButtons(),
-                  _howToPlayButton(),
-                  _moreInformationButton()
-                ],
-              ),
-            )
-          ],
+          ]
         ),
       ),
     );

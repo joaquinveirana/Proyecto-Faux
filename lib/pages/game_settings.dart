@@ -57,7 +57,9 @@ class _GameSettingsState extends State<GameSettings> {
               Expanded(
                 flex: 7,
                 child: Container(
-                  color: Colors.black12,
+                  decoration: BoxDecoration(
+                    gradient: _colors.gameSettingsBannerGradient()
+                  ),
                   child: _categorySelector(_heightTotal * 0.5 , _controllerLogic),
                 ),
               ),
@@ -109,7 +111,7 @@ class _GameSettingsState extends State<GameSettings> {
             child: Container(
               margin: EdgeInsets.only(top: containerHeight * 0.025),
               child: Text(AppLocalization.of(context).translate('game_settings_main_title'),
-                  style: _fontStyles.openSansSemiBold(29, Colors.black)),
+                  style: _fontStyles.openSansBold(29, Colors.black)),
             ),
           ),
           Center(
