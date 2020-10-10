@@ -2,6 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class FontStyles {
+  TextStyle abrilFatface(double size) {
+    return GoogleFonts.abrilFatface(
+      fontSize: size,
+      color: Colors.white
+    );
+  }
+
+  TextStyle dancingScript(double size) {
+    return GoogleFonts.dancingScript(
+      fontSize: size,
+      fontWeight: FontWeight.w700,
+    );
+  }
+
   TextStyle playFair(double size) {
     return GoogleFonts.playfairDisplay(
       fontSize: size,

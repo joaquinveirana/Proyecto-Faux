@@ -41,6 +41,7 @@ class ControllerLogic {
   }
 
   Map<String, dynamic> returnGame() {
+
     Map<String, dynamic> res = {};
     if(_listOfCategories.length > 0) {
       // Defino la categoria y la palabra de esa categoria
@@ -48,8 +49,10 @@ class ControllerLogic {
       int randomIndexCategory = 0 + _random.nextInt(_listOfCategories.length);
       // Selecciono indice de palabra aleatoria en la categoria
       int randomWord = 1 + _random.nextInt(GeneralParameters.NUMBER_OF_TOPIC_WORDS[_listOfCategories[randomIndexCategory]]);
-      res.putIfAbsent('word', () => 'topic_'+_listOfCategories[randomIndexCategory].toString()+'_'+randomWord.toString());
+      res.putIfAbsent('word', () => 'elem_'+randomWord.toString());
       res.putIfAbsent('category', () => 'topic_'+_listOfCategories[randomIndexCategory].toString());
+
+
 
       // Defino los jugadores y las opciones especiales
       var players = List<int>.filled(_numberOfPlayers, 0, growable: true);

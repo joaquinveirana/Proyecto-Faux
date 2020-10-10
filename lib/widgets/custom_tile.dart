@@ -1,3 +1,5 @@
+import 'package:faux_artista_the_game/styles/colors.dart';
+
 import '../controller/controller_logic.dart';
 import '../controller/general_parameters.dart';
 import '../styles/fonts.dart';
@@ -24,22 +26,16 @@ class CustomTile extends StatefulWidget {
 class CustomTileState extends State<CustomTile> {
   final FontStyles _fontStyles = FontStyles();
   final CustomTileFunctions _functions = CustomTileFunctions();
+  final AppColors _colors = AppColors();
   Color selectedColor, artistDificultyFontColor, impostorDificultyFontColor;
   bool _selected;
-
-  LinearGradient color;
-  LinearGradient selectedGradientColor = LinearGradient(
-      begin: Alignment.centerLeft,
-      end: Alignment.centerRight,
-      colors: [Color(0xff19c5ff), Color(0xff33A3fC)]);
-  LinearGradient unselectedGradientColor = LinearGradient(
-      begin: Alignment.topLeft,
-      end: Alignment.centerRight,
-      colors: [Color(0xffc7c8d0), Color(0xffcacbd3)]);
+  LinearGradient color, selectedGradientColor, unselectedGradientColor;
 
   @override
   void initState() {
     super.initState();
+    selectedGradientColor = _colors.gameSettingsSelectedButtonGradient();
+    unselectedGradientColor = _colors.gameSettingsUnselectedButtonGradient();
     color = unselectedGradientColor;
     selectedColor = Colors.blue[200];
     _selected = false;
