@@ -68,27 +68,27 @@ class _GameSettingsState extends State<GameSettings> {
       child: Scaffold(
         body: Container(
             child: Column(
-          children: [
-            Expanded(
-              flex: _beginButtonIsReady == true ? 7 : 5,
-              child: GradientEffect(
-                  colors: [Color(0xff30c0cc), Color(0xff33A3fC)],
-                  bottom: Color(0xff30c0cc),
-                  top: Color(0xff33A3fC),
-                  child:
-                      _categorySelector(_heightTotal * 0.5, _controllerLogic)),
-            ),
-            Expanded(
-              flex: _beginButtonIsReady == true ? 6 : 5,
-              child: _optionsMenu(_widthTotal),
-            ),
-            _beginButtonIsReady == true
-                ? Expanded(
-                    flex: 1,
-                    child: _beginGameButton(),
-                  )
-                : Container()
-          ],
+            children: [
+              Expanded(
+                flex: 7,
+                child: GradientEffect(
+                    colors: [Color(0xff30c0cc), Color(0xff33A3fC), Color(0xff5167ac)],
+                    bottom: Color(0xff30c0cc),
+                    top: Color(0xff33A3fC),
+                    shape: 1,
+                    child: _categorySelector(_heightTotal * 0.5, _controllerLogic)),
+              ),
+              Container(
+                  height: 320,
+                  child: _optionsMenu(_widthTotal)
+              ),
+              _beginButtonIsReady == true
+                  ? Expanded(
+                      flex: 1,
+                      child: _beginGameButton(),
+                    )
+                  : Container()
+            ],
         )),
       ),
     );
@@ -96,76 +96,70 @@ class _GameSettingsState extends State<GameSettings> {
 
   // ============================== SECTIONS ==============================
 
-  Container _categorySelector(
-      double containerHeight, ControllerLogic controller) {
+  Container _categorySelector(double containerHeight, ControllerLogic controller) {
     return Container(
       child: Column(
         children: [
-          Center(
-            child: Container(
-              margin: EdgeInsets.only(top: containerHeight * 0.025),
-              child: Text(
-                  AppLocalization.of(context)
-                      .translate('game_settings_main_title'),
-                  style: _fontStyles.openSansBold(29, Colors.black)),
-            ),
-          ),
-          Center(
-            child: Container(
-              margin: EdgeInsets.symmetric(vertical: containerHeight * 0.025),
-              child: Text(
-                  AppLocalization.of(context)
-                      .translate('game_settings_categories_title'),
-                  style: _fontStyles.openSans(22, Colors.black)),
-            ),
+          Container(
+            margin: EdgeInsets.only(top: containerHeight * 0.025),
+            child: Text(
+                AppLocalization.of(context)
+                    .translate('game_settings_main_title'),
+                style: _fontStyles.openSansSemiBold(29, Colors.black)),
           ),
           Container(
-            decoration: BoxDecoration(
-              color: Colors.white,
-              border: Border.all(color: Colors.black, width: 0.5),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.6),
-                  spreadRadius: 1.5,
-                  blurRadius: 3,
-                  offset: Offset(0, 2.5),
-                ),
-              ],
+            margin: EdgeInsets.symmetric(vertical: containerHeight * 0.025),
+            child: Text(
+                AppLocalization.of(context)
+                    .translate('game_settings_categories_title'),
+                style: _fontStyles.openSans(22, Colors.black)),
+          ),
+          Expanded(
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border.all(color: Colors.black, width: 0.5),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.6),
+                    spreadRadius: 1.5,
+                    blurRadius: 3,
+                    offset: Offset(0, 2.5),
+                  ),
+                ],
+              ),
+              height: containerHeight * 0.9 - 60,
+              child: _controller.getCategoryList(context, controller, _changeBeginButton),
             ),
-            height: containerHeight * 0.9 - 60,
-            child: _controller.getCategoryList(
-                context, controller, _changeBeginButton),
           )
         ],
       ),
     );
   }
 
-  Container _optionsMenu(double width) {
-    return Container(
-      color: Colors.black12,
-      child: Column(
-        children: [
-          Expanded(
-            flex: 10,
-            child: PageView(
-              controller: _pageController,
-              scrollDirection: Axis.horizontal,
-              children: [
-                _playerSelector(_controllerLogic),
-                _moreOptions(width, _controllerLogic)
-              ],
-            ),
+  Column _optionsMenu(double width) {
+    return Column(
+      children: [
+        Container(
+          height: 295,
+          child: PageView(
+            controller: _pageController,
+            scrollDirection: Axis.horizontal,
+            children: [
+              _playerSelector(_controllerLogic),
+              _moreOptions(width, _controllerLogic)
+            ],
           ),
-          Expanded(
-            child: SmoothPageIndicator(
-                controller: _pageController, // PageController
-                count: 2,
-                effect: WormEffect(), // your preferred effect
-                onDotClicked: (index) {}),
-          )
-        ],
-      ),
+        ),
+        Container(
+          height: 10,
+          child: SmoothPageIndicator(
+              controller: _pageController, // PageController
+              count: 2,
+              effect: WormEffect(), // your preferred effect
+              onDotClicked: (index) {}),
+        )
+      ],
     );
   }
 
@@ -205,6 +199,7 @@ class _GameSettingsState extends State<GameSettings> {
                                     'game_settings_number_of_players_title') +
                                 ":  $_numPlayers",
                             style: _fontStyles.openSans(18, Colors.black)),
+                        Divider(),
                         NumberPicker.integer(
                             initialValue: _numPlayers,
                             minValue: 5,
@@ -242,6 +237,7 @@ class _GameSettingsState extends State<GameSettings> {
                                     'game_settings_number_of_impostors_title') +
                                 ":  $_numImpostors",
                             style: _fontStyles.openSans(18, Colors.black)),
+                        Divider(),
                         NumberPicker.integer(
                             initialValue: _numImpostors,
                             minValue: 1,

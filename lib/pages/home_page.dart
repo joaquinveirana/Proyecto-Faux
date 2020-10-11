@@ -1,3 +1,4 @@
+import 'package:faux_artista_the_game/pages/how_to_play.dart';
 import 'package:flutter/material.dart';
 import 'package:flag/flag.dart';
 import '../pages/game_settings.dart';
@@ -16,16 +17,10 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   final FontStyles _fontStyles = FontStyles();
   final NavigatorTransition _navigator = NavigatorTransition();
   Language _appLang;
-  AnimationController _controller;
 
   @override
   void initState() {
     _appLang = Language.EN;
-    _controller = AnimationController(
-      vsync: this,
-      duration: const Duration(seconds: 10),
-    );
-    _controller.repeat(reverse: true);
     super.initState();
   }
 
@@ -34,103 +29,134 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     final double _widthTotal = MediaQuery.of(context).size.width;
     return SafeArea(
       child: Scaffold(
-          body: GradientEffect(
-        colors: [
-          Colors.blue,
-          Colors.deepPurple,
-          Colors.deepOrange,
-        ],
-        bottom: Colors.red,
-        top: Colors.yellow,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            Expanded(
-              flex: 9,
-              child: Container(
-                width: double.infinity,
-                child: Column(
-                  children: [
-                    Stack(
-                      children: [
-                        Center(
-                          child: Container(
-                              width: 320,
-                              height: 320,
-                              decoration: BoxDecoration(
-                                  color: Colors.black54,
-                                  shape: BoxShape.circle,
-                                  border: Border.all(color: Colors.blue)),
-                              margin: EdgeInsets.all(30)),
-                        ),
-                        Center(
-                          child: Container(
-                              width: 300,
-                              height: 300,
-                              margin: EdgeInsets.all(30),
-                              child: Image.asset('images/FauxLogo.png')),
-                        )
-                      ],
-                    ),
-                  ],
-                ),
+          body: Container(
+            color: Colors.grey[200],
+            child: Container(
+              margin: EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border.all(
+                  color: Colors.black54,
+                  width: 2
+                )
               ),
-            ),
-            Expanded(
-              flex: 6,
               child: Column(
-                children: [
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  Container(
+                    child: _logoGradient(),
+                  ),
+                  Container(
+                    child: Text("Faux", style: _fontStyles.dancingScript(60, Colors.black),),
+                  ),
                   Expanded(
-                      child: _homeButton(
-                          () => Navigator.of(context)
-                                  .push(_navigator.createRoute(GameSettings(
-                                lang: _appLang,
-                              ))),
-                          AppLocalization.of(context)
-                              .translate('home_page_play_button_label'),
-                          [Color(0xff30c0cc), Color(0xff33A3fC)],
-                          20,
-                          false)),
+                    flex: 6,
+                    child: _homeButtons(),
+                  ),
                   Expanded(
-                      child: _homeButton(
-                          () => {},
-                          AppLocalization.of(context)
-                              .translate('home_page_how_to_play_button_label'),
-                          [Color(0xffffffff), Color(0xffffffff)],
-                          20,
-                          false)),
-                  Expanded(
-                      child: _homeButton(
-                          () => {},
-                          AppLocalization.of(context)
-                              .translate('home_page_about_button_label'),
-                          [Color(0xffffffff), Color(0xffffffff)],
-                          20,
-                          false)),
-                  Expanded(
-                      child: _homeButton(
-                          () => _showLanguageAlert(),
-                          AppLocalization.of(context)
-                              .translate('home_page_language_button_label'),
-                          [Color(0xffffffff), Color(0xffffffff)],
-                          20,
-                          true)),
+                    flex: 1,
+                    child: Container(),
+                  )
                 ],
-              ),
-            ),
-            Expanded(
-              flex: 1,
-              child: Container(),
-            )
-          ],
         ),
-      )),
+            ),
+          )),
     );
   }
 
   // =========================== SECTIONS ===========================
 
-  Container _homeButton(Function navigator, String label,
+  Container _logoGradient() {
+    return Container(
+      margin: EdgeInsets.only(top: 30, left: 30, right: 30, bottom: 10),
+      width: double.infinity,
+      child: Column(
+        children: [
+          Stack(
+            children: [
+              Center(
+                child: Container(
+                  child: GradientEffect(
+                    colors: [Colors.lightBlueAccent, Colors.greenAccent, Colors.deepPurple, Colors.red,],
+                    bottom: Colors.blue,
+                    top: Colors.blueAccent,
+                    shape: 0,
+                    child: Container(
+                        width: 300,
+                        height: 300,
+                        decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                                color: Colors.blue
+                            ),
+                          boxShadow:  [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.6),
+                              spreadRadius: 1.5,
+                              blurRadius: 3,
+                              offset: Offset(0, 2.5),
+                            ),
+                          ],
+                        )
+                    ),
+                  ),
+                ),
+              ),
+              Center(
+                child: Container(
+                    width: 300,
+                    height: 300,
+                    child: Image.asset('images/FauxLogo.png')),
+              )
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Column _homeButtons() {
+    return Column(
+      children: [
+        Expanded(
+            child: _button(
+                    () => Navigator.of(context)
+                    .push(_navigator.createRoute(GameSettings(lang: _appLang,))),
+                AppLocalization.of(context)
+                    .translate('home_page_play_button_label'),
+                [Color(0xff30c0cc), Color(0xff33A3fC)],
+                20,
+                false)),
+        Expanded(
+            child: _button(
+                    () => Navigator.of(context)
+                        .push(_navigator.createRoute(HowToPlay(lang: _appLang,))),
+                AppLocalization.of(context)
+                    .translate('home_page_how_to_play_button_label'),
+                [Color(0xff30c0cc), Color(0xff33A3fC)],
+                20,
+                false)),
+        Expanded(
+            child: _button(
+                    () => {},
+                AppLocalization.of(context)
+                    .translate('home_page_about_button_label'),
+                [Color(0xff30c0cc), Color(0xff33A3fC)],
+                20,
+                false)),
+        Expanded(
+            child: _button(
+                    () => _showLanguageAlert(),
+                AppLocalization.of(context)
+                    .translate('home_page_language_button_label'),
+                [Color(0xff30c0cc), Color(0xff33A3fC)],
+                20,
+                true)),
+      ],
+    );
+  }
+
+  Container _button(Function navigator, String label,
       List<Color> backgroundColors, double fontSize, bool showFlag) {
     return Container(
       width: 300,
@@ -170,51 +196,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     );
   }
 
-  Container _languageButton() {
-    return Container(
-        width: 300,
-        decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(6),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.3),
-                spreadRadius: 2,
-                blurRadius: 3,
-                offset: Offset(2, 2), // changes position of shadow
-              )
-            ]),
-        margin: EdgeInsets.all(10),
-        child: Material(
-          color: Colors.transparent,
-          child: InkWell(
-            splashColor: Colors.blue,
-            onTap: () {
-              _showLanguageAlert();
-            },
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  padding: EdgeInsets.only(left: 12),
-                  child: Text(
-                    AppLocalization.of(context)
-                        .translate('home_page_language_button_label'),
-                    style: TextStyle(fontSize: 20),
-                  ),
-                ),
-                Container(
-                  width: 45,
-                  child: _appLang == Language.ES
-                      ? Flag('ES', height: 18, width: 65)
-                      : Flag('US', height: 18, width: 65),
-                )
-              ],
-            ),
-          ),
-        ));
-  }
-
   void _showLanguageAlert() {
     showDialog(
         context: context,
@@ -227,13 +208,13 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                   children: [
                     Spacer(),
                     Container(
-                      child: _langButton(
+                      child: _alertLangButton(
                           Language.EN,
                           Flag('US', height: 35, width: 85),
                           'home_page_lang_button_label_en'),
                     ),
                     Spacer(),
-                    _langButton(Language.ES, Flag('ES', height: 38, width: 85),
+                    _alertLangButton(Language.ES, Flag('ES', height: 38, width: 85),
                         'home_page_lang_button_label_es'),
                     Spacer(),
                   ],
@@ -242,7 +223,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             ));
   }
 
-  Container _langButton(Language lang, Flag fl, String label) {
+  Container _alertLangButton(Language lang, Flag fl, String label) {
     return Container(
       height: 100,
       width: 100,

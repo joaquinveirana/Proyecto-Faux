@@ -4,7 +4,13 @@ class GradientEffect extends StatefulWidget {
   final Widget _child;
   final List<Color> _colorList;
   final Color _bottom, _top;
-  GradientEffect({ colors: dynamic, bottom: Color, top: Color ,child: Widget}) : this._colorList = colors, this._bottom = bottom, this._top = top, this._child = child;
+  final int _shape;
+  GradientEffect({ colors: dynamic, bottom: Color, top: Color, child: Widget, shape: int})
+      : this._colorList = colors,
+        this._bottom = bottom,
+        this._top = top,
+        this._child = child,
+        this._shape = shape;
 
   Widget getChild() {
     return this._child;
@@ -20,6 +26,10 @@ class GradientEffect extends StatefulWidget {
 
   Color getTopColor() {
     return this._top;
+  }
+
+  int getShape() {
+    return this._shape;
   }
 
 
@@ -41,7 +51,7 @@ class _GradientEffectState extends State<GradientEffect> {
     bottomColor = widget.getBottomColor();
 
     WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {
-      bottomColor = Colors.transparent;
+      bottomColor = Colors.lightBlue;
     }));
     super.initState();
   }
@@ -59,6 +69,7 @@ class _GradientEffectState extends State<GradientEffect> {
         });
       },
       decoration: BoxDecoration(
+          shape: widget.getShape() == 0 ? BoxShape.circle : BoxShape.rectangle,
           gradient: LinearGradient(
               begin: begin, end: end, colors: [bottomColor, topColor])),
       child: widget.getChild(),
