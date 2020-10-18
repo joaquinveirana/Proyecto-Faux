@@ -35,15 +35,26 @@ class _GameStageState extends State<GameStage> {
     Map<String, dynamic> _data = widget.getData();
     return Scaffold(
         body: SafeArea(
-      child: Container(
-        child: PageView(
-            controller: _pageController,
-            //physics: NeverScrollableScrollPhysics(),
-            scrollDirection: Axis.horizontal,
-            onPageChanged: (index) {},
-            children: _createPlayerScreens(_data)),
-      ),
-    ));
+          child: Container(
+            color: Colors.grey[200],
+            child: Container(
+              margin: EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  border: Border.all(
+                      color: Colors.black54,
+                      width: 2
+                  )
+              ),
+              child: PageView(
+                  controller: _pageController,
+                  //physics: NeverScrollableScrollPhysics(),
+                  scrollDirection: Axis.horizontal,
+                  onPageChanged: (index) {},
+                  children: _createPlayerScreens(_data)),
+            ),
+          ),
+        ));
   }
 
   // Creo las pantallas de cada jugador
@@ -75,7 +86,7 @@ class _GameStageState extends State<GameStage> {
           InkWell(
             onTap: () {
               _pageController.nextPage(
-                  duration: const Duration(milliseconds: 500),
+                  duration: const Duration(milliseconds: 900),
                   curve: Curves.easeInOut);
             },
             child: Container(
@@ -84,13 +95,13 @@ class _GameStageState extends State<GameStage> {
               color: Colors.green[200],
               child: Center(
                   child: Text(
-                AppLocalization.of(context)
-                    .translate("game_stage_first_button"),
-                style: GoogleFonts.playfairDisplay(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w700,
-                ),
-              )),
+                    AppLocalization.of(context)
+                        .translate("game_stage_first_button"),
+                    style: GoogleFonts.playfairDisplay(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  )),
             ),
           ),
         ],
@@ -114,7 +125,7 @@ class _GameStageState extends State<GameStage> {
             margin: EdgeInsets.all(20),
             child: Text(
                 AppLocalization.of(context)
-                        .translate("game_stage_player_title") +
+                    .translate("game_stage_player_title") +
                     "  " +
                     numPlayer.toString(),
                 style: GoogleFonts.playfairDisplay(
@@ -124,90 +135,90 @@ class _GameStageState extends State<GameStage> {
           ),
           _showRole == false
               ? InkWell(
-                  onTap: () {
-                    setState(() {
-                      _showRole = true;
-                    });
-                  },
-                  child: Container(
-                    width: 250,
-                    height: 100,
-                    color: Colors.red[200],
-                    child: Center(
-                        child: Text(
-                      AppLocalization.of(context)
-                          .translate("game_stage_button_label"),
-                      style: GoogleFonts.playfairDisplay(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    )),
-                  ),
-                )
+            onTap: () {
+              setState(() {
+                _showRole = true;
+              });
+            },
+            child: Container(
+              width: 250,
+              height: 100,
+              color: Colors.red[200],
+              child: Center(
+                  child: Text(
+                    AppLocalization.of(context)
+                        .translate("game_stage_button_label"),
+                    style: GoogleFonts.playfairDisplay(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  )),
+            ),
+          )
               : Container(),
           _showRole == true
               ? Container(
-                  margin: EdgeInsets.all(20),
-                  child: typePlayer == 0
-                      ? Text(
-                          AppLocalization.of(context)
-                              .translate("game_stage_artist_title"),
-                          style: GoogleFonts.playfairDisplay(
-                            fontSize: 30,
-                            fontWeight: FontWeight.w700,
-                          ))
-                      : Text(
-                          AppLocalization.of(context)
-                              .translate("game_stage_impostor_title"),
-                          style: GoogleFonts.playfairDisplay(
-                            fontSize: 30,
-                            fontWeight: FontWeight.w700,
-                          )),
-                )
+            margin: EdgeInsets.all(20),
+            child: typePlayer == 0
+                ? Text(
+                AppLocalization.of(context)
+                    .translate("game_stage_artist_title"),
+                style: GoogleFonts.playfairDisplay(
+                  fontSize: 30,
+                  fontWeight: FontWeight.w700,
+                ))
+                : Text(
+                AppLocalization.of(context)
+                    .translate("game_stage_impostor_title"),
+                style: GoogleFonts.playfairDisplay(
+                  fontSize: 30,
+                  fontWeight: FontWeight.w700,
+                )),
+          )
               : Container(),
           _showRole == true
               ? Container(
-                  margin: EdgeInsets.all(20),
-                  child: typePlayer == 0
-                      ? Text(AppLocalization.of(context).translateTopic(category, wordIndex),
-                          style: GoogleFonts.playfairDisplay(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w700,
-                          ))
-                      : Text(
-                          AppLocalization.of(context)
-                              .translate("game_stage_impostor_hint"),
-                          style: GoogleFonts.playfairDisplay(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w700,
-                          )),
-                )
+            margin: EdgeInsets.all(20),
+            child: typePlayer == 0
+                ? Text(AppLocalization.of(context).translateTopic(category, wordIndex),
+                style: GoogleFonts.playfairDisplay(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w700,
+                ))
+                : Text(
+                AppLocalization.of(context)
+                    .translate("game_stage_impostor_hint"),
+                style: GoogleFonts.playfairDisplay(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w700,
+                )),
+          )
               : Container(),
           _showRole == true
               ? InkWell(
-                  onTap: () {
-                    _pageController.nextPage(
-                        duration: const Duration(milliseconds: 500),
-                        curve: Curves.easeInOut);
-                    setState(() {
-                      _showRole = false;
-                    });
-                  },
-                  child: Container(
-                    width: 250,
-                    height: 100,
-                    color: Colors.green[200],
-                    child: Center(
-                        child: Text(
-                      AppLocalization.of(context)
-                          .translate("game_stage_next_player"),
-                      style: GoogleFonts.playfairDisplay(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    )),
-                  ),
-                )
+            onTap: () {
+              _pageController.nextPage(
+                  duration: const Duration(milliseconds: 1100),
+                  curve: Curves.easeInOut);
+              setState(() {
+                _showRole = false;
+              });
+            },
+            child: Container(
+              width: 250,
+              height: 100,
+              color: Colors.green[200],
+              child: Center(
+                  child: Text(
+                    AppLocalization.of(context)
+                        .translate("game_stage_next_player"),
+                    style: GoogleFonts.playfairDisplay(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  )),
+            ),
+          )
               : Container()
         ],
       ),

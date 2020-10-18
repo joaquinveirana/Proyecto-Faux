@@ -78,23 +78,23 @@ class _GameSettingsState extends State<GameSettings> {
                   )
               ),
               child: Column(
-              children: [
-                Expanded(
-                  flex: 7,
-                  child: _categorySelector(_heightTotal * 0.5),
-                ),
-                Container(
-                    height: 320,
-                    child: _optionsMenu(_widthTotal)
-                ),
-                _beginButtonIsReady == true
-                    ? Expanded(
-                        flex: 1,
-                        child: _beginGameButton(),
-                      )
-                    : Container()
-              ],
-        ),
+                children: [
+                  Expanded(
+                    flex: 7,
+                    child: _categorySelector(_heightTotal * 0.5),
+                  ),
+                  Container(
+                      height: 320,
+                      child: _optionsMenu(_widthTotal)
+                  ),
+                  _beginButtonIsReady == true
+                      ? Expanded(
+                    flex: 1,
+                    child: _beginGameButton(),
+                  )
+                      : Container()
+                ],
+              ),
             )),
       ),
     );
@@ -124,7 +124,10 @@ class _GameSettingsState extends State<GameSettings> {
             child: Container(
               decoration: BoxDecoration(
                 color: Colors.white,
-                border: Border.all(color: Colors.black, width: 0.5),
+                border: Border(
+                    top: BorderSide(color: Colors.black, width: 0.5),
+                    bottom: BorderSide(color: Colors.black, width: 0.5)
+                ),
                 boxShadow: [
                   BoxShadow(
                     color: Colors.grey.withOpacity(0.6),
@@ -186,23 +189,23 @@ class _GameSettingsState extends State<GameSettings> {
                 Expanded(
                   child: Container(
                     decoration: BoxDecoration(
-                      color: Colors.white54,
-                      borderRadius: BorderRadius.circular(8),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.6),
-                          spreadRadius: 1.5,
-                          blurRadius: 2,
-                          offset: Offset(0, 2.5),
-                        )
-                      ]
+                        color: Colors.white54,
+                        borderRadius: BorderRadius.circular(8),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.6),
+                            spreadRadius: 1.5,
+                            blurRadius: 2,
+                            offset: Offset(0, 2.5),
+                          )
+                        ]
                     ),
                     margin: EdgeInsets.all(20),
                     child: Column(
                       children: [
                         Text(
                             AppLocalization.of(context).translate(
-                                    'game_settings_number_of_players_title') +
+                                'game_settings_number_of_players_title') +
                                 ":  $_numPlayers",
                             style: _fontStyles.openSans(18, Colors.black)),
                         Divider(),
@@ -240,7 +243,7 @@ class _GameSettingsState extends State<GameSettings> {
                       children: [
                         Text(
                             AppLocalization.of(context).translate(
-                                    'game_settings_number_of_impostors_title') +
+                                'game_settings_number_of_impostors_title') +
                                 ":  $_numImpostors",
                             style: _fontStyles.openSans(18, Colors.black)),
                         Divider(),
@@ -283,14 +286,14 @@ class _GameSettingsState extends State<GameSettings> {
                     true,
                     width,
                     controller,
-                    () => {
-                          setState(() {
-                            controller.setNoImpostors();
-                            _allImpostorsColor == _unselectedOptionButton
-                                ? _allImpostorsColor = _selectedOptionButton
-                                : _allImpostorsColor = _unselectedOptionButton;
-                          })
-                        },
+                        () => {
+                      setState(() {
+                        controller.setNoImpostors();
+                        _allImpostorsColor == _unselectedOptionButton
+                            ? _allImpostorsColor = _selectedOptionButton
+                            : _allImpostorsColor = _unselectedOptionButton;
+                      })
+                    },
                     _allImpostorsColor,
                     'game_settings_more_options_all_impostors',
                     'game_settings_more_options_all_impostors_desc'),
@@ -298,14 +301,14 @@ class _GameSettingsState extends State<GameSettings> {
                     false,
                     width,
                     controller,
-                    () => {
-                          setState(() {
-                            controller.setNoImpostors();
-                            _noImpostorsColor == _unselectedOptionButton
-                                ? _noImpostorsColor = _selectedOptionButton
-                                : _noImpostorsColor = _unselectedOptionButton;
-                          })
-                        },
+                        () => {
+                      setState(() {
+                        controller.setNoImpostors();
+                        _noImpostorsColor == _unselectedOptionButton
+                            ? _noImpostorsColor = _selectedOptionButton
+                            : _noImpostorsColor = _unselectedOptionButton;
+                      })
+                    },
                     _noImpostorsColor,
                     'game_settings_more_options_no_impostors',
                     'game_settings_more_options_no_impostors_desc')
@@ -330,13 +333,13 @@ class _GameSettingsState extends State<GameSettings> {
       width: width * 0.9,
       padding: EdgeInsets.symmetric(vertical: 5),
       decoration: BoxDecoration(
-        border: Border(
-          bottom: BorderSide(color: Colors.black, width: 1),
-          top: isFirst == true
-              ? BorderSide(color: Colors.black, width: 1)
-              : BorderSide(width: 0),
-        ),
-        gradient: color
+          border: Border(
+            bottom: BorderSide(color: Colors.black, width: 1),
+            top: isFirst == true
+                ? BorderSide(color: Colors.black, width: 1)
+                : BorderSide(width: 0),
+          ),
+          gradient: color
       ),
       child: Material(
         color: Colors.transparent,
@@ -366,9 +369,9 @@ class _GameSettingsState extends State<GameSettings> {
               onTap: () => _validateBeginButton(),
               child: Center(
                   child: Text(
-                _beginButtonText,
-                style: _fontStyles.openSansBold(18, Colors.black),
-              ))),
+                    _beginButtonText,
+                    style: _fontStyles.openSansBold(18, Colors.black),
+                  ))),
         ));
   }
 
@@ -413,30 +416,30 @@ class _GameSettingsState extends State<GameSettings> {
       showDialog(
           context: context,
           builder: (context) => AlertDialog(
-                title: Text(AppLocalization.of(context)
-                    .translate('game_settings_error_dialog')),
-                backgroundColor: Colors.white,
-                content: Container(
-                    height: 40,
-                    child: Column(
-                      children: <Widget>[
-                        Material(
-                          child: InkWell(
-                            onTap: () {
-                              Navigator.pop(context);
-                            },
-                            child: Container(
-                                padding: EdgeInsets.all(10),
-                                alignment: Alignment.bottomCenter,
-                                color: Colors.black12,
-                                child: Text(AppLocalization.of(context)
-                                    .translate(
-                                        'game_settings_error_dialog_button'))),
-                          ),
-                        )
-                      ],
-                    )),
-              ));
+            title: Text(AppLocalization.of(context)
+                .translate('game_settings_error_dialog')),
+            backgroundColor: Colors.white,
+            content: Container(
+                height: 40,
+                child: Column(
+                  children: <Widget>[
+                    Material(
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: Container(
+                            padding: EdgeInsets.all(10),
+                            alignment: Alignment.bottomCenter,
+                            color: Colors.black12,
+                            child: Text(AppLocalization.of(context)
+                                .translate(
+                                'game_settings_error_dialog_button'))),
+                      ),
+                    )
+                  ],
+                )),
+          ));
     }
   }
 }

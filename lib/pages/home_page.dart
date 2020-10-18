@@ -34,11 +34,11 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             child: Container(
               margin: EdgeInsets.all(10),
               decoration: BoxDecoration(
-                color: Colors.white,
-                border: Border.all(
-                  color: Colors.black54,
-                  width: 2
-                )
+                  color: Colors.white,
+                  border: Border.all(
+                      color: Colors.black54,
+                      width: 2
+                  )
               ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -58,7 +58,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                     child: Container(),
                   )
                 ],
-        ),
+              ),
             ),
           )),
     );
@@ -86,10 +86,10 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                         width: 300,
                         height: 300,
                         decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            border: Border.all(
-                                color: Colors.blue
-                            ),
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                              color: Colors.blue
+                          ),
                           boxShadow:  [
                             BoxShadow(
                               color: Colors.grey.withOpacity(0.6),
@@ -131,7 +131,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         Expanded(
             child: _button(
                     () => Navigator.of(context)
-                        .push(_navigator.createRoute(HowToPlay())),
+                    .push(_navigator.createRoute(HowToPlay())),
                 AppLocalization.of(context)
                     .translate('home_page_how_to_play_button_label'),
                 [Color(0xff30c0cc), Color(0xff33A3fC)],
@@ -201,27 +201,27 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     showDialog(
         context: context,
         builder: (context) => AlertDialog(
-              backgroundColor: Colors.white,
-              content: Container(
-                height: 150,
-                width: 300,
-                child: Row(
-                  children: [
-                    Spacer(),
-                    Container(
-                      child: _alertLangButton(
-                          Language.EN,
-                          Flag('US', height: 35, width: 85),
-                          'home_page_lang_button_label_en'),
-                    ),
-                    Spacer(),
-                    _alertLangButton(Language.ES, Flag('ES', height: 38, width: 85),
-                        'home_page_lang_button_label_es'),
-                    Spacer(),
-                  ],
+          backgroundColor: Colors.white,
+          content: Container(
+            height: 150,
+            width: 300,
+            child: Row(
+              children: [
+                Spacer(),
+                Container(
+                  child: _alertLangButton(
+                      Language.EN,
+                      Flag('US', height: 35, width: 85),
+                      'home_page_lang_button_label_en'),
                 ),
-              ),
-            ));
+                Spacer(),
+                _alertLangButton(Language.ES, Flag('ES', height: 38, width: 85),
+                    'home_page_lang_button_label_es'),
+                Spacer(),
+              ],
+            ),
+          ),
+        ));
   }
 
   Container _alertLangButton(Language lang, Flag fl, String label) {
