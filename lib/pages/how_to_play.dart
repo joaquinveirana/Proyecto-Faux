@@ -1,13 +1,8 @@
 import 'package:flutter/material.dart';
 import '../locale/app_localization.dart';
-import '../language_enum.dart';
 import '../styles/fonts.dart';
 
 class HowToPlay extends StatefulWidget {
-  final Language _appLang;
-
-  HowToPlay({lang: Language}) : this._appLang = lang;
-
   @override
   _HowToPlayState createState() => _HowToPlayState();
 }

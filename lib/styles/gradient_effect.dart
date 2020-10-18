@@ -5,32 +5,21 @@ class GradientEffect extends StatefulWidget {
   final List<Color> _colorList;
   final Color _bottom, _top;
   final int _shape;
-  GradientEffect({ colors: dynamic, bottom: Color, top: Color, child: Widget, shape: int})
+  final double _borderRadius;
+  GradientEffect({ colors: dynamic, bottom: Color, top: Color, child: Widget, shape: int, borderRadius: double})
       : this._colorList = colors,
         this._bottom = bottom,
         this._top = top,
         this._child = child,
-        this._shape = shape;
+        this._shape = shape,
+        this._borderRadius = borderRadius;
 
-  Widget getChild() {
-    return this._child;
-  }
-
-  List<Color> getColorList() {
-    return this._colorList;
-  }
-
-  Color getBottomColor() {
-    return this._bottom;
-  }
-
-  Color getTopColor() {
-    return this._top;
-  }
-
-  int getShape() {
-    return this._shape;
-  }
+  Widget getChild() => this._child;
+  List<Color> getColorList() => this._colorList;
+  Color getBottomColor() =>  this._bottom;
+  Color getTopColor() => this._top;
+  int getShape() => this._shape;
+  double getBorderRadius() => this._borderRadius;
 
 
   @override
@@ -49,9 +38,8 @@ class _GradientEffectState extends State<GradientEffect> {
     colorList = widget.getColorList();
     topColor = widget.getTopColor();
     bottomColor = widget.getBottomColor();
-
     WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {
-      bottomColor = Colors.lightBlue;
+      bottomColor = Colors.transparent;
     }));
     super.initState();
   }
@@ -69,6 +57,7 @@ class _GradientEffectState extends State<GradientEffect> {
         });
       },
       decoration: BoxDecoration(
+          borderRadius: widget.getShape() == 0 ? null : BorderRadius.circular(widget.getBorderRadius()),
           shape: widget.getShape() == 0 ? BoxShape.circle : BoxShape.rectangle,
           gradient: LinearGradient(
               begin: begin, end: end, colors: [bottomColor, topColor])),

@@ -77,10 +77,11 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               Center(
                 child: Container(
                   child: GradientEffect(
-                    colors: [Colors.lightBlueAccent, Colors.greenAccent, Colors.deepPurple, Colors.red,],
+                    colors: [Colors.lightBlueAccent, Colors.green, Colors.deepPurple, Colors.red,],
                     bottom: Colors.blue,
                     top: Colors.blueAccent,
                     shape: 0,
+                    borderRadius: 0.0,
                     child: Container(
                         width: 300,
                         height: 300,
@@ -130,7 +131,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         Expanded(
             child: _button(
                     () => Navigator.of(context)
-                        .push(_navigator.createRoute(HowToPlay(lang: _appLang,))),
+                        .push(_navigator.createRoute(HowToPlay())),
                 AppLocalization.of(context)
                     .translate('home_page_how_to_play_button_label'),
                 [Color(0xff30c0cc), Color(0xff33A3fC)],

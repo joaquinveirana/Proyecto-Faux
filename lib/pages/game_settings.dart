@@ -8,7 +8,6 @@ import '../locale/app_localization.dart';
 import '../pages/game_stage.dart';
 import '../language_enum.dart';
 import '../styles/colors.dart';
-import '../styles/gradient_effect.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class GameSettings extends StatefulWidget {
@@ -16,9 +15,7 @@ class GameSettings extends StatefulWidget {
 
   GameSettings({Language lang}) : _lang = lang;
 
-  Language getLang() {
-    return _lang;
-  }
+  Language getLang() => _lang;
 
   @override
   _GameSettingsState createState() => _GameSettingsState();
@@ -42,10 +39,12 @@ class _GameSettingsState extends State<GameSettings> {
   PageController _pageController;
   String _beginButtonText;
   bool _beginButtonIsReady;
+  ScrollConfiguration _listOfCategories;
 
   @override
   void initState() {
     super.initState();
+    _controllerLogic = ControllerLogic();
     _selectedOptionButton = _colors.gameSettingsSelectedButtonGradient();
     _unselectedOptionButton = _colors.gameSettingsUnselectedButtonGradient();
     _unselectedBeginButton = _colors.gameSettingsUnselectedButtonGradient();
@@ -55,6 +54,7 @@ class _GameSettingsState extends State<GameSettings> {
     _beginButtonText = '';
     _beginButtonIsReady = false;
     _pageController = PageController(initialPage: 0);
+    _listOfCategories = _controller.getCategoryList(_controllerLogic, _changeBeginButton, _handleAdButton);
   }
 
   @override
@@ -67,36 +67,42 @@ class _GameSettingsState extends State<GameSettings> {
     return SafeArea(
       child: Scaffold(
         body: Container(
-            child: Column(
-            children: [
-              Expanded(
-                flex: 7,
-                child: GradientEffect(
-                    colors: [Color(0xff30c0cc), Color(0xff33A3fC), Color(0xff5167ac)],
-                    bottom: Color(0xff30c0cc),
-                    top: Color(0xff33A3fC),
-                    shape: 1,
-                    child: _categorySelector(_heightTotal * 0.5, _controllerLogic)),
+            color: Colors.grey[200],
+            child: Container(
+              margin: EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  border: Border.all(
+                      color: Colors.black54,
+                      width: 2
+                  )
               ),
-              Container(
-                  height: 320,
-                  child: _optionsMenu(_widthTotal)
-              ),
-              _beginButtonIsReady == true
-                  ? Expanded(
-                      flex: 1,
-                      child: _beginGameButton(),
-                    )
-                  : Container()
-            ],
-        )),
+              child: Column(
+              children: [
+                Expanded(
+                  flex: 7,
+                  child: _categorySelector(_heightTotal * 0.5),
+                ),
+                Container(
+                    height: 320,
+                    child: _optionsMenu(_widthTotal)
+                ),
+                _beginButtonIsReady == true
+                    ? Expanded(
+                        flex: 1,
+                        child: _beginGameButton(),
+                      )
+                    : Container()
+              ],
+        ),
+            )),
       ),
     );
   }
 
   // ============================== SECTIONS ==============================
 
-  Container _categorySelector(double containerHeight, ControllerLogic controller) {
+  Container _categorySelector(double containerHeight) {
     return Container(
       child: Column(
         children: [
@@ -129,7 +135,7 @@ class _GameSettingsState extends State<GameSettings> {
                 ],
               ),
               height: containerHeight * 0.9 - 60,
-              child: _controller.getCategoryList(context, controller, _changeBeginButton),
+              child: _listOfCategories,
             ),
           )
         ],
@@ -387,6 +393,15 @@ class _GameSettingsState extends State<GameSettings> {
         _beginButtonIsReady = false;
       });
     }
+  }
+
+  void _handleAdButton() {
+    // Show ad
+    print("AD");
+    // Reload categories list with one extra secret category
+    setState(() {
+      _listOfCategories = _controller.getCategoryList(_controllerLogic, _changeBeginButton, _handleAdButton);
+    });
   }
 
   void _validateBeginButton() {

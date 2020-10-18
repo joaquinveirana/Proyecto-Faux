@@ -11,48 +11,41 @@ class ControllerLogic {
 
   int _numberOfPlayers = 5;
   int _numbersOfImpostors = 1;
-  List<int> _listOfCategories = [];
+  Map<int,int> _listOfCategories = {};
   bool _allImpostors = false;
   bool _noImpostors = false;
 
-  void setNumberOfPlayers(int numPlayers) {
-    this._numberOfPlayers = numPlayers;
-  }
+  bool isSelected(int category) => this._listOfCategories.containsKey(category);
 
-  void setNumberOfImpostors(int numImpostors) {
-    this._numbersOfImpostors = numImpostors;
-  }
+  void setNumberOfPlayers(int numPlayers) => this._numberOfPlayers = numPlayers;
 
-  void editCategories(int cat) {
-    if(this._listOfCategories.contains(cat)) {
-      this._listOfCategories.remove(cat);
+  void setNumberOfImpostors(int numImpostors) => this._numbersOfImpostors = numImpostors;
+
+  void removeAllCategories() => this._listOfCategories = {};
+
+  void editCategories(int category, int cantWords) {
+    if(this._listOfCategories.containsKey(category)) {
+      this._listOfCategories.remove(category);
     } else {
-      this._listOfCategories.add(cat);
+      this._listOfCategories.putIfAbsent(category, () => cantWords);
     }
   }
 
-  void setAllImpostors(){
-    bool newVal = !this._allImpostors;
-    this._allImpostors = newVal;
-  }
+  void setAllImpostors() => this._allImpostors = !this._allImpostors;
 
-  void setNoImpostors(){
-    this._noImpostors = !this._noImpostors;
-  }
+  void setNoImpostors() => this._noImpostors = !this._noImpostors;
 
   Map<String, dynamic> returnGame() {
-
     Map<String, dynamic> res = {};
     if(_listOfCategories.length > 0) {
       // Defino la categoria y la palabra de esa categoria
       // Selecciono indice al azar de la lista de categorias marcadas
-      int randomIndexCategory = 0 + _random.nextInt(_listOfCategories.length);
+      int randomCategory = _listOfCategories.keys.elementAt(0 + _random.nextInt(_listOfCategories.length));
+
       // Selecciono indice de palabra aleatoria en la categoria
-      int randomWord = 1 + _random.nextInt(GeneralParameters.NUMBER_OF_TOPIC_WORDS[_listOfCategories[randomIndexCategory]]);
+      int randomWord = 1 + _random.nextInt(_listOfCategories[randomCategory]);
       res.putIfAbsent('word', () => 'elem_'+randomWord.toString());
-      res.putIfAbsent('category', () => 'topic_'+_listOfCategories[randomIndexCategory].toString());
-
-
+      res.putIfAbsent('category', () => 'topic_'+randomCategory.toString());
 
       // Defino los jugadores y las opciones especiales
       var players = List<int>.filled(_numberOfPlayers, 0, growable: true);
