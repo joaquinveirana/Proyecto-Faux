@@ -57,7 +57,7 @@ class _CustomAdTileState extends State<CustomAdTile> {
                 text: TextSpan(
                     style: _fontStyles.openSansSemiBold(20, Colors.black),
                     children: [
-                      TextSpan(text: AppLocalization.of(context).translate("game_stage_ad_title")+" "),
+                      TextSpan(text: AppLocalization.of(context).translate("game_settings_ad_title")+" "),
                       WidgetSpan(
                         child: Icon(Icons.add, size: 25),
                       ),

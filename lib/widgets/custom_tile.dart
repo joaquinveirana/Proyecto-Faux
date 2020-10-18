@@ -54,7 +54,6 @@ class CustomTileState extends State<CustomTile> {
       margin: EdgeInsets.all(10),
       decoration: BoxDecoration(
         gradient: color,
-        border: Border.all(color: Colors.black26),
         boxShadow: [
           BoxShadow(
             color: Colors.grey.withOpacity(0.3),

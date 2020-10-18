@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:numberpicker/numberpicker.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../controller/controller_logic.dart';
 import '../controller/controller_view.dart';
 import '../styles/fonts.dart';
@@ -8,7 +9,7 @@ import '../locale/app_localization.dart';
 import '../pages/game_stage.dart';
 import '../language_enum.dart';
 import '../styles/colors.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import '../widgets/other_widgets.dart';
 
 class GameSettings extends StatefulWidget {
   final Language _lang;
@@ -25,6 +26,7 @@ class _GameSettingsState extends State<GameSettings> {
   final ControllerView _controller = ControllerView();
   final FontStyles _fontStyles = FontStyles();
   final AppColors _colors = AppColors();
+  final OtherWidgets _otherWidgets = OtherWidgets();
   ControllerLogic _controllerLogic = ControllerLogic();
 
   int _numImpostors = 1;
@@ -81,7 +83,7 @@ class _GameSettingsState extends State<GameSettings> {
                 children: [
                   Expanded(
                     flex: 7,
-                    child: _categorySelector(_heightTotal * 0.5),
+                    child: _categorySelector(context, _heightTotal * 0.5),
                   ),
                   Container(
                       height: 320,
@@ -102,45 +104,50 @@ class _GameSettingsState extends State<GameSettings> {
 
   // ============================== SECTIONS ==============================
 
-  Container _categorySelector(double containerHeight) {
+  Container _categorySelector(BuildContext context, double containerHeight) {
     return Container(
-      child: Column(
+      child: Stack(
         children: [
-          Container(
-            margin: EdgeInsets.only(top: containerHeight * 0.025),
-            child: Text(
-                AppLocalization.of(context)
-                    .translate('game_settings_main_title'),
-                style: _fontStyles.openSansSemiBold(29, Colors.black)),
-          ),
-          Container(
-            margin: EdgeInsets.symmetric(vertical: containerHeight * 0.025),
-            child: Text(
-                AppLocalization.of(context)
-                    .translate('game_settings_categories_title'),
-                style: _fontStyles.openSans(22, Colors.black)),
-          ),
-          Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                border: Border(
-                    top: BorderSide(color: Colors.black, width: 0.5),
-                    bottom: BorderSide(color: Colors.black, width: 0.5)
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.6),
-                    spreadRadius: 1.5,
-                    blurRadius: 3,
-                    offset: Offset(0, 2.5),
-                  ),
-                ],
+          Column(
+            children: [
+              Container(
+                margin: EdgeInsets.only(top: containerHeight * 0.025),
+                child: Text(
+                    AppLocalization.of(context)
+                        .translate('game_settings_main_title'),
+                    style: _fontStyles.openSansSemiBold(29, Colors.black)),
               ),
-              height: containerHeight * 0.9 - 60,
-              child: _listOfCategories,
-            ),
-          )
+              Container(
+                margin: EdgeInsets.symmetric(vertical: containerHeight * 0.025),
+                child: Text(
+                    AppLocalization.of(context)
+                        .translate('game_settings_categories_title'),
+                    style: _fontStyles.openSans(22, Colors.black)),
+              ),
+              Expanded(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    border: Border(
+                        top: BorderSide(color: Colors.black, width: 0.5),
+                        bottom: BorderSide(color: Colors.black, width: 0.5)
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.6),
+                        spreadRadius: 1.5,
+                        blurRadius: 3,
+                        offset: Offset(0, 2.5),
+                      ),
+                    ],
+                  ),
+                  height: containerHeight * 0.9 - 60,
+                  child: _listOfCategories,
+                ),
+              )
+            ],
+          ),
+          Positioned(top: 10, left: 10, child: _otherWidgets.backButton(context))
         ],
       ),
     );

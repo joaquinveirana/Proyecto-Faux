@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'locale/app_localization.dart';
-
-import 'package:faux_artista_the_game/pages/home_page.dart';
+import './pages/home_page.dart';
 
 void main() => runApp(MyApp());
 
@@ -27,13 +26,7 @@ class _MyAppState extends State<MyApp> {
           GlobalWidgetsLocalizations.delegate,
         ],
         localeResolutionCallback: (locale, supportedLocales) {
-          for (var supportedLocale in supportedLocales) {
-            if (supportedLocale.languageCode == locale.languageCode &&
-            supportedLocale.countryCode == locale.countryCode) {
-              return supportedLocale;
-            }
-          }
-        return supportedLocales.first;
+          return supportedLocales.first;
         },
         home: HomePage());
   }
