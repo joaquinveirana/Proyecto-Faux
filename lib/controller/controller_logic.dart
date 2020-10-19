@@ -1,7 +1,4 @@
 import 'dart:math';
-
-import 'package:faux_artista_the_game/controller/general_parameters.dart';
-
 // Clase encargada de crear los parametros de una partida a partir de los datos de GameSettings
 // Define la categoria y la palabra de la partida y la lista de jugadores/impostores
 

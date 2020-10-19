@@ -1,9 +1,7 @@
-import 'package:faux_artista_the_game/controller/controller_logic.dart';
-import 'package:faux_artista_the_game/locale/app_localization.dart';
-import 'package:faux_artista_the_game/styles/colors.dart';
-import 'package:faux_artista_the_game/styles/fonts.dart';
-import 'package:faux_artista_the_game/styles/gradient_effect.dart';
 import 'package:flutter/material.dart';
+import '../locale/app_localization.dart';
+import '../styles/colors.dart';
+import '../styles/fonts.dart';
 
 class CustomAdTile extends StatefulWidget {
 

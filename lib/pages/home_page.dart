@@ -1,6 +1,6 @@
-import 'package:faux_artista_the_game/pages/how_to_play.dart';
 import 'package:flutter/material.dart';
 import 'package:flag/flag.dart';
+import '../pages/how_to_play.dart';
 import '../pages/game_settings.dart';
 import '../language_enum.dart';
 import '../styles/fonts.dart';
@@ -26,7 +26,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    final double _widthTotal = MediaQuery.of(context).size.width;
     return SafeArea(
       child: Scaffold(
           body: Container(
@@ -262,14 +261,14 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   void _setLanguage(Language lang) async {
     switch (lang) {
       case Language.ES:
-        await AppLocalization.of(context).setLocale(Locale('es', 'ESP'));
+        AppLocalization.of(context).setLocale(Locale('es', 'ESP'));
         setState(() {
           _appLang = Language.ES;
         });
         Navigator.pop(context);
         break;
       case Language.EN:
-        await AppLocalization.of(context).setLocale(Locale('en', 'US'));
+        AppLocalization.of(context).setLocale(Locale('en', 'US'));
         setState(() {
           _appLang = Language.EN;
         });

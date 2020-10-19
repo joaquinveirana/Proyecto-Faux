@@ -33,9 +33,6 @@ class _GameStageState extends State<GameStage> {
 
   @override
   Widget build(BuildContext context) {
-    final double _safePadding = MediaQuery.of(context).padding.top;
-    final _heightTotal = MediaQuery.of(context).size.height - _safePadding;
-
     // Obtengo los datos de la partida
     Map<String, dynamic> _data = widget.getData();
     return Scaffold(

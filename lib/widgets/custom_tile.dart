@@ -1,11 +1,9 @@
-import 'package:faux_artista_the_game/styles/colors.dart';
-
+import 'package:flutter/material.dart';
+import '../styles/colors.dart';
 import '../controller/controller_logic.dart';
-import '../controller/general_parameters.dart';
 import '../styles/fonts.dart';
 import '../locale/app_localization.dart';
 import '../functions/custom_tile_functions.dart';
-import 'package:flutter/material.dart';
 
 class CustomTile extends StatefulWidget {
   final int _id;

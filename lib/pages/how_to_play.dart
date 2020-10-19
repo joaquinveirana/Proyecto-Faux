@@ -1,7 +1,7 @@
-import 'package:faux_artista_the_game/widgets/other_widgets.dart';
 import 'package:flutter/material.dart';
 import '../locale/app_localization.dart';
 import '../styles/fonts.dart';
+import '../widgets/other_widgets.dart';
 
 class HowToPlay extends StatefulWidget {
   @override
