@@ -1,9 +1,15 @@
+import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'locale/app_localization.dart';
+import './controller/ad_manager.dart';
 import './pages/home_page.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  FirebaseAdMob.instance.initialize(appId: AdManager.appId);
+  runApp(MyApp());
+}
 
 class MyApp extends StatefulWidget {
   @override

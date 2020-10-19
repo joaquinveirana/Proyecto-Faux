@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "533851119801",
+    "firebase_url": "https://fauxthegame-772b3.firebaseio.com",
+    "project_id": "fauxthegame-772b3",
+    "storage_bucket": "fauxthegame-772b3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:533851119801:android:0e678ab8d159c73c23fb68",
+        "android_client_info": {
+          "package_name": "pack.faux_the_game"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "533851119801-s9tf8seq9uovevdbohbefa6ma38ucfj5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAiZpYA-lVi4aQyeE_fU34vPx-aJ1z_zyo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "533851119801-s9tf8seq9uovevdbohbefa6ma38ucfj5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

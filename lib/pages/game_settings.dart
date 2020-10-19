@@ -1,3 +1,5 @@
+import 'package:faux_the_game/controller/ad_manager.dart';
+import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:numberpicker/numberpicker.dart';
@@ -10,6 +12,7 @@ import '../pages/game_stage.dart';
 import '../language_enum.dart';
 import '../styles/colors.dart';
 import '../widgets/other_widgets.dart';
+import '../controller/ad_manager.dart';
 
 class GameSettings extends StatefulWidget {
   final Language _lang;
@@ -42,10 +45,14 @@ class _GameSettingsState extends State<GameSettings> {
   String _beginButtonText;
   bool _beginButtonIsReady;
   ScrollConfiguration _listOfCategories;
+  InterstitialAd _newCategoryAd;
 
   @override
   void initState() {
     super.initState();
+    _newCategoryAd = AdManager.getNewInterstitialAd;
+    _newCategoryAd.load();
+
     _controllerLogic = ControllerLogic();
     _selectedOptionButton = _colors.gameSettingsSelectedButtonGradient();
     _unselectedOptionButton = _colors.gameSettingsUnselectedButtonGradient();
@@ -407,7 +414,11 @@ class _GameSettingsState extends State<GameSettings> {
 
   void _handleAdButton() {
     // Show ad
-    print("AD");
+    _newCategoryAd.show(
+      anchorType: AnchorType.bottom,
+      anchorOffset: 0.0,
+      horizontalCenterOffset: 0.0
+    );
     // Reload categories list with one extra secret category
     setState(() {
       _listOfCategories = _controller.getCategoryList(_controllerLogic, _changeBeginButton, _handleAdButton);
