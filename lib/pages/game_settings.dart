@@ -1,4 +1,5 @@
 import 'package:faux_the_game/controller/ad_manager.dart';
+import 'package:faux_the_game/widgets/game_settings_widgets/more_options.dart';
 import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -30,6 +31,7 @@ class _GameSettingsState extends State<GameSettings> {
   final FontStyles _fontStyles = FontStyles();
   final AppColors _colors = AppColors();
   final OtherWidgets _otherWidgets = OtherWidgets();
+  final MoreOptions _moreOptionsClass = MoreOptions();
   ControllerLogic _controllerLogic = ControllerLogic();
 
   int _numImpostors = 1;
@@ -170,7 +172,29 @@ class _GameSettingsState extends State<GameSettings> {
             scrollDirection: Axis.horizontal,
             children: [
               _playerSelector(_controllerLogic),
-              _moreOptions(width, _controllerLogic)
+              _moreOptionsClass.optionButtons(
+                  context,
+                  width,
+                  _controllerLogic,
+                      () => {
+                    setState(() {
+                      _controllerLogic.setAllImpostors();
+                      _allImpostorsColor == _unselectedOptionButton
+                          ? _allImpostorsColor = _selectedOptionButton
+                          : _allImpostorsColor = _unselectedOptionButton;
+                    })
+                  },
+                      () => {
+                    setState(() {
+                      _controllerLogic.setNoImpostors();
+                      _noImpostorsColor == _unselectedOptionButton
+                          ? _noImpostorsColor = _selectedOptionButton
+                          : _noImpostorsColor = _unselectedOptionButton;
+                    })
+                  },
+                  _allImpostorsColor,
+                  _noImpostorsColor
+              )
             ],
           ),
         ),
@@ -280,98 +304,6 @@ class _GameSettingsState extends State<GameSettings> {
             ),
           ],
         ));
-  }
-
-  Container _moreOptions(double width, ControllerLogic controller) {
-    return Container(
-      child: Column(
-        children: [
-          Container(
-            padding: EdgeInsets.symmetric(vertical: 10),
-            child: Text(
-                AppLocalization.of(context)
-                    .translate('game_settings_more_options_title'),
-                style: _fontStyles.openSans(22, Colors.black)),
-          ),
-          Container(
-            child: Column(
-              children: [
-                _optionButton(
-                    true,
-                    width,
-                    controller,
-                        () => {
-                      setState(() {
-                        controller.setNoImpostors();
-                        _allImpostorsColor == _unselectedOptionButton
-                            ? _allImpostorsColor = _selectedOptionButton
-                            : _allImpostorsColor = _unselectedOptionButton;
-                      })
-                    },
-                    _allImpostorsColor,
-                    'game_settings_more_options_all_impostors',
-                    'game_settings_more_options_all_impostors_desc'),
-                _optionButton(
-                    false,
-                    width,
-                    controller,
-                        () => {
-                      setState(() {
-                        controller.setNoImpostors();
-                        _noImpostorsColor == _unselectedOptionButton
-                            ? _noImpostorsColor = _selectedOptionButton
-                            : _noImpostorsColor = _unselectedOptionButton;
-                      })
-                    },
-                    _noImpostorsColor,
-                    'game_settings_more_options_no_impostors',
-                    'game_settings_more_options_no_impostors_desc')
-              ],
-            ),
-          )
-        ],
-      ),
-    );
-  }
-
-  Container _optionButton(
-      bool isFirst,
-      double width,
-      ControllerLogic controller,
-      dynamic tapFunction,
-      LinearGradient color,
-      String title,
-      String subTitle) {
-    return Container(
-      height: 60,
-      width: width * 0.9,
-      padding: EdgeInsets.symmetric(vertical: 5),
-      decoration: BoxDecoration(
-          border: Border(
-            bottom: BorderSide(color: Colors.black, width: 1),
-            top: isFirst == true
-                ? BorderSide(color: Colors.black, width: 1)
-                : BorderSide(width: 0),
-          ),
-          gradient: color
-      ),
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          onTap: () {
-            tapFunction();
-          },
-          child: Column(
-            children: [
-              Text(AppLocalization.of(context).translate(title),
-                  style: _fontStyles.openSansBold(13, Colors.black)),
-              Text(AppLocalization.of(context).translate(subTitle),
-                  style: _fontStyles.openSans(12, Colors.black)),
-            ],
-          ),
-        ),
-      ),
-    );
   }
 
   Container _beginGameButton() {

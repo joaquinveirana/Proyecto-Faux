@@ -34,34 +34,27 @@ class ControllerLogic {
 
   Map<String, dynamic> returnGame() {
     Map<String, dynamic> res = {};
+    List<int> playersList;
     if(_listOfCategories.length > 0) {
-      // Defino la categoria y la palabra de esa categoria
-      // Selecciono indice al azar de la lista de categorias marcadas
+      // Selecciono indice de categoria y una palabra de esa categoria
       int randomCategory = _listOfCategories.keys.elementAt(0 + _random.nextInt(_listOfCategories.length));
-
-      // Selecciono indice de palabra aleatoria en la categoria
       int randomWord = 1 + _random.nextInt(_listOfCategories[randomCategory]);
+
+      // Chequeos de opciones especiales
+      if (_allImpostors && 1 + _random.nextInt(100) > 90) {
+        playersList = List<int>.filled(_numberOfPlayers, -1, growable: true);
+      }
+      else if (_noImpostors && 1 + _random.nextInt(100) > 90) {
+        playersList = List<int>.filled(_numberOfPlayers, 0, growable: true);
+      }
+      else { // Lista normal
+        playersList = List<int>.filled(_numberOfPlayers, 0, growable: true);
+        playersList[0 + _random.nextInt(_numberOfPlayers)] = -1;
+      }
+
       res.putIfAbsent('word', () => 'elem_'+randomWord.toString());
       res.putIfAbsent('category', () => 'topic_'+randomCategory.toString());
-
-      // Defino los jugadores y las opciones especiales
-      var players = List<int>.filled(_numberOfPlayers, 0, growable: true);
-      // Sorteo si decido aplicar las opciones especiales
-      int randomSpecialOption = 0 + _random.nextInt(100);
-      if (_allImpostors == true && randomSpecialOption >= 90) { // 5% TODOS IMPOSTORES
-        for(var i=0; i<this._numberOfPlayers; i++) {
-          players[i] = -1;
-        }
-      } else if (_noImpostors == true && randomSpecialOption >= 90) { // 5% SIN IMPOSTORES
-        for(var i=0; i<this._numberOfPlayers; i++) {
-          players[i] = 0;
-        }
-      } else { // Genero lista normal
-        for(var i=0; i<_numbersOfImpostors; i++) {
-          players[0 + _random.nextInt(_numberOfPlayers)] = -1;
-        }
-      }
-      res.putIfAbsent("players", () => players);
+      res.putIfAbsent("players", () => playersList);
     }
     return res;
   }

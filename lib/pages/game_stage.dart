@@ -206,7 +206,6 @@ class _GameStageState extends State<GameStage> {
                     height: 100,
                     decoration: BoxDecoration(
                         color: Colors.black26,
-                        borderRadius: BorderRadius.circular(10)
                     ),
                     child: Center(
                         child: !lastPlayer
@@ -244,7 +243,6 @@ class _GameStageState extends State<GameStage> {
                     height: 100,
                     decoration: BoxDecoration(
                         gradient: _colors.gameSettingsSelectedButtonGradient(),
-                        borderRadius: BorderRadius.circular(10)
                     ),
                     child: Center(
                         child: Text(

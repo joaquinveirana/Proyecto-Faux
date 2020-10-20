@@ -22,7 +22,7 @@ class _CustomAdTileState extends State<CustomAdTile> {
   @override
   void initState() {
     super.initState();
-    color = _colors.gameSettingsAdButtonGradient();
+    color = _colors.gameSettingsSelectedButtonGradient();
   }
 
   @override
@@ -52,13 +52,13 @@ class _CustomAdTileState extends State<CustomAdTile> {
           child: ListTile(
             title: RichText(
                 text: TextSpan(
-                    style: _fontStyles.openSans(20, Colors.black),
+                    style: _fontStyles.openSansSemiBold(20, Colors.black),
                     children: [
                       TextSpan(text: AppLocalization.of(context).translate("game_settings_ad_title")+" "),
                       WidgetSpan(
                         child: Icon(Icons.add, size: 25),
                       ),
-                      TextSpan(text: " (ad)", style: _fontStyles.openSansSemiBold(12, Colors.black)),
+                      TextSpan(text: " (ad)", style: TextStyle(fontSize: 12)),
                     ]
                 )
             ),

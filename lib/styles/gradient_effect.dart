@@ -39,7 +39,7 @@ class _GradientEffectState extends State<GradientEffect> {
     topColor = widget.getTopColor();
     bottomColor = widget.getBottomColor();
     WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {
-      bottomColor = Colors.transparent;
+      bottomColor = Colors.blue;
     }));
     super.initState();
   }

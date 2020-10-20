@@ -76,9 +76,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               Center(
                 child: Container(
                   child: GradientEffect(
-                    colors: [Colors.lightBlueAccent, Colors.green, Colors.deepPurple, Colors.red,],
-                    bottom: Colors.blue,
-                    top: Colors.blueAccent,
+                    colors: [Color(0xff33A3fC), Color(0xffff3389), Color(0xff5ad3a9), Color(0xffe7c90b)],
+                    bottom: Color(0xff30c0cc),
+                    top: Color(0xff33A3fC),
                     shape: 0,
                     borderRadius: 0.0,
                     child: Container(
@@ -261,15 +261,15 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   void _setLanguage(Language lang) async {
     switch (lang) {
       case Language.ES:
-        AppLocalization.of(context).setLocale(Locale('es', 'ESP'));
         setState(() {
+          AppLocalization.of(context).setLocale(Locale('es', 'ESP'));
           _appLang = Language.ES;
         });
         Navigator.pop(context);
         break;
       case Language.EN:
-        AppLocalization.of(context).setLocale(Locale('en', 'US'));
         setState(() {
+          AppLocalization.of(context).setLocale(Locale('en', 'US'));
           _appLang = Language.EN;
         });
         Navigator.pop(context);
