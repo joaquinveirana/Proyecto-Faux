@@ -1,12 +1,14 @@
+import 'package:faux_the_game/widgets/home_page_widgets/home_page_alerts.dart';
 import 'package:flutter/material.dart';
 import 'package:flag/flag.dart';
-import '../pages/how_to_play.dart';
-import '../pages/game_settings.dart';
+import '../pages/how_to_play_page.dart';
+import '../pages/game_settings_page.dart';
 import '../language_enum.dart';
 import '../styles/fonts.dart';
 import '../locale/app_localization.dart';
 import '../functions/navigator_transition.dart';
 import '../styles/gradient_effect.dart';
+import '../pages/about_page.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -16,6 +18,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   final FontStyles _fontStyles = FontStyles();
   final NavigatorTransition _navigator = NavigatorTransition();
+  final HomePageAlert _homePageAlert = HomePageAlert();
   Language _appLang;
 
   @override
@@ -46,7 +49,14 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                     child: _logoGradient(),
                   ),
                   Container(
-                    child: Text("Faux", style: _fontStyles.dancingScript(60, Colors.black),),
+                    child: RichText(
+                        text: TextSpan(
+                          children: [
+                            TextSpan(text: 'Faux', style: _fontStyles.dancingScript(90, Colors.black)),
+                            TextSpan(text: '  The Game', style: _fontStyles.openSans(22, Colors.black))
+                          ],
+                        )
+                    ),
                   ),
                   Expanded(
                     flex: 6,
@@ -82,8 +92,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                     shape: 0,
                     borderRadius: 0.0,
                     child: Container(
-                        width: 300,
-                        height: 300,
+                        width: 280,
+                        height: 280,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           border: Border.all(
@@ -104,8 +114,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               ),
               Center(
                 child: Container(
-                    width: 300,
-                    height: 300,
+                    width: 280,
+                    height: 280,
                     child: Image.asset('images/FauxLogo.png')),
               )
             ],
@@ -138,7 +148,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 false)),
         Expanded(
             child: _button(
-                    () => {},
+                    () => Navigator.of(context)
+                        .push(_navigator.createRoute(About())),
                 AppLocalization.of(context)
                     .translate('home_page_about_button_label'),
                 [Color(0xff30c0cc), Color(0xff33A3fC)],
@@ -146,7 +157,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 false)),
         Expanded(
             child: _button(
-                    () => _showLanguageAlert(),
+                () => _homePageAlert.showLanguageAlert(context, _setLanguage, _appLang),
                 AppLocalization.of(context)
                     .translate('home_page_language_button_label'),
                 [Color(0xff30c0cc), Color(0xff33A3fC)],
@@ -189,66 +200,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 margin: EdgeInsets.only(left: 10),
                 child: _appLang == Language.ES ? Flag('ES', height: 18, width: 65) : Flag('US', height: 18, width: 65),)
                   : Container()
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  void _showLanguageAlert() {
-    showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          backgroundColor: Colors.white,
-          content: Container(
-            height: 150,
-            width: 300,
-            child: Row(
-              children: [
-                Spacer(),
-                Container(
-                  child: _alertLangButton(
-                      Language.EN,
-                      Flag('US', height: 35, width: 85),
-                      'home_page_lang_button_label_en'),
-                ),
-                Spacer(),
-                _alertLangButton(Language.ES, Flag('ES', height: 38, width: 85),
-                    'home_page_lang_button_label_es'),
-                Spacer(),
-              ],
-            ),
-          ),
-        ));
-  }
-
-  Container _alertLangButton(Language lang, Flag fl, String label) {
-    return Container(
-      height: 100,
-      width: 100,
-      decoration: BoxDecoration(
-        border: Border.all(color: Colors.black54),
-        color: _appLang == lang ? Colors.blue[100] : Colors.white,
-        borderRadius: BorderRadius.circular(8),
-      ),
-      margin: EdgeInsets.all(10),
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          splashColor: Colors.blue,
-          onTap: () {
-            _setLanguage(lang);
-          },
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              fl,
-              Text(
-                AppLocalization.of(context).translate(label),
-                style: _fontStyles.openSans(14, Colors.black),
-              ),
             ],
           ),
         ),

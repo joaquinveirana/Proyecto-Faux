@@ -34,6 +34,8 @@ class _MyAppState extends State<MyApp> {
         localeResolutionCallback: (locale, supportedLocales) {
           return supportedLocales.first;
         },
-        home: HomePage());
+        home: HomePage(),
+        title: "Faux The Game",
+    );
   }
 }

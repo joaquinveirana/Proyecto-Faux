@@ -1,5 +1,3 @@
-import 'package:faux_the_game/controller/ad_manager.dart';
-import 'package:faux_the_game/widgets/game_settings_widgets/more_options.dart';
 import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -9,11 +7,12 @@ import '../controller/controller_logic.dart';
 import '../controller/controller_view.dart';
 import '../styles/fonts.dart';
 import '../locale/app_localization.dart';
-import '../pages/game_stage.dart';
+import '../pages/game_stage_page.dart';
 import '../language_enum.dart';
 import '../styles/colors.dart';
 import '../widgets/other_widgets.dart';
 import '../controller/ad_manager.dart';
+import '../widgets/game_settings_widgets/more_options.dart';
 
 class GameSettings extends StatefulWidget {
   final Language _lang;
@@ -78,35 +77,36 @@ class _GameSettingsState extends State<GameSettings> {
     return SafeArea(
       child: Scaffold(
         body: Container(
-            color: Colors.grey[200],
-            child: Container(
-              margin: EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  border: Border.all(
-                      color: Colors.black54,
-                      width: 2
-                  )
-              ),
-              child: Column(
-                children: [
-                  Expanded(
-                    flex: 7,
-                    child: _categorySelector(context, _heightTotal * 0.5),
-                  ),
-                  Container(
-                      height: 320,
-                      child: _optionsMenu(_widthTotal)
-                  ),
-                  _beginButtonIsReady == true
-                      ? Expanded(
-                    flex: 1,
-                    child: _beginGameButton(),
-                  )
-                      : Container()
-                ],
-              ),
-            )),
+              color: Colors.grey[200],
+              child: Container(
+                margin: EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    border: Border.all(
+                        color: Colors.black54,
+                        width: 2
+                    )
+                ),
+                child: Column(
+                  children: [
+                    Expanded(
+                      flex: 7,
+                      child: _categorySelector(context, _heightTotal * 0.5),
+                    ),
+                    Container(
+                        height: 320,
+                        child: _optionsMenu(_widthTotal)
+                    ),
+                    _beginButtonIsReady == true
+                        ? Expanded(
+                      flex: 1,
+                      child: _beginGameButton(),
+                    )
+                        : Container()
+                  ],
+                ),
+              )
+        ),
       ),
     );
   }
@@ -384,7 +384,8 @@ class _GameSettingsState extends State<GameSettings> {
                             color: Colors.black12,
                             child: Text(AppLocalization.of(context)
                                 .translate(
-                                'game_settings_error_dialog_button'))),
+                                'game_settings_error_dialog_button'))
+                        ),
                       ),
                     )
                   ],

@@ -50,7 +50,7 @@ class _GameStageState extends State<GameStage> {
               ),
               child: PageView(
                   controller: _pageController,
-                  //physics: NeverScrollableScrollPhysics(),
+                  physics: NeverScrollableScrollPhysics(),
                   scrollDirection: Axis.horizontal,
                   onPageChanged: (index) {},
                   children: _createPlayerScreens(_data)),

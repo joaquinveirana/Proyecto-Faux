@@ -1,7 +1,7 @@
 import '../controller/controller_logic.dart';
 import '../controller/general_parameters.dart';
-import '../widgets/custom_ad_tile.dart';
-import '../widgets/custom_tile.dart';
+import '../widgets/game_settings_widgets/custom_ad_tile.dart';
+import '../widgets/game_settings_widgets/custom_tile.dart';
 import 'package:flutter/material.dart';
 
 class ControllerView {

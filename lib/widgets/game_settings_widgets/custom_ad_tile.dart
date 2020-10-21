@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../locale/app_localization.dart';
-import '../styles/colors.dart';
-import '../styles/fonts.dart';
+import '../../locale/app_localization.dart';
+import '../../styles/colors.dart';
+import '../../styles/fonts.dart';
 
 class CustomAdTile extends StatefulWidget {
 

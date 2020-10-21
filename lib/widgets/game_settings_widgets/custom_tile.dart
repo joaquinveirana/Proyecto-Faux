@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import '../styles/colors.dart';
-import '../controller/controller_logic.dart';
-import '../styles/fonts.dart';
-import '../locale/app_localization.dart';
-import '../functions/custom_tile_functions.dart';
+import '../../styles/colors.dart';
+import '../../controller/controller_logic.dart';
+import '../../styles/fonts.dart';
+import '../../locale/app_localization.dart';
+import '../../functions/custom_tile_functions.dart';
 
 class CustomTile extends StatefulWidget {
   final int _id;
