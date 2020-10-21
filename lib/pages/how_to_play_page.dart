@@ -166,7 +166,7 @@ class _HowToPlayState extends State<HowToPlay> {
                         )
                     )
                 ),
-                Positioned(top: 20, left: 20, child: _otherWidgets.backButton(context))
+                Positioned(top: 20, left: 15, child: _otherWidgets.backButton(context))
               ]
             )
         )

@@ -156,7 +156,7 @@ class _GameSettingsState extends State<GameSettings> {
               )
             ],
           ),
-          Positioned(top: 10, left: 10, child: _otherWidgets.backButton(context))
+          Positioned(top: 10, left: 5, child: _otherWidgets.backButton(context))
         ],
       ),
     );

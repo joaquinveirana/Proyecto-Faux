@@ -4,6 +4,7 @@ import '../locale/app_localization.dart';
 import '../styles/colors.dart';
 import '../styles/fonts.dart';
 import '../pages/end_page.dart';
+import '../widgets/other_widgets.dart';
 
 class GameStage extends StatefulWidget {
   final Map<String, dynamic> _data;
@@ -23,6 +24,7 @@ class _GameStageState extends State<GameStage> {
   PageController _pageController;
   final FontStyles _fonts = FontStyles();
   final AppColors _colors = AppColors();
+  final OtherWidgets _otherWidgets = OtherWidgets();
 
   @override
   void initState() {
@@ -63,16 +65,21 @@ class _GameStageState extends State<GameStage> {
   List<Container> _createPlayerScreens(Map<String, dynamic> data) {
     List<int> _players = data['players'];
     List<Container> _playerScreens = [];
-    // Agrego la pantalla de Inicio
-    _playerScreens.add(Container(
+
+    _playerScreens.add(Container( // Agrego la pantalla de Inicio
       child: Column(
         children: [
-          Container(
-              margin: EdgeInsets.all(20),
-              child: Text(
-                  AppLocalization.of(context).translate("game_stage_first_step"),
-                  style: _fonts.openSansSemiBold(28, Colors.black)
-              )
+          Stack(
+            children: [
+              Container(
+                margin: EdgeInsets.only(top: 40, bottom: 20, left: 20, right: 20),
+                child: Text(
+                    AppLocalization.of(context).translate("game_stage_first_step"),
+                    style: _fonts.openSansSemiBold(28, Colors.black)
+                )
+              ),
+              Positioned(top: 10, left: 5, child: _otherWidgets.backButton(context))
+            ]
           ),
           Divider(
             thickness: 1,
