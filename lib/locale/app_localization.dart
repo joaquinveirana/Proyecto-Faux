@@ -19,12 +19,12 @@ class AppLocalization {
     return Localizations.of<AppLocalization>(context, AppLocalization);
   }
 
-  void setLocale(Locale locale) async {
+  Future<void> setLocale(Locale locale) async {
     this.locale = locale;
     await load();
   }
 
-  Future<bool> load() async {
+  Future<void> load() async {
     _localizedStrings.clear();
     _gameTopics.clear();
 
@@ -39,7 +39,6 @@ class AppLocalization {
         _localizedStrings.putIfAbsent(key, () => value);
       }
     });
-    return true;
   }
 
   // This method will be called from every widget which needs a localized text

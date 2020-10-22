@@ -34,7 +34,7 @@ class ControllerLogic {
 
   Map<String, dynamic> returnGame() {
     Map<String, dynamic> res = {};
-    List<int> playersList;
+    List<int> playersList = [];
     if(_listOfCategories.length > 0) {
       // Selecciono indice de categoria y una palabra de esa categoria
       int randomCategory = _listOfCategories.keys.elementAt(0 + _random.nextInt(_listOfCategories.length));
@@ -47,9 +47,11 @@ class ControllerLogic {
       else if (_noImpostors && 1 + _random.nextInt(100) > 90) {
         playersList = List<int>.filled(_numberOfPlayers, 0, growable: true);
       }
-      else { // Lista normal
-        playersList = List<int>.filled(_numberOfPlayers, 0, growable: true);
-        playersList[0 + _random.nextInt(_numberOfPlayers)] = -1;
+      else { // Lista normal;
+        for(int i = 0 ; i<_numbersOfImpostors; i++) playersList.add(-1);
+        for(int i = 0 ; i<_numberOfPlayers - _numbersOfImpostors; i++) playersList.add(0);
+        playersList.shuffle();
+        print(playersList);
       }
 
       res.putIfAbsent('word', () => 'elem_'+randomWord.toString());

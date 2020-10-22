@@ -59,8 +59,8 @@ class HomePageAlert {
         color: Colors.transparent,
         child: InkWell(
           splashColor: Colors.blue,
-          onTap: () {
-            setLang(lang);
+          onTap: () async {
+            await setLang(lang);
           },
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,

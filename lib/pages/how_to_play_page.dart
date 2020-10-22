@@ -109,7 +109,17 @@ class _HowToPlayState extends State<HowToPlay> {
                                   ),
                                   Container(
                                       margin: EdgeInsets.only(left: 20, right: 20, bottom: 15),
-                                      child: Text(AppLocalization.of(context).translate('how_to_play_content_4'), style: _fontStyles.openSans(17, Colors.black),)
+                                      child: RichText(
+                                          text: TextSpan(
+                                              children: <TextSpan>[
+                                                TextSpan(text:AppLocalization.of(context).translate('how_to_play_content_4'), style: _fontStyles.openSans(17, Colors.black)),
+                                                TextSpan(text: AppLocalization.of(context).translate("how_to_play_content_41"), style: _fontStyles.openSansSemiBold(17, Colors.red)),
+                                                TextSpan(text: AppLocalization.of(context).translate("how_to_play_content_42"), style: _fontStyles.openSans(17, Colors.black)),
+                                                TextSpan(text: AppLocalization.of(context).translate("how_to_play_content_43"), style: _fontStyles.openSansSemiBold(17, Colors.red)),
+                                                TextSpan(text: AppLocalization.of(context).translate("how_to_play_content_44"), style: _fontStyles.openSans(17, Colors.black)),
+                                              ]
+                                          )
+                                      )
                                   ),
                                   Container(
                                       margin: EdgeInsets.only(left: 20, right: 20, bottom: 15),

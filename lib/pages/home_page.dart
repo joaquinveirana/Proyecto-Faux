@@ -212,15 +212,15 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   void _setLanguage(Language lang) async {
     switch (lang) {
       case Language.ES:
+        await AppLocalization.of(context).setLocale(Locale('es', 'ESP'));
         setState(() {
-          AppLocalization.of(context).setLocale(Locale('es', 'ESP'));
           _appLang = Language.ES;
         });
         Navigator.pop(context);
         break;
       case Language.EN:
+        await AppLocalization.of(context).setLocale(Locale('en', 'US'));
         setState(() {
-          AppLocalization.of(context).setLocale(Locale('en', 'US'));
           _appLang = Language.EN;
         });
         Navigator.pop(context);
