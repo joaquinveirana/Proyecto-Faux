@@ -64,7 +64,7 @@ class _GameSettingsState extends State<GameSettings> {
     _beginButtonText = '';
     _beginButtonIsReady = false;
     _pageController = PageController(initialPage: 0);
-    _listOfCategories = _controller.getCategoryList(_controllerLogic, _changeBeginButton, _handleAdButton, _handleSearch, '');
+    _listOfCategories = _controller.getCategoryList(context, _controllerLogic, _changeBeginButton, _handleAdButton, _handleSearch, '');
   }
 
   @override
@@ -354,13 +354,13 @@ class _GameSettingsState extends State<GameSettings> {
     );
     // Reload categories list with one extra secret category
     setState(() {
-      _listOfCategories = _controller.getCategoryList(_controllerLogic, _changeBeginButton, _handleAdButton, _handleSearch, '');
+      _listOfCategories = _controller.getCategoryList(context, _controllerLogic, _changeBeginButton, _handleAdButton, _handleSearch, '');
     });
   }
 
   void _handleSearch(String searchText) {
     setState(() {
-      _listOfCategories = _controller.getCategoryList(_controllerLogic, _changeBeginButton, _handleAdButton, _handleSearch, searchText);
+      _listOfCategories = _controller.getCategoryList(context, _controllerLogic, _changeBeginButton, _handleAdButton, _handleSearch, searchText);
     });
   }
 
