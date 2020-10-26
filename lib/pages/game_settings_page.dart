@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:numberpicker/numberpicker.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../controller/controller_logic.dart';
-import '../controller/controller_view.dart';
+import '../controller/controller_category_list_view.dart';
 import '../styles/fonts.dart';
 import '../locale/app_localization.dart';
 import '../pages/game_stage_page.dart';
@@ -26,7 +26,7 @@ class GameSettings extends StatefulWidget {
 }
 
 class _GameSettingsState extends State<GameSettings> {
-  final ControllerView _controller = ControllerView();
+  final ControllerCategoryListView _controller = ControllerCategoryListView();
   final FontStyles _fontStyles = FontStyles();
   final AppColors _colors = AppColors();
   final OtherWidgets _otherWidgets = OtherWidgets();

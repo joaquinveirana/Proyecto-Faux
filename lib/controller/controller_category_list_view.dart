@@ -7,7 +7,7 @@ import '../widgets/game_settings_widgets/custom_tile.dart';
 import '../widgets/game_settings_widgets/search_banner.dart';
 import 'package:flutter/material.dart';
 
-class ControllerView {
+class ControllerCategoryListView {
   final _random = new Random();
 
   // Returns list of buttons for the categories in the optiones menu of the game
@@ -45,7 +45,7 @@ class ControllerView {
 
     // If wanted, add secret category
     if (showSecretCategory) {
-      int secretCategoryId = 10 + (1 + _random.nextInt(2)); // Secret categories are 11, 12, 13 ....
+      int secretCategoryId = 100 + (1 + _random.nextInt(2)); // Secret categories are 11, 12, 13 ....
       listings.add(
           CustomTile(id: secretCategoryId, controller: controllerLogic, notifyParentFunction: changeBeginButtonColor)
       );

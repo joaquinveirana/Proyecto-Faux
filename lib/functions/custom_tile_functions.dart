@@ -9,7 +9,7 @@ class CustomTileFunctions {
         return Colors.green;
       } break;
       case '2': {
-        return Colors.yellow;
+        return Colors.orange;
       } break;
       case '3': {
         return Colors.red;
@@ -82,7 +82,39 @@ class CustomTileFunctions {
             icon: FaIcon(FontAwesomeIcons.hamburger)
         );
       } break;
+      case '8': {
+        return IconButton(
+            onPressed: (){},
+            iconSize: 40,
+            color: Colors.black87,
+            icon: FaIcon(FontAwesomeIcons.userEdit)
+        );
+      } break;
+      case '9': {
+        return IconButton(
+            onPressed: (){},
+            iconSize: 40,
+            color: Colors.black87,
+            icon: FaIcon(FontAwesomeIcons.atom)
+        );
+      } break;
+      case '10': {
+        return IconButton(
+            onPressed: (){},
+            iconSize: 40,
+            color: Colors.black87,
+            icon: FaIcon(FontAwesomeIcons.basketballBall)
+        );
+      } break;
       case '11': {
+        return IconButton(
+            onPressed: (){},
+            iconSize: 40,
+            color: Colors.black87,
+            icon: FaIcon(FontAwesomeIcons.gamepad)
+        );
+      } break;
+      case '101': {
         return IconButton(
             onPressed: (){},
             iconSize: 40,
@@ -90,7 +122,7 @@ class CustomTileFunctions {
             icon: FaIcon(FontAwesomeIcons.hatCowboy)
         );
       } break;
-      case '12': {
+      case '102': {
         return IconButton(
             onPressed: (){},
             iconSize: 40,
