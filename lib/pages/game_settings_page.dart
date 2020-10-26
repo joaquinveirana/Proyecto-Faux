@@ -43,8 +43,8 @@ class _GameSettingsState extends State<GameSettings> {
       _unselectedOptionButton,
       _unselectedBeginButton;
   PageController _pageController;
-  String _beginButtonText;
-  bool _beginButtonIsReady;
+  String _beginButtonText, _searchText;
+  bool _beginButtonIsReady, _showSecretCategory;
   ScrollConfiguration _listOfCategories;
   InterstitialAd _newCategoryAd;
 
@@ -62,9 +62,10 @@ class _GameSettingsState extends State<GameSettings> {
     _noImpostorsColor = _unselectedOptionButton;
     _beginButtonColor = _unselectedBeginButton;
     _beginButtonText = '';
+    _searchText = '';
+    _showSecretCategory = false;
     _beginButtonIsReady = false;
     _pageController = PageController(initialPage: 0);
-    _listOfCategories = _controller.getCategoryList(context, _controllerLogic, _changeBeginButton, _handleAdButton, _handleSearch, '');
   }
 
   @override
@@ -152,7 +153,8 @@ class _GameSettingsState extends State<GameSettings> {
                     ],
                   ),
                   height: containerHeight * 0.9 - 60,
-                  child: _listOfCategories,
+                  child: _controller
+                      .getCategoryList(context, _controllerLogic, _changeBeginButton, _handleAdButton, _handleSearch, _searchText, _showSecretCategory),
                 ),
               )
             ],
@@ -354,13 +356,13 @@ class _GameSettingsState extends State<GameSettings> {
     );
     // Reload categories list with one extra secret category
     setState(() {
-      _listOfCategories = _controller.getCategoryList(context, _controllerLogic, _changeBeginButton, _handleAdButton, _handleSearch, '');
+      _showSecretCategory = true;
     });
   }
 
   void _handleSearch(String searchText) {
     setState(() {
-      _listOfCategories = _controller.getCategoryList(context, _controllerLogic, _changeBeginButton, _handleAdButton, _handleSearch, searchText);
+      _searchText = searchText;
     });
   }
 

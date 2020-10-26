@@ -74,6 +74,30 @@ class CustomTileFunctions {
             icon: FaIcon(FontAwesomeIcons.building)
         );
       } break;
+      case '7': {
+        return IconButton(
+            onPressed: (){},
+            iconSize: 40,
+            color: Colors.black87,
+            icon: FaIcon(FontAwesomeIcons.hamburger)
+        );
+      } break;
+      case '11': {
+        return IconButton(
+            onPressed: (){},
+            iconSize: 40,
+            color: Colors.black87,
+            icon: FaIcon(FontAwesomeIcons.hatCowboy)
+        );
+      } break;
+      case '12': {
+        return IconButton(
+            onPressed: (){},
+            iconSize: 40,
+            color: Colors.black87,
+            icon: FaIcon(FontAwesomeIcons.bomb)
+        );
+      } break;
     }
     return null;
   }

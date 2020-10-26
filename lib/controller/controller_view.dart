@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import '../controller/controller_logic.dart';
 import '../locale/app_localization.dart';
 import '../widgets/game_settings_widgets/custom_ad_tile.dart';
@@ -6,6 +8,8 @@ import '../widgets/game_settings_widgets/search_banner.dart';
 import 'package:flutter/material.dart';
 
 class ControllerView {
+  final _random = new Random();
+
   // Returns list of buttons for the categories in the optiones menu of the game
   ScrollConfiguration getCategoryList(
       BuildContext context,
@@ -13,7 +17,8 @@ class ControllerView {
       Function changeBeginButtonColor,
       Function handleAdButton,
       Function handleSearch,
-      String filterSearch
+      String filterSearch,
+      bool showSecretCategory
       ) {
     List listings = List<Widget>();
 
@@ -39,11 +44,17 @@ class ControllerView {
     }
 
     // If wanted, add secret category
-
-    // Ad Button
-    listings.add(
-        CustomAdTile(notifyParentFunction: handleAdButton)
-    );
+    if (showSecretCategory) {
+      int secretCategoryId = 10 + (1 + _random.nextInt(2)); // Secret categories are 11, 12, 13 ....
+      listings.add(
+          CustomTile(id: secretCategoryId, controller: controllerLogic, notifyParentFunction: changeBeginButtonColor)
+      );
+    } else {
+      // Ad Button
+      listings.add(
+          CustomAdTile(notifyParentFunction: handleAdButton)
+      );
+    }
 
     return ScrollConfiguration(
       behavior: ScrollBehavior(),
