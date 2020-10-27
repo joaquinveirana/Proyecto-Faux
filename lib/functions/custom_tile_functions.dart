@@ -114,6 +114,38 @@ class CustomTileFunctions {
             icon: FaIcon(FontAwesomeIcons.gamepad)
         );
       } break;
+      case '12': {
+        return IconButton(
+            onPressed: (){},
+            iconSize: 40,
+            color: Colors.black87,
+            icon: FaIcon(FontAwesomeIcons.film)
+        );
+      } break;
+      case '13': {
+        return IconButton(
+            onPressed: (){},
+            iconSize: 35,
+            color: Colors.black87,
+            icon: FaIcon(FontAwesomeIcons.gamepad)
+        );
+      } break;
+      case '14': {
+        return IconButton(
+            onPressed: (){},
+            iconSize: 35,
+            color: Colors.black87,
+            icon: FaIcon(FontAwesomeIcons.city)
+        );
+      } break;
+      case '15': {
+        return IconButton(
+            onPressed: (){},
+            iconSize: 35,
+            color: Colors.black87,
+            icon: FaIcon(FontAwesomeIcons.flag)
+        );
+      } break;
       case '101': {
         return IconButton(
             onPressed: (){},
@@ -128,6 +160,14 @@ class CustomTileFunctions {
             iconSize: 40,
             color: Colors.black87,
             icon: FaIcon(FontAwesomeIcons.bomb)
+        );
+      } break;
+      case '103': {
+        return IconButton(
+            onPressed: (){},
+            iconSize: 40,
+            color: Colors.black87,
+            icon: FaIcon(FontAwesomeIcons.film)
         );
       } break;
     }

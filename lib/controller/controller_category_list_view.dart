@@ -45,12 +45,24 @@ class ControllerCategoryListView {
 
     // If wanted, add secret category
     if (showSecretCategory) {
+      listings.add(
+          Divider(
+            thickness: 1.5,
+            indent: 30,
+            endIndent: 30,
+          ));
       int secretCategoryId = 100 + (1 + _random.nextInt(2)); // Secret categories are 11, 12, 13 ....
       listings.add(
           CustomTile(id: secretCategoryId, controller: controllerLogic, notifyParentFunction: changeBeginButtonColor)
       );
     } else {
       // Ad Button
+      listings.add(
+          Divider(
+            thickness: 1.5,
+            indent: 30,
+            endIndent: 30,
+          ));
       listings.add(
           CustomAdTile(notifyParentFunction: handleAdButton)
       );

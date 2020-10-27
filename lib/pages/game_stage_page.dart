@@ -70,16 +70,16 @@ class _GameStageState extends State<GameStage> {
       child: Column(
         children: [
           Stack(
-            children: [
-              Container(
-                margin: EdgeInsets.only(top: 40, bottom: 20, left: 20, right: 20),
-                child: Text(
-                    AppLocalization.of(context).translate("game_stage_first_step"),
-                    style: _fonts.openSansSemiBold(28, Colors.black)
-                )
-              ),
-              Positioned(top: 10, left: 5, child: _otherWidgets.backButton(context))
-            ]
+              children: [
+                Container(
+                    margin: EdgeInsets.only(top: 40, bottom: 20, left: 20, right: 20),
+                    child: Text(
+                        AppLocalization.of(context).translate("game_stage_first_step"),
+                        style: _fonts.openSansSemiBold(28, Colors.black)
+                    )
+                ),
+                Positioned(top: 10, left: 5, child: _otherWidgets.backButton(context))
+              ]
           ),
           Divider(
             thickness: 1,
@@ -96,10 +96,35 @@ class _GameStageState extends State<GameStage> {
           Container(
               margin: EdgeInsets.all(10),
               child: Text(
-                  AppLocalization.of(context).translateTopic(data['category'],"title"),
-                  style: _fonts.openSansSemiBold(30, Colors.black)
+                AppLocalization.of(context).translateTopic(data['category'],"title"),
+                style: _fonts.openSansSemiBold(30, Colors.black),
+                textAlign: TextAlign.center,
               )),
           Expanded(flex: 4, child: Container()),
+          Container(
+            width: double.infinity,
+            margin: EdgeInsets.only(top: 10, left: 10, right: 10, bottom: 0),
+            child: Text(
+              AppLocalization.of(context).translate("game_stage_category_reminder1"),
+              style: _fonts.openSansSemiBold(16, Colors.black)
+            ),
+          ),
+          Container(
+            width: double.infinity,
+            margin: EdgeInsets.only(top: 0, left: 20, right: 10, bottom: 0),
+            child: Text(
+              AppLocalization.of(context).translate("game_stage_category_reminder2"),
+              style: _fonts.openSans(14, Colors.black)
+            ),
+          ),
+          Container(
+            width: double.infinity,
+            margin: EdgeInsets.only(top: 0, left: 20, right: 10, bottom: 10),
+            child: Text(
+              AppLocalization.of(context).translate("game_stage_category_reminder3"),
+              style: _fonts.openSans(14, Colors.black)
+            ),
+          ),
           Expanded(
             child: Material(
               color: Colors.transparent,
@@ -180,18 +205,20 @@ class _GameStageState extends State<GameStage> {
                     : Text(""),
               ),
               Container(
-                height: 80,
+                height: 150,
                 padding: EdgeInsets.all(10),
                 child: typePlayer == 0
                     ? Text(AppLocalization.of(context).translateTopic(category, wordIndex),
-                    style: _fonts.openSansSemiBold(30, Colors.black))
+                  style: _fonts.openSansSemiBold(30, Colors.black),
+                  textAlign: TextAlign.center,
+                )
                     : Text(
                     AppLocalization.of(context)
                         .translate("game_stage_impostor_hint"),
                     style: _fonts.openSans(20, Colors.black)),
               ),
               Container(
-                height: 230,
+                height: 160,
               ),
               Material(
                 color: Colors.transparent,
@@ -204,7 +231,7 @@ class _GameStageState extends State<GameStage> {
                       setState(() {
                         _showRole = false;
                       });
-                      } else {
+                    } else {
                       Navigator.push(context, MaterialPageRoute(builder: (context) => EndPage()));
                     }
                   },
@@ -212,7 +239,7 @@ class _GameStageState extends State<GameStage> {
                     width: 280,
                     height: 100,
                     decoration: BoxDecoration(
-                        color: Colors.black26,
+                      color: Colors.black26,
                     ),
                     child: Center(
                         child: !lastPlayer
@@ -249,7 +276,7 @@ class _GameStageState extends State<GameStage> {
                     width: 280,
                     height: 100,
                     decoration: BoxDecoration(
-                        gradient: _colors.gameSettingsSelectedButtonGradient(),
+                      gradient: _colors.gameSettingsSelectedButtonGradient(),
                     ),
                     child: Center(
                         child: Text(

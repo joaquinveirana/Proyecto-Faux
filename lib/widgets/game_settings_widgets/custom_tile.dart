@@ -84,7 +84,7 @@ class CustomTileState extends State<CustomTile> {
                   style: _fontStyles.openSansSemiBold(20, Colors.black),
                   children: <TextSpan>[
                     TextSpan(text: AppLocalization.of(context).translateTopic("topic_"+widget.getId().toString(), 'title')),
-                    TextSpan(text: "   "),
+                    TextSpan(text: " "),
                     TextSpan(text: "["+ numWords +"]",
                       style: TextStyle(fontSize: 12)
                     )
