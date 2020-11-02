@@ -45,7 +45,6 @@ class _GameSettingsState extends State<GameSettings> {
   PageController _pageController;
   String _beginButtonText, _searchText;
   bool _beginButtonIsReady, _showSecretCategory;
-  ScrollConfiguration _listOfCategories;
   InterstitialAd _newCategoryAd;
 
   @override

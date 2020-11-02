@@ -1,9 +1,10 @@
+import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../locale/app_localization.dart';
 import '../styles/colors.dart';
 import '../styles/fonts.dart';
-import '../pages/end_page.dart';
+import '../controller/ad_manager.dart';
 import '../widgets/other_widgets.dart';
 
 class GameStage extends StatefulWidget {
@@ -25,9 +26,12 @@ class _GameStageState extends State<GameStage> {
   final FontStyles _fonts = FontStyles();
   final AppColors _colors = AppColors();
   final OtherWidgets _otherWidgets = OtherWidgets();
+  InterstitialAd _newCategoryAd;
 
   @override
   void initState() {
+    _newCategoryAd = AdManager.getNewInterstitialAd;
+    _newCategoryAd.load();
     _showRole = false;
     _pageController = PageController(initialPage: 0);
     super.initState();
@@ -232,7 +236,11 @@ class _GameStageState extends State<GameStage> {
                         _showRole = false;
                       });
                     } else {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => EndPage()));
+                      _newCategoryAd.show(
+                          anchorType: AnchorType.bottom,
+                          anchorOffset: 0.0,
+                          horizontalCenterOffset: 0.0
+                      ).then((value) => Navigator.pop(context));
                     }
                   },
                   child: Container(
