@@ -1,3 +1,4 @@
+import 'package:faux_the_game/locale/app_localization.dart';
 import 'package:flutter/material.dart';
 
 class SearchBanner extends StatefulWidget {
@@ -50,7 +51,7 @@ class _SearchBannerState extends State<SearchBanner> {
                 focusedBorder: UnderlineInputBorder(
                     borderSide: BorderSide(color: Color(0xff33A3fC))
                 ),
-                hintText: 'Search category',
+                hintText: AppLocalization.of(context).translate("game_settings_difficulty_search"),
                 suffixIcon: IconButton(
                   onPressed: () {
                     _controller.text = '';

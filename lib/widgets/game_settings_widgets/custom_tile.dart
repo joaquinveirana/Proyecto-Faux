@@ -103,7 +103,7 @@ class CustomTileState extends State<CustomTile> {
                 ]
               )
             ),
-            trailing: _functions.setIcon(widget.getId().toString()),
+            trailing: _functions.setIcon(context, widget.getId().toString()),
           ),
         ),
       ),

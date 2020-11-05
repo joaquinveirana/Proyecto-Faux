@@ -8,7 +8,12 @@ import '../widgets/game_settings_widgets/search_banner.dart';
 import 'package:flutter/material.dart';
 
 class ControllerCategoryListView {
+  ControllerCategoryListView() {
+    this._secretCategory = 100 + (1 + _random.nextInt(6));
+  }
+
   final _random = new Random();
+  int _secretCategory;
 
   // Returns list of buttons for the categories in the optiones menu of the game
   ScrollConfiguration getCategoryList(
@@ -51,9 +56,8 @@ class ControllerCategoryListView {
             indent: 30,
             endIndent: 30,
           ));
-      int secretCategoryId = 100 + (1 + _random.nextInt(2)); // Secret categories are 11, 12, 13 ....
       listings.add(
-          CustomTile(id: secretCategoryId, controller: controllerLogic, notifyParentFunction: changeBeginButtonColor)
+          CustomTile(id: _secretCategory, controller: controllerLogic, notifyParentFunction: changeBeginButtonColor)
       );
     } else {
       // Ad Button
