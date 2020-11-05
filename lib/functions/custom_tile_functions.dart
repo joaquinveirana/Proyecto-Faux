@@ -209,7 +209,7 @@ class CustomTileFunctions {
               onPressed: (){},
               iconSize: 40,
               color: Colors.black87,
-              icon: FaIcon(FontAwesomeIcons.meh)
+              icon: FaIcon(FontAwesomeIcons.theaterMasks)
           );
         } break;
       }
@@ -396,7 +396,7 @@ class CustomTileFunctions {
               onPressed: (){},
               iconSize: 40,
               color: Colors.black87,
-              icon: FaIcon(FontAwesomeIcons.meh)
+              icon: FaIcon(FontAwesomeIcons.theaterMasks)
           );
         } break;
       }
