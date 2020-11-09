@@ -1,4 +1,3 @@
-import 'package:faux_the_game/widgets/home_page_widgets/home_page_alerts.dart';
 import 'package:flutter/material.dart';
 import 'package:flag/flag.dart';
 import '../pages/how_to_play_page.dart';
@@ -9,6 +8,7 @@ import '../locale/app_localization.dart';
 import '../functions/navigator_transition.dart';
 import '../styles/gradient_effect.dart';
 import '../pages/about_page.dart';
+import '../widgets/home_page_widgets/home_page_alerts.dart';
 
 class HomePage extends StatefulWidget {
   @override

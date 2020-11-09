@@ -1,7 +1,7 @@
-import '../../controller/controller_logic.dart';
-import '../../locale/app_localization.dart';
 import 'package:flutter/material.dart';
 import '../../styles/fonts.dart';
+import '../../controller/controller_logic.dart';
+import '../../locale/app_localization.dart';
 
 class MoreOptions {
   FontStyles _fontStyles = FontStyles();

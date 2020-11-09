@@ -1,8 +1,8 @@
-import 'package:faux_the_game/locale/app_localization.dart';
-import 'package:faux_the_game/styles/fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/material.dart';
 import '../widgets/other_widgets.dart';
+import '../locale/app_localization.dart';
+import '../styles/fonts.dart';
 
 class About extends StatefulWidget {
   @override
