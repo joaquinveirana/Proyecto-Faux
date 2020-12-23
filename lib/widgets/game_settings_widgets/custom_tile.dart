@@ -49,17 +49,9 @@ class CustomTileState extends State<CustomTile> {
     impostorDificultyFontColor = _functions.setColors(impostorDifficulty);
     
     return Container(
-      margin: EdgeInsets.all(10),
+      margin: EdgeInsets.only(top: 7, left: 10, right: 10),
       decoration: BoxDecoration(
         gradient: color,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.3),
-            spreadRadius: 2,
-            blurRadius: 3,
-            offset: Offset(2, 2), // changes position of shadow
-          ),
-        ],
         borderRadius: BorderRadius.circular(8)
       ),
       child: Material(

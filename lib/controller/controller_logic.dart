@@ -11,6 +11,7 @@ class ControllerLogic {
   Map<int,int> _listOfCategories = {};
   bool _allImpostors = false;
   bool _noImpostors = false;
+  bool _playOnThisDevice = false;
 
   bool isSelected(int category) => this._listOfCategories.containsKey(category);
 
@@ -31,6 +32,8 @@ class ControllerLogic {
   void setAllImpostors() => this._allImpostors = !this._allImpostors;
 
   void setNoImpostors() => this._noImpostors = !this._noImpostors;
+
+  void setPlayOnThisDevice() => this._playOnThisDevice = !this._playOnThisDevice;
 
   Map<String, dynamic> returnGame() {
     Map<String, dynamic> res = {};
@@ -57,6 +60,7 @@ class ControllerLogic {
       res.putIfAbsent('word', () => 'elem_'+randomWord.toString());
       res.putIfAbsent('category', () => 'topic_'+randomCategory.toString());
       res.putIfAbsent("players", () => playersList);
+      res.putIfAbsent("playOnThisDevice", () => this._playOnThisDevice);
     }
     return res;
   }

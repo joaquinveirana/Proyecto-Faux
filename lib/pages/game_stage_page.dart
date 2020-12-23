@@ -6,6 +6,7 @@ import '../styles/colors.dart';
 import '../styles/fonts.dart';
 import '../controller/ad_manager.dart';
 import '../widgets/other_widgets.dart';
+import '../pages/game.dart';
 
 class GameStage extends StatefulWidget {
   final Map<String, dynamic> _data;
@@ -82,7 +83,7 @@ class _GameStageState extends State<GameStage> {
                         style: _fonts.openSansSemiBold(28, Colors.black)
                     )
                 ),
-                Positioned(top: 10, left: 5, child: _otherWidgets.backButton(context))
+                Positioned(top: 10, left: 5, child: _otherWidgets.backButton(context,1))
               ]
           ),
           Divider(
@@ -135,7 +136,7 @@ class _GameStageState extends State<GameStage> {
               child: InkWell(
                 onTap: () {
                   _pageController.nextPage(
-                      duration: const Duration(milliseconds: 900),
+                      duration: const Duration(milliseconds: 1200),
                       curve: Curves.easeInOut);
                 },
                 child: Container(
@@ -160,12 +161,12 @@ class _GameStageState extends State<GameStage> {
 
     // Agrego las pantallas de cada jugador
     _players.asMap().forEach((index, element) {
-      _playerScreens.add(_newScreen(element, index+1, data['category'], data['word'], index == _players.length-1));
+      _playerScreens.add(_newScreen(element, index+1, data['category'], data['word'], index == _players.length-1, data['playOnThisDevice']));
     });
     return _playerScreens;
   }
 
-  Container _newScreen(int typePlayer, int numPlayer, String category, String wordIndex, bool lastPlayer) {
+  Container _newScreen(int typePlayer, int numPlayer, String category, String wordIndex, bool lastPlayer, bool playOnThisDevice) {
     return Container(
       child: Column(
         children: [
@@ -201,7 +202,7 @@ class _GameStageState extends State<GameStage> {
                     style: _fonts.openSansSemiBold(30, Colors.black)),
               ),
               Container(
-                height: 40,
+                height: 45,
                 padding: EdgeInsets.all(10),
                 child: typePlayer == 0
                     ? Text(AppLocalization.of(context).translate("game_stage_artist_subtitle"),
@@ -209,7 +210,7 @@ class _GameStageState extends State<GameStage> {
                     : Text(""),
               ),
               Container(
-                height: 150,
+                height: 145,
                 padding: EdgeInsets.all(10),
                 child: typePlayer == 0
                     ? Text(AppLocalization.of(context).translateTopic(category, wordIndex),
@@ -230,7 +231,7 @@ class _GameStageState extends State<GameStage> {
                   onTap: () {
                     if(!lastPlayer) {
                       _pageController.nextPage(
-                          duration: const Duration(milliseconds: 1100),
+                          duration: const Duration(milliseconds: 1200),
                           curve: Curves.easeInOut);
                       setState(() {
                         _showRole = false;
@@ -240,14 +241,14 @@ class _GameStageState extends State<GameStage> {
                           anchorType: AnchorType.bottom,
                           anchorOffset: 0.0,
                           horizontalCenterOffset: 0.0
-                      ).then((value) => Navigator.pop(context));
+                      ).then((value) => Navigator.push(context, MaterialPageRoute(builder: (context) => Game(playOnThisDevice: playOnThisDevice))));
                     }
                   },
                   child: Container(
                     width: 280,
                     height: 100,
                     decoration: BoxDecoration(
-                      color: Colors.black26,
+                      gradient: !lastPlayer ? _colors.gameSettingsUnselectedButtonGradient() : _colors.gameSettingsSelectedButtonGradient(),
                     ),
                     child: Center(
                         child: !lastPlayer
@@ -259,7 +260,7 @@ class _GameStageState extends State<GameStage> {
                             : Text(
                           AppLocalization.of(context)
                               .translate("game_stage_end_button"),
-                          style: _fonts.openSans(20, Colors.black),
+                          style: _fonts.openSans(24, Colors.black),
                         )
                     ),
                   ),

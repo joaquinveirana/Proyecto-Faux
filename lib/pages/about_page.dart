@@ -114,7 +114,7 @@ class _AboutState extends State<About> {
                   )
               ),
             ),
-            Positioned(top: 20, left: 15, child: _otherWidgets.backButton(context))
+            Positioned(top: 20, left: 15, child: _otherWidgets.backButton(context,1))
           ]
         ),
       ),

@@ -38,6 +38,7 @@ class _GameSettingsState extends State<GameSettings> {
   List<int> _categoriesSelected = [];
   LinearGradient _allImpostorsColor,
       _noImpostorsColor,
+      _playOnThisDeviceColor,
       _beginButtonColor,
       _selectedOptionButton,
       _unselectedOptionButton,
@@ -57,6 +58,7 @@ class _GameSettingsState extends State<GameSettings> {
     _selectedOptionButton = _colors.gameSettingsSelectedButtonGradient();
     _unselectedOptionButton = _colors.gameSettingsUnselectedButtonGradient();
     _unselectedBeginButton = _colors.gameSettingsUnselectedButtonGradient();
+    _playOnThisDeviceColor = _unselectedOptionButton;
     _allImpostorsColor = _unselectedOptionButton;
     _noImpostorsColor = _unselectedOptionButton;
     _beginButtonColor = _unselectedBeginButton;
@@ -158,7 +160,8 @@ class _GameSettingsState extends State<GameSettings> {
               )
             ],
           ),
-          Positioned(top: 10, left: 5, child: _otherWidgets.backButton(context)),
+          Positioned(top: 10, left: 5, child: _otherWidgets.backButton(context,1)),
+          Positioned(top: 10, right: 5, child: _otherWidgets.helpButton(context)),
         ],
       ),
     );
@@ -194,8 +197,17 @@ class _GameSettingsState extends State<GameSettings> {
                           : _noImpostorsColor = _unselectedOptionButton;
                     })
                   },
+                      () => {
+                    setState(() {
+                      _controllerLogic.setPlayOnThisDevice();
+                      _playOnThisDeviceColor == _unselectedOptionButton
+                          ? _playOnThisDeviceColor = _selectedOptionButton
+                          : _playOnThisDeviceColor = _unselectedOptionButton;
+                    })
+                  },
                   _allImpostorsColor,
-                  _noImpostorsColor
+                  _noImpostorsColor,
+                  _playOnThisDeviceColor
               )
             ],
           ),

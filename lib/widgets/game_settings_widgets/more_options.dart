@@ -12,8 +12,10 @@ class MoreOptions {
       ControllerLogic controller,
       Function impostorFunction,
       Function noImpostorFunction,
+      Function playOnThisDeviceFunction,
       LinearGradient impostorColor,
-      LinearGradient noImpostorColor
+      LinearGradient noImpostorColor,
+      LinearGradient playOnThisDeviceColor,
       ) {
     return Container(
       child: Column(
@@ -45,7 +47,16 @@ class MoreOptions {
                     noImpostorColor,
                     'game_settings_more_options_no_impostors',
                     'game_settings_more_options_no_impostors_desc',
-                    context)
+                    context),
+                _optionButton(
+                    false,
+                    width,
+                    controller,
+                    playOnThisDeviceFunction,
+                    playOnThisDeviceColor,
+                    'game_settings_more_options_play_device',
+                    'game_settings_more_options_play_device_desc',
+                    context),
               ],
             ),
           )
