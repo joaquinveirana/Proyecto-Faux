@@ -136,7 +136,7 @@ class _GameStageState extends State<GameStage> {
               child: InkWell(
                 onTap: () {
                   _pageController.nextPage(
-                      duration: const Duration(milliseconds: 1200),
+                      duration: const Duration(milliseconds: 800),
                       curve: Curves.easeInOut);
                 },
                 child: Container(
@@ -161,12 +161,12 @@ class _GameStageState extends State<GameStage> {
 
     // Agrego las pantallas de cada jugador
     _players.asMap().forEach((index, element) {
-      _playerScreens.add(_newScreen(element, index+1, data['category'], data['word'], index == _players.length-1, data['playOnThisDevice']));
+      _playerScreens.add(_newScreen(element, index+1, data['category'], data['word'], index == _players.length-1));
     });
     return _playerScreens;
   }
 
-  Container _newScreen(int typePlayer, int numPlayer, String category, String wordIndex, bool lastPlayer, bool playOnThisDevice) {
+  Container _newScreen(int typePlayer, int numPlayer, String category, String wordIndex, bool lastPlayer) {
     return Container(
       child: Column(
         children: [
@@ -241,7 +241,7 @@ class _GameStageState extends State<GameStage> {
                           anchorType: AnchorType.bottom,
                           anchorOffset: 0.0,
                           horizontalCenterOffset: 0.0
-                      ).then((value) => Navigator.push(context, MaterialPageRoute(builder: (context) => Game(playOnThisDevice: playOnThisDevice))));
+                      ).then((value) => Navigator.push(context, MaterialPageRoute(builder: (context) => Game(data: widget.getData()))));
                     }
                   },
                   child: Container(

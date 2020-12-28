@@ -93,6 +93,9 @@
   "game_choice_option_2": "On paper/board",
   "game_choice_divider": "Or",
 
+  "game_player_label": "Turn: Player ",
+  "game_round_label": "Round: ",
+
   "topic_1": {
     "id": "1",
     "title": "Abstaract Concepts",

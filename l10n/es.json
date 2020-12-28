@@ -92,6 +92,9 @@
   "game_choice_option_2": "En papel/pizarra",
   "game_choice_divider": "O",
 
+  "game_player_label": "Turno: Jugador ",
+  "game_round_label": "Ronda: ",
+
   "topic_1": {
     "id": "1",
     "title": "Animales",

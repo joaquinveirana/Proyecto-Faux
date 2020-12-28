@@ -1,5 +1,6 @@
 import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'locale/app_localization.dart';
 import './controller/ad_manager.dart';
@@ -20,6 +21,9 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+    ]);
     return new MaterialApp(
         debugShowCheckedModeBanner: false,
         supportedLocales: [

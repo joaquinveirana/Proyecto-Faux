@@ -379,6 +379,7 @@ class _GameSettingsState extends State<GameSettings> {
 
   void _validateBeginButton() {
     Map<String, dynamic> res = _controllerLogic.returnGame();
+    res.putIfAbsent('categoryDecoded', () => AppLocalization.of(context).translateTopic(res['category'], 'title'));
     if (res.isNotEmpty) {
       Navigator.push(context,
           MaterialPageRoute(builder: (context) => GameStage(data: res)));

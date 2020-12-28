@@ -3,14 +3,17 @@ import '../locale/app_localization.dart';
 import '../styles/colors.dart';
 import '../styles/fonts.dart';
 import '../widgets/other_widgets.dart';
+import '../clases/canvas_board.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter/services.dart';
 
 class Game extends StatefulWidget {
-  final bool _playOnThisDevice;
-  Game({bool playOnThisDevice}) : this._playOnThisDevice = playOnThisDevice;
+  final Map<String, dynamic> _matchData;
 
-  bool getPlayOnThisDevice() {
-    return this._playOnThisDevice;
+  Game({Map<String, dynamic> data}) : this._matchData = data;
+
+  Map<String, dynamic> getData() {
+    return this._matchData;
   }
 
   @override
@@ -21,58 +24,68 @@ class _GameState extends State<Game> {
   final FontStyles _fonts = FontStyles();
   final AppColors _colors = AppColors();
   final OtherWidgets _otherWidgets = OtherWidgets();
+  Map<String, dynamic> _matchData;
   bool _showCanvas;
 
   @override
   void initState() {
-    _showCanvas = widget.getPlayOnThisDevice();
+    @override
+    dispose() {
+      SystemChrome.setPreferredOrientations([
+        DeviceOrientation.portraitUp,
+        DeviceOrientation.portraitDown,
+        DeviceOrientation.landscapeRight,
+        DeviceOrientation.landscapeLeft,
+      ]);
+    }
+
+    _matchData = widget.getData();
+    _showCanvas = _matchData['playOnThisDevice'];
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     final double _widthTotal = MediaQuery.of(context).size.width;
 
     return Scaffold(
         body: SafeArea(
-          child: Container(
-            color: Colors.grey[200],
-            child: Container(
-              margin: EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  border: Border.all(
-                      color: Colors.black54,
-                      width: 2
-                  )
-              ),
-              child: Stack(
-                  children: [
-                    _showCanvas
-                        ? _canvas()
-                        : _selectionMenu(_widthTotal),
-                    Positioned(top: 10, left: 5, child: _otherWidgets.backButton(context,2))
-                  ]
-              ),
-            ),
-          ),
-        ));
+      child: Container(
+        color: Colors.grey[200],
+        child: Container(
+          margin: EdgeInsets.all(10),
+          decoration: BoxDecoration(
+              color: Colors.white,
+              border: Border.all(color: Colors.black54, width: 2)),
+          child: Stack(children: [
+            _showCanvas
+                ? CanvasBoard(
+                    data: widget.getData(),
+                    backButtonCallback: () => setState(() {
+                          _showCanvas = false;
+                        }))
+                : _selectionMenu(_widthTotal),
+            !_showCanvas
+                ? Positioned(
+                    top: 10,
+                    left: 5,
+                    child: _otherWidgets.backButton(context, 2))
+                : Container()
+          ]),
+        ),
+      ),
+    ));
   }
 
-  Container _canvas() {
-    return Container();
-  }
-  
   Container _selectionMenu(double totalWidth) {
     return Container(
         margin: EdgeInsets.only(top: 40, bottom: 20, left: 20, right: 20),
         child: Column(
           children: [
-            Text(
-                AppLocalization.of(context).translate("game_choice_title"),
-                style: _fonts.openSansSemiBold(28, Colors.black)
-            ),
+            Text(AppLocalization.of(context).translate("game_choice_title"),
+                style: _fonts.openSansSemiBold(28, Colors.black)),
             Container(
-              margin: EdgeInsets.only(top: totalWidth/4, bottom: 20),
+              margin: EdgeInsets.only(top: totalWidth / 4, bottom: 20),
               child: Material(
                 color: Colors.transparent,
                 child: InkWell(
@@ -87,12 +100,14 @@ class _GameState extends State<Game> {
                     child: Column(
                       children: [
                         Container(
-                          child: FaIcon(FontAwesomeIcons.mobileAlt, size: 100,)
-                        ),
+                            child: FaIcon(
+                          FontAwesomeIcons.mobileAlt,
+                          size: 100,
+                        )),
                         Text(
-                            AppLocalization.of(context).translate("game_choice_option_1"),
-                            style: _fonts.openSans(25, Colors.black)
-                        )
+                            AppLocalization.of(context)
+                                .translate("game_choice_option_1"),
+                            style: _fonts.openSans(25, Colors.black))
                       ],
                     ),
                   ),
@@ -109,7 +124,10 @@ class _GameState extends State<Game> {
                     endIndent: 20,
                   ),
                 ),
-                Text(AppLocalization.of(context).translate("game_choice_divider"), style: _fonts.openSans(13, Colors.black),),
+                Text(
+                  AppLocalization.of(context).translate("game_choice_divider"),
+                  style: _fonts.openSans(13, Colors.black),
+                ),
                 Expanded(
                   child: Divider(
                     thickness: 1,
@@ -135,12 +153,14 @@ class _GameState extends State<Game> {
                     child: Column(
                       children: [
                         Container(
-                            child: FaIcon(FontAwesomeIcons.chalkboard, size: 100,)
-                        ),
+                            child: FaIcon(
+                          FontAwesomeIcons.chalkboard,
+                          size: 100,
+                        )),
                         Text(
-                            AppLocalization.of(context).translate("game_choice_option_2"),
-                            style: _fonts.openSans(25, Colors.black)
-                        )
+                            AppLocalization.of(context)
+                                .translate("game_choice_option_2"),
+                            style: _fonts.openSans(25, Colors.black))
                       ],
                     ),
                   ),
@@ -150,5 +170,4 @@ class _GameState extends State<Game> {
           ],
         ));
   }
-
 }
