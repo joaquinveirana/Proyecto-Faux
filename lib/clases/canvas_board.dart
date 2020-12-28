@@ -1,9 +1,10 @@
 import 'package:faux_the_game/locale/app_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'dart:math';
-import 'dart:math' as math;
 
+import '../widgets/canvas_widgets/custom_icons.dart';
 import '../widgets/other_widgets.dart';
 import '../clases/touch_point.dart';
 import '../styles/fonts.dart';
@@ -12,18 +13,11 @@ import 'package:flutter/material.dart';
 
 class CanvasBoard extends StatefulWidget {
   final Map<String, dynamic> _data;
-  final Function _backButtonCallback;
 
-  CanvasBoard({Map<String, dynamic> data, Function backButtonCallback})
-      : this._data = data,
-        this._backButtonCallback = backButtonCallback;
+  CanvasBoard({Map<String, dynamic> data}) : this._data = data;
 
   Map<String, dynamic> getData() {
     return this._data;
-  }
-
-  Function getBackButtonCallback() {
-    return this._backButtonCallback;
   }
 
   @override
@@ -34,16 +28,18 @@ class _CanvasBoardState extends State<CanvasBoard> {
   final FontStyles _fonts = FontStyles();
   final OtherWidgets _otherWidgets = OtherWidgets();
   final _random = new Random();
+  final CustomIcons _customIcons = CustomIcons();
 
   Map<String, dynamic> _data;
-  List<TouchPoints> points = List();
+  List<TouchPoints> points = [];
   bool _paintOverFinger;
   bool _endgame;
 
   // Paint Properties
+  int _selectedStoke = 1;
   double opacity = 1.0;
   StrokeCap strokeType = StrokeCap.round;
-  double strokeWidth = 3.0;
+  double _strokeWidth = 4.0;
   Color _selectedColor;
 
   // Players Info
@@ -60,18 +56,19 @@ class _CanvasBoardState extends State<CanvasBoard> {
     Colors.cyan[300],
     Colors.blue[800]
   ];
-  List<Color> _listOfRandomColors = List();
+  List<Color> _listOfRandomColors = [];
 
   @override
   void initState() {
     _data = widget.getData();
     _paintOverFinger = false;
     for (var i = 0; i < _data['players'].length; i++) {
-      int randIndex = 0 + _random.nextInt(10);
-      _listOfRandomColors.add(_listOfColors[randIndex]);
-      _listOfColors.removeAt(randIndex);
+      _listOfColors.shuffle();
+      _listOfRandomColors.add(_listOfColors.first);
+      _listOfColors.removeAt(0);
     }
 
+    points = [];
     _currentPlayer = 0;
     _selectedColor = _listOfRandomColors[_currentPlayer];
     _round = 1;
@@ -90,9 +87,9 @@ class _CanvasBoardState extends State<CanvasBoard> {
 
     return OrientationBuilder(
       builder: (context, orientation) {
-        print(orientation);
         return Stack(children: [
           Container(
+            color: _selectedColor.withOpacity(0.15),
             child: orientation == Orientation.portrait
                 ? Column(children: [
                     _toolBar(),
@@ -116,11 +113,21 @@ class _CanvasBoardState extends State<CanvasBoard> {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.only(
             bottomLeft: Radius.circular(18), bottomRight: Radius.circular(18)),
-        color: Colors.black12,
+        color: Colors.white,
       ),
       child: Row(
         children: [
+          Container(
+              margin: EdgeInsets.only(left: 15),
+              child: _otherWidgets.quitButton(context, 3)),
           Expanded(child: Container()),
+          Container(
+            width: 50,
+          ),
+          Container(
+            width: 50,
+            child: _otherWidgets.helpButtonCanvasMenu(context),
+          )
         ],
       ),
     );
@@ -132,7 +139,7 @@ class _CanvasBoardState extends State<CanvasBoard> {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.only(
             topRight: Radius.circular(18), bottomRight: Radius.circular(18)),
-        color: Colors.black12,
+        color: Colors.white,
       ),
       child: Row(
         children: [
@@ -143,8 +150,6 @@ class _CanvasBoardState extends State<CanvasBoard> {
   }
 
   Expanded _drawCanvas(Orientation orientation) {
-    final _offsets = <Offset>[];
-
     return Expanded(
         child: Column(children: [
       Container(
@@ -170,11 +175,17 @@ class _CanvasBoardState extends State<CanvasBoard> {
         child: GestureDetector(
           onPanStart: (details) {
             Offset offset;
-            _paintOverFinger
-                ? offset = Offset(
+            orientation == Orientation.portrait
+                ? _paintOverFinger
+                  ? offset = Offset(
                     details.globalPosition.dx, details.globalPosition.dy - 140)
-                : offset = Offset(
-                    details.globalPosition.dx, details.globalPosition.dy - 100);
+                  : offset = Offset(
+                    details.globalPosition.dx, details.globalPosition.dy - 100)
+                : _paintOverFinger
+                  ? offset = Offset(
+                  details.globalPosition.dx - 50, details.globalPosition.dy - 90)
+                  : offset = Offset(
+                  details.globalPosition.dx - 50, details.globalPosition.dy - 50);
             setState(() {
               RenderBox renderBox = context.findRenderObject();
               points.add(TouchPoints(
@@ -183,16 +194,22 @@ class _CanvasBoardState extends State<CanvasBoard> {
                     ..strokeCap = strokeType
                     ..isAntiAlias = true
                     ..color = _selectedColor.withOpacity(opacity)
-                    ..strokeWidth = strokeWidth));
+                    ..strokeWidth = _strokeWidth));
             });
           },
           onPanUpdate: (details) {
             Offset offset;
-            _paintOverFinger
-                ? offset = Offset(
-                    details.globalPosition.dx, details.globalPosition.dy - 140)
-                : offset = Offset(
-                    details.globalPosition.dx, details.globalPosition.dy - 100);
+            orientation == Orientation.portrait
+                ? _paintOverFinger
+                  ? offset = Offset(
+                  details.globalPosition.dx, details.globalPosition.dy - 140)
+                  : offset = Offset(
+                  details.globalPosition.dx, details.globalPosition.dy - 100)
+                : _paintOverFinger
+                  ? offset = Offset(
+                  details.globalPosition.dx - 50, details.globalPosition.dy - 90)
+                  : offset = Offset(
+                  details.globalPosition.dx - 50, details.globalPosition.dy - 50);
             setState(() {
               RenderBox renderBox = context.findRenderObject();
               points.add(TouchPoints(
@@ -201,7 +218,7 @@ class _CanvasBoardState extends State<CanvasBoard> {
                     ..strokeCap = strokeType
                     ..isAntiAlias = true
                     ..color = _selectedColor.withOpacity(opacity)
-                    ..strokeWidth = strokeWidth));
+                    ..strokeWidth = _strokeWidth));
             });
           },
           onPanEnd: (details) {
@@ -218,12 +235,15 @@ class _CanvasBoardState extends State<CanvasBoard> {
               points.add(null);
             });
           },
-          child: CustomPaint(
-            size: Size.infinite,
-            painter: CanvasPainter(
-              pointsList: points,
-              totalHeight: MediaQuery.of(context).size.height,
-              totalWidth: MediaQuery.of(context).size.width
+          child: Container(
+            child: CustomPaint(
+              size: Size.infinite,
+              painter: CanvasPainter(
+                  pointsList: points,
+                  totalHeight: MediaQuery.of(context).size.height,
+                  totalWidth: MediaQuery.of(context).size.width,
+                  orientation: orientation
+              ),
             ),
           ),
         ),
@@ -237,15 +257,14 @@ class _CanvasBoardState extends State<CanvasBoard> {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.only(
             topLeft: Radius.circular(18), topRight: Radius.circular(18)),
-        color: Colors.black12,
+        color: Colors.white,
       ),
       child: Row(
         children: [
-          Expanded(
-              child: Column(
+          Column(
             children: [
               Container(
-                margin: EdgeInsets.only(top: 5),
+                margin: EdgeInsets.only(top: 5, left: 5),
                 child: Text(
                   AppLocalization.of(context).translate("game_round_label") +
                       (_round).toString() +
@@ -254,29 +273,82 @@ class _CanvasBoardState extends State<CanvasBoard> {
                 ),
               ),
               Container(
+                margin: EdgeInsets.only(left: 5),
                 child: Text(
-                  AppLocalization.of(context).translate("game_player_label") +
+                  AppLocalization.of(context).translate("game_player_label") + " " +
+                      AppLocalization.of(context).translate("game_player") +
+                      " " +
                       (_currentPlayer + 1).toString(),
                   style: _fonts.openSansBold(17, _selectedColor),
                 ),
               ),
             ],
-          )),
+          ),
           VerticalDivider(
             thickness: 1,
             indent: 10,
             endIndent: 10,
             color: Colors.black45,
           ),
-          _paintOverFingerIcon(),
-          _notPaintOverFingerIcon(),
+          InkWell(
+            child: _paintOverFinger
+                ? _customIcons.paintOverFinger(Colors.black)
+                : _customIcons.paintOverFinger(Colors.black26),
+            onTap: () {
+              setState(() {
+                _paintOverFinger = true;
+              });
+            },
+          ),
+          InkWell(
+            child: !_paintOverFinger
+                ? _customIcons.notPaintOverFinger(Colors.black)
+                : _customIcons.notPaintOverFinger(Colors.black26),
+            onTap: () {
+              setState(() {
+                _paintOverFinger = false;
+              });
+            },
+          ),
           VerticalDivider(
             thickness: 1,
             indent: 10,
             endIndent: 10,
             color: Colors.black45,
           ),
-          Expanded(child: Container()),
+          InkWell(
+            child: _selectedStoke == 0
+                ? _customIcons.thinStroke(Colors.black)
+                : _customIcons.thinStroke(Colors.black26),
+            onTap: () {
+              setState(() {
+                _selectedStoke = 0;
+                _strokeWidth = 2.0;
+              });
+            },
+          ),
+          InkWell(
+            child: _selectedStoke == 1
+                ? _customIcons.mediumStroke(Colors.black)
+                : _customIcons.mediumStroke(Colors.black26),
+            onTap: () {
+              setState(() {
+                _selectedStoke = 1;
+                _strokeWidth = 5.0;
+              });
+            },
+          ),
+          InkWell(
+            child: _selectedStoke == 2
+                ? _customIcons.wideStroke(Colors.black)
+                : _customIcons.wideStroke(Colors.black26),
+            onTap: () {
+              setState(() {
+                _selectedStoke = 2;
+                _strokeWidth = 9.0;
+              });
+            },
+          )
         ],
       ),
     );
@@ -284,88 +356,105 @@ class _CanvasBoardState extends State<CanvasBoard> {
 
   Container _drawOptionsVertical() {
     return Container(
-      width: 50,
+      width: 100,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.only(
             topLeft: Radius.circular(18), bottomLeft: Radius.circular(18)),
-        color: Colors.green,
+        color: Colors.white,
       ),
-    );
-  }
-
-  // -----------------------------------DrawOptionsIcons-----------------------------------
-
-  Stack _paintOverFingerIcon() {
-    return Stack(children: [
-      Align(
-        alignment: Alignment.bottomCenter,
-        child: IconButton(
-            icon: FaIcon(
-              FontAwesomeIcons.handPointer,
-              size: _paintOverFinger ? 27 : 22,
-              color: _paintOverFinger ? Colors.black : Colors.black26,
-            ),
-            onPressed: () {
+      child: Column(
+        children: [
+          Column(
+            children: [
+              Container(
+                margin: EdgeInsets.only(top: 10),
+                child: Text(
+                  AppLocalization.of(context).translate("game_round_label") +
+                      (_round).toString() +
+                      "/2",
+                  style: _fonts.openSansSemiBold(16, Colors.black),
+                ),
+              ),
+              Container(
+                child: Text(
+                  " " +
+                      AppLocalization.of(context)
+                          .translate("game_player_label") +
+                      "\n" +
+                      AppLocalization.of(context).translate("game_player") +
+                      (_currentPlayer + 1).toString(),
+                  style: _fonts.openSansBold(16, _selectedColor),
+                ),
+              ),
+            ],
+          ),
+          Divider(
+            thickness: 1,
+            indent: 10,
+            endIndent: 10,
+            color: Colors.black45,
+          ),
+          InkWell(
+            child: _paintOverFinger
+                ? _customIcons.paintOverFingerVertical(Colors.black)
+                : _customIcons.paintOverFingerVertical(Colors.black26),
+            onTap: () {
               setState(() {
                 _paintOverFinger = true;
               });
-            }),
-      ),
-      Positioned(
-        top: _paintOverFinger ? 5 : 9,
-        left: _paintOverFinger ? 14 : 14,
-        child: FaIcon(
-          FontAwesomeIcons.solidCircle,
-          size: _paintOverFinger ? 11 : 10,
-          color: _paintOverFinger ? Colors.black : Colors.black26,
-        ),
-      ),
-      Positioned(
-        top: _paintOverFinger ? 4 : 7,
-        left: _paintOverFinger ? 25 : 23,
-        child: FaIcon(
-          FontAwesomeIcons.waveSquare,
-          size: _paintOverFinger ? 13 : 12,
-          color: _paintOverFinger ? Colors.black : Colors.black26,
-        ),
-      ),
-    ]);
-  }
-
-  Stack _notPaintOverFingerIcon() {
-    return Stack(children: [
-      Align(
-        alignment: Alignment.bottomCenter,
-        child: IconButton(
-            icon: FaIcon(
-              FontAwesomeIcons.handPointer,
-              size: !_paintOverFinger ? 27 : 22,
-              color: !_paintOverFinger ? Colors.black : Colors.black26,
-            ),
-            onPressed: () {
+            },
+          ),
+          InkWell(
+            child: !_paintOverFinger
+                ? _customIcons.notPaintOverFingerVertical(Colors.black)
+                : _customIcons.notPaintOverFingerVertical(Colors.black26),
+            onTap: () {
               setState(() {
                 _paintOverFinger = false;
               });
-            }),
+            },
+          ),
+          Divider(
+            thickness: 1,
+            indent: 10,
+            endIndent: 10,
+            color: Colors.black45,
+          ),
+          InkWell(
+            child: _selectedStoke == 0
+                ? _customIcons.thinStrokeVertical(Colors.black)
+                : _customIcons.thinStrokeVertical(Colors.black26),
+            onTap: () {
+              setState(() {
+                _selectedStoke = 0;
+                _strokeWidth = 2.0;
+              });
+            },
+          ),
+          InkWell(
+            child: _selectedStoke == 1
+                ? _customIcons.mediumStrokeVertical(Colors.black)
+                : _customIcons.mediumStrokeVertical(Colors.black26),
+            onTap: () {
+              setState(() {
+                _selectedStoke = 1;
+                _strokeWidth = 5.0;
+              });
+            },
+          ),
+          InkWell(
+            child: _selectedStoke == 2
+                ? _customIcons.wideStrokeVertical(Colors.black)
+                : _customIcons.wideStrokeVertical(Colors.black26),
+            onTap: () {
+              setState(() {
+                _selectedStoke = 2;
+                _strokeWidth = 9.0;
+              });
+            },
+          )
+        ],
       ),
-      Positioned(
-        top: !_paintOverFinger ? 15 : 18,
-        left: !_paintOverFinger ? 15 : 16,
-        child: FaIcon(
-          FontAwesomeIcons.solidCircle,
-          size: !_paintOverFinger ? 11 : 9,
-          color: !_paintOverFinger ? Colors.black : Colors.black26,
-        ),
-      ),
-      Positioned(
-        top: !_paintOverFinger ? 14 : 18,
-        left: !_paintOverFinger ? 25 : 24,
-        child: FaIcon(
-          FontAwesomeIcons.waveSquare,
-          size: !_paintOverFinger ? 14 : 12,
-          color: !_paintOverFinger ? Colors.black : Colors.black26,
-        ),
-      ),
-    ]);
+    );
   }
 }

@@ -27,7 +27,6 @@ class AdManager {
     return InterstitialAd(
       adUnitId: AdManager.interstitialAdUnitId,
       listener: (MobileAdEvent event) {
-        print("event");
         print(event);
       }
     );

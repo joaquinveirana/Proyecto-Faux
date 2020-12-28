@@ -53,17 +53,13 @@ class _GameState extends State<Game> {
       child: Container(
         color: Colors.grey[200],
         child: Container(
-          margin: EdgeInsets.all(10),
+          margin: EdgeInsets.all(5),
           decoration: BoxDecoration(
               color: Colors.white,
               border: Border.all(color: Colors.black54, width: 2)),
           child: Stack(children: [
             _showCanvas
-                ? CanvasBoard(
-                    data: widget.getData(),
-                    backButtonCallback: () => setState(() {
-                          _showCanvas = false;
-                        }))
+                ? CanvasBoard(data: widget.getData())
                 : _selectionMenu(_widthTotal),
             !_showCanvas
                 ? Positioned(
@@ -145,6 +141,7 @@ class _GameState extends State<Game> {
                 child: InkWell(
                   splashColor: Color(0xff33A3fC),
                   onTap: () {
+                    Navigator.pop(context);
                     Navigator.pop(context);
                     Navigator.pop(context);
                   },

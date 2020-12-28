@@ -22,7 +22,7 @@ class _AboutState extends State<About> {
             Container(
               color: Colors.grey[200],
               child: Container(
-                  margin: EdgeInsets.all(10),
+                  margin: EdgeInsets.all(5),
                   decoration: BoxDecoration(
                       color: Colors.white,
                       border: Border.all(

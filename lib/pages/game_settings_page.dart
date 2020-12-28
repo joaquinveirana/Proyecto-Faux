@@ -82,7 +82,7 @@ class _GameSettingsState extends State<GameSettings> {
         body: Container(
               color: Colors.grey[200],
               child: Container(
-                margin: EdgeInsets.all(10),
+                margin: EdgeInsets.all(5),
                 decoration: BoxDecoration(
                     color: Colors.white,
                     border: Border.all(
@@ -161,7 +161,7 @@ class _GameSettingsState extends State<GameSettings> {
             ],
           ),
           Positioned(top: 10, left: 5, child: _otherWidgets.backButton(context,1)),
-          Positioned(top: 10, right: 5, child: _otherWidgets.helpButton(context)),
+          Positioned(top: 9, right: 10, child: _otherWidgets.helpButtonSettingsMenu(context)),
         ],
       ),
     );
