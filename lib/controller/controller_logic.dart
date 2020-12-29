@@ -62,6 +62,7 @@ class ControllerLogic {
       res.putIfAbsent("players", () => playersList);
       res.putIfAbsent("playOnThisDevice", () => this._playOnThisDevice);
     }
+
     return res;
   }
 

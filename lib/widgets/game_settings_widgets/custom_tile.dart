@@ -52,11 +52,18 @@ class CustomTileState extends State<CustomTile> {
       margin: EdgeInsets.only(top: 7, left: 10, right: 10),
       decoration: BoxDecoration(
         gradient: color,
-        borderRadius: BorderRadius.circular(8)
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.4),
+            spreadRadius: 1,
+            blurRadius: 1,
+            offset: Offset(2, 2),
+        )]
       ),
       child: Material(
         color: Colors.transparent,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(16),
         child: InkWell(
           onTap: () {
             // Llamo funcion en el padre para modificar color de comenzar

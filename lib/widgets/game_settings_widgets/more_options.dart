@@ -13,9 +13,9 @@ class MoreOptions {
       Function impostorFunction,
       Function noImpostorFunction,
       Function playOnThisDeviceFunction,
-      LinearGradient impostorColor,
-      LinearGradient noImpostorColor,
-      LinearGradient playOnThisDeviceColor,
+      bool impostorValue,
+      bool noImpostorValue,
+      bool playOnThisDeviceValue,
       ) {
     return Container(
       child: Column(
@@ -31,29 +31,29 @@ class MoreOptions {
             child: Column(
               children: [
                 _optionButton(
-                    true,
+                    false,
+                    impostorValue,
                     width,
                     controller,
                     impostorFunction,
-                    impostorColor,
                     'game_settings_more_options_all_impostors',
                     'game_settings_more_options_all_impostors_desc',
                     context),
                 _optionButton(
                     false,
+                    noImpostorValue,
                     width,
                     controller,
                     noImpostorFunction,
-                    noImpostorColor,
                     'game_settings_more_options_no_impostors',
                     'game_settings_more_options_no_impostors_desc',
                     context),
                 _optionButton(
-                    false,
+                    true,
+                    playOnThisDeviceValue,
                     width,
                     controller,
                     playOnThisDeviceFunction,
-                    playOnThisDeviceColor,
                     'game_settings_more_options_play_device',
                     'game_settings_more_options_play_device_desc',
                     context),
@@ -66,42 +66,61 @@ class MoreOptions {
   }
 
   Container _optionButton(
-      bool isFirst,
+      bool isLast,
+      bool state,
       double width,
       ControllerLogic controller,
       Function tapFunction,
-      LinearGradient color,
       String title,
       String subTitle,
       BuildContext context) {
     return Container(
-      height: 60,
+      height: isLast
+          ? 70
+          : 60,
       width: width * 0.9,
       padding: EdgeInsets.symmetric(vertical: 5),
       decoration: BoxDecoration(
           border: Border(
-            bottom: BorderSide(color: Colors.black, width: 1),
-            top: isFirst == true
-                ? BorderSide(color: Colors.black, width: 1)
-                : BorderSide(width: 0),
+            bottom: isLast
+                ? BorderSide(color: Colors.transparent, width: 0)
+                : BorderSide(color: Colors.black, width: 1),
           ),
-          gradient: color
       ),
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          onTap: () {
-            tapFunction();
-          },
-          child: Column(
-            children: [
-              Text(AppLocalization.of(context).translate(title),
-                  style: _fontStyles.openSansBold(13, Colors.black)),
-              Text(AppLocalization.of(context).translate(subTitle),
-                  style: _fontStyles.openSans(12, Colors.black)),
-            ],
+      child: Row(
+        children: [
+          Expanded(
+            flex: 4,
+            child: Column(
+              children: [
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Container(
+                    child: Text(AppLocalization.of(context).translate(title),
+                        style: _fontStyles.openSansBold(14, Colors.black)),
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Container(
+                    child: Text(AppLocalization.of(context).translate(subTitle),
+                        style: _fontStyles.openSans(13, Colors.black)),
+                  ),
+                ),
+              ],
+            ),
           ),
-        ),
+          Expanded(
+              child: Container(
+                child: Switch(
+                  value: state,
+                  onChanged: (value) {
+                    tapFunction(value);
+                  },
+                ),
+              )
+          )
+        ],
       ),
     );
   }

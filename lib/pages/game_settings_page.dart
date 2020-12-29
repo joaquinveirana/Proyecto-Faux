@@ -36,16 +36,17 @@ class _GameSettingsState extends State<GameSettings> {
   int _numImpostors = 1;
   int _numPlayers = 5;
   List<int> _categoriesSelected = [];
-  LinearGradient _allImpostorsColor,
-      _noImpostorsColor,
-      _playOnThisDeviceColor,
-      _beginButtonColor,
+  LinearGradient _beginButtonColor,
       _selectedOptionButton,
       _unselectedOptionButton,
       _unselectedBeginButton;
   PageController _pageController;
   String _beginButtonText, _searchText;
-  bool _beginButtonIsReady, _showSecretCategory;
+  bool _beginButtonIsReady,
+      _showSecretCategory,
+      _allImpostorsValue,
+      _noImpostorsValue,
+      _playOnThisDeviceValue;
   InterstitialAd _newCategoryAd;
 
   @override
@@ -58,9 +59,9 @@ class _GameSettingsState extends State<GameSettings> {
     _selectedOptionButton = _colors.gameSettingsSelectedButtonGradient();
     _unselectedOptionButton = _colors.gameSettingsUnselectedButtonGradient();
     _unselectedBeginButton = _colors.gameSettingsUnselectedButtonGradient();
-    _playOnThisDeviceColor = _unselectedOptionButton;
-    _allImpostorsColor = _unselectedOptionButton;
-    _noImpostorsColor = _unselectedOptionButton;
+    _playOnThisDeviceValue = false;
+    _allImpostorsValue = false;
+    _noImpostorsValue = false;
     _beginButtonColor = _unselectedBeginButton;
     _beginButtonText = '';
     _searchText = '';
@@ -181,33 +182,27 @@ class _GameSettingsState extends State<GameSettings> {
                   context,
                   width,
                   _controllerLogic,
-                      () => {
+                      (val) => {
                     setState(() {
                       _controllerLogic.setAllImpostors();
-                      _allImpostorsColor == _unselectedOptionButton
-                          ? _allImpostorsColor = _selectedOptionButton
-                          : _allImpostorsColor = _unselectedOptionButton;
+                      _allImpostorsValue = val;
                     })
                   },
-                      () => {
+                      (val) => {
                     setState(() {
                       _controllerLogic.setNoImpostors();
-                      _noImpostorsColor == _unselectedOptionButton
-                          ? _noImpostorsColor = _selectedOptionButton
-                          : _noImpostorsColor = _unselectedOptionButton;
+                      _noImpostorsValue = val;
                     })
                   },
-                      () => {
+                      (val) => {
                     setState(() {
                       _controllerLogic.setPlayOnThisDevice();
-                      _playOnThisDeviceColor == _unselectedOptionButton
-                          ? _playOnThisDeviceColor = _selectedOptionButton
-                          : _playOnThisDeviceColor = _unselectedOptionButton;
+                      _playOnThisDeviceValue = val;
                     })
                   },
-                  _allImpostorsColor,
-                  _noImpostorsColor,
-                  _playOnThisDeviceColor
+                  _allImpostorsValue,
+                  _noImpostorsValue,
+                  _playOnThisDeviceValue
               )
             ],
           ),
@@ -241,14 +236,14 @@ class _GameSettingsState extends State<GameSettings> {
                 Expanded(
                   child: Container(
                     decoration: BoxDecoration(
-                        color: Colors.white54,
+                        color: Color(0xfff6f7f8),
                         borderRadius: BorderRadius.circular(8),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.grey.withOpacity(0.6),
-                            spreadRadius: 1.5,
-                            blurRadius: 2,
-                            offset: Offset(0, 2.5),
+                            color: Colors.grey.withOpacity(0.4),
+                            spreadRadius: 1,
+                            blurRadius: 1,
+                            offset: Offset(2.5, 2.5),
                           )
                         ]
                     ),
@@ -279,14 +274,14 @@ class _GameSettingsState extends State<GameSettings> {
                 Expanded(
                   child: Container(
                     decoration: BoxDecoration(
-                        color: Colors.white54,
+                        color: Color(0xfff6f7f8),
                         borderRadius: BorderRadius.circular(8),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.grey.withOpacity(0.6),
-                            spreadRadius: 1.5,
-                            blurRadius: 2,
-                            offset: Offset(0, 2.5),
+                            color: Colors.grey.withOpacity(0.4),
+                            spreadRadius: 1,
+                            blurRadius: 1,
+                            offset: Offset(2.5, 2.5),
                           )
                         ]
                     ),

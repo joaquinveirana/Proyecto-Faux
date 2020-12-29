@@ -39,11 +39,11 @@ class _CustomAdTileState extends State<CustomAdTile> {
               offset: Offset(2, 2), // changes position of shadow
             ),
           ],
-          borderRadius: BorderRadius.circular(8)
+          borderRadius: BorderRadius.circular(16)
       ),
       child: Material(
         color: Colors.transparent,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(16),
         child: InkWell(
           onTap: () {
             // Llamo funcion en el padre para modificar color de comenzar

@@ -21,7 +21,7 @@ class AppColors {
     return LinearGradient(
         begin: Alignment.centerLeft,
         end: Alignment.centerRight,
-        colors: [Colors.grey[300], Colors.grey[300]]
+        colors: [Color(0xfff6f7f8), Color(0xfff6f7f8)]
     );
   }
 
