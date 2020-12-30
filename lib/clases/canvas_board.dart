@@ -89,7 +89,7 @@ class _CanvasBoardState extends State<CanvasBoard> {
       builder: (context, orientation) {
         return Stack(children: [
           Container(
-            color: _selectedColor.withOpacity(0.15),
+            color: _selectedColor.withOpacity(0.12),
             child: orientation == Orientation.portrait
                 ? Column(children: [
                     _toolBar(),
@@ -123,6 +123,20 @@ class _CanvasBoardState extends State<CanvasBoard> {
           Expanded(child: Container()),
           Container(
             width: 50,
+          ),
+          Container(
+            width: 50,
+            margin: EdgeInsets.only(top: 2),
+            child: IconButton(
+              icon: FaIcon(
+                FontAwesomeIcons.chromecast,
+                size: 20,
+                color: Colors.black54,
+              ),
+              onPressed: () {
+
+              },
+            ),
           ),
           Container(
             width: 50,
