@@ -255,7 +255,10 @@ class _GameSettingsState extends State<GameSettings> {
                                 'game_settings_number_of_players_title') +
                                 ":  $_numPlayers",
                             style: _fontStyles.openSans(18, Colors.black)),
-                        Divider(),
+                        Divider(
+                          thickness: 1,
+                          color: Colors.black45,
+                        ),
                         NumberPicker.integer(
                             initialValue: _numPlayers,
                             minValue: 5,
@@ -293,7 +296,10 @@ class _GameSettingsState extends State<GameSettings> {
                                 'game_settings_number_of_impostors_title') +
                                 ":  $_numImpostors",
                             style: _fontStyles.openSans(18, Colors.black)),
-                        Divider(),
+                        Divider(
+                          thickness: 1,
+                          color: Colors.black45,
+                        ),
                         NumberPicker.integer(
                             initialValue: _numImpostors,
                             minValue: 1,

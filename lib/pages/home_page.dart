@@ -176,10 +176,10 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           borderRadius: BorderRadius.circular(6),
           boxShadow: [
             BoxShadow(
-              color: Colors.grey.withOpacity(0.5),
+              color: Colors.grey.withOpacity(0.4),
               spreadRadius: 1,
-              blurRadius: 2,
-              offset: Offset(2, 2), // changes position of shadow
+              blurRadius: 1,
+              offset: Offset(1, 2), // changes position of shadow
             )
           ]),
       margin: EdgeInsets.all(10),

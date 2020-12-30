@@ -141,9 +141,17 @@ class _CanvasBoardState extends State<CanvasBoard> {
             topRight: Radius.circular(18), bottomRight: Radius.circular(18)),
         color: Colors.white,
       ),
-      child: Row(
+      child: Column(
         children: [
+          Container(
+              margin: EdgeInsets.only(top: 10, left: 0),
+              child: _otherWidgets.quitButton(context, 3)
+          ),
           Expanded(child: Container()),
+          Container(
+            margin: EdgeInsets.only(bottom: 10),
+            child: _otherWidgets.helpButtonCanvasMenu(context),
+          )
         ],
       ),
     );
@@ -381,7 +389,7 @@ class _CanvasBoardState extends State<CanvasBoard> {
                       AppLocalization.of(context)
                           .translate("game_player_label") +
                       "\n" +
-                      AppLocalization.of(context).translate("game_player") +
+                      AppLocalization.of(context).translate("game_player") + " " +
                       (_currentPlayer + 1).toString(),
                   style: _fonts.openSansBold(16, _selectedColor),
                 ),

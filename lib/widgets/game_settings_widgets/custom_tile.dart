@@ -58,7 +58,9 @@ class CustomTileState extends State<CustomTile> {
             color: Colors.grey.withOpacity(0.4),
             spreadRadius: 1,
             blurRadius: 1,
-            offset: Offset(2, 2),
+            offset: _selected
+                ? Offset(0, 0)
+                : Offset(2, 2),
         )]
       ),
       child: Material(
