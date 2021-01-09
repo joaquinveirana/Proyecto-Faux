@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../locale/app_localization.dart';
-import '../styles/colors.dart';
 import '../styles/fonts.dart';
 import '../widgets/other_widgets.dart';
 import '../clases/canvas_board.dart';
@@ -22,7 +21,6 @@ class Game extends StatefulWidget {
 
 class _GameState extends State<Game> {
   final FontStyles _fonts = FontStyles();
-  final AppColors _colors = AppColors();
   final OtherWidgets _otherWidgets = OtherWidgets();
   Map<String, dynamic> _matchData;
   bool _showCanvas;

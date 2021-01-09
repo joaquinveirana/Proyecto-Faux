@@ -3,9 +3,38 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class CustomIcons {
 
+  Container screenShot(Color color) {
+    return Container(
+      child: Stack(
+        children: [
+          Positioned(
+              top: 10,
+              left: 15,
+              child: FaIcon(
+                FontAwesomeIcons.tabletAlt,
+                size: 30,
+                color: color,
+              )
+          ),
+          Positioned(
+            top: 15,
+            left: 20,
+            child: Transform.rotate(
+              angle: 3 * 3.1415926535897932 / 2,
+              child: FaIcon(
+                FontAwesomeIcons.cut,
+                size: 17,
+                color: color,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   Container paintOverFinger(Color color) {
     return Container(
-      width: 40,
       child: Stack(children: [
         Positioned(
           bottom: 3,
@@ -40,7 +69,6 @@ class CustomIcons {
 
   Container notPaintOverFinger(Color color) {
     return Container(
-      width: 40,
       child: Stack(children: [
         Positioned(
           bottom: 3,
@@ -75,7 +103,6 @@ class CustomIcons {
 
   Container thinStroke(Color color) {
     return Container(
-      width: 40,
       child: Stack(
         children: [
           Positioned(
@@ -103,12 +130,11 @@ class CustomIcons {
 
   Container mediumStroke(Color color) {
     return Container(
-      width: 50,
       child: Stack(
         children: [
           Positioned(
               top: 20,
-              left: 10,
+              left: 0,
               child: FaIcon(
                 FontAwesomeIcons.solidCircle,
                 size: 18,
@@ -117,7 +143,7 @@ class CustomIcons {
           ),
           Positioned(
             top: 20,
-            left: 25,
+            left: 16,
             child: FaIcon(
               FontAwesomeIcons.paintBrush,
               size: 20,
@@ -131,24 +157,23 @@ class CustomIcons {
 
   Container wideStroke(Color color) {
     return Container(
-      width: 65,
       child: Stack(
         children: [
           Positioned(
               top: 18,
-              left: 9,
+              left: 0,
               child: FaIcon(
                 FontAwesomeIcons.solidCircle,
-                size: 25,
+                size: 23,
                 color: color,
               )
           ),
           Positioned(
             top: 18,
-            left: 33,
+            left: 22,
             child: FaIcon(
               FontAwesomeIcons.paintBrush,
-              size: 25,
+              size: 23,
               color: color,
             ),
           ),

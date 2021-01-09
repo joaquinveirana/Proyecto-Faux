@@ -33,12 +33,14 @@ class _GameSettingsState extends State<GameSettings> {
   final MoreOptions _moreOptionsClass = MoreOptions();
   ControllerLogic _controllerLogic = ControllerLogic();
 
+  int _helpIndex;
+  Positioned _helpMsg1, _helpMsg2, _helpMsg3;
+
   int _numImpostors = 1;
   int _numPlayers = 5;
   List<int> _categoriesSelected = [];
   LinearGradient _beginButtonColor,
       _selectedOptionButton,
-      _unselectedOptionButton,
       _unselectedBeginButton;
   PageController _pageController;
   String _beginButtonText, _searchText;
@@ -51,13 +53,11 @@ class _GameSettingsState extends State<GameSettings> {
 
   @override
   void initState() {
-    super.initState();
     _newCategoryAd = AdManager.getNewInterstitialAd;
     _newCategoryAd.load();
 
     _controllerLogic = ControllerLogic();
     _selectedOptionButton = _colors.gameSettingsSelectedButtonGradient();
-    _unselectedOptionButton = _colors.gameSettingsUnselectedButtonGradient();
     _unselectedBeginButton = _colors.gameSettingsUnselectedButtonGradient();
     _playOnThisDeviceValue = false;
     _allImpostorsValue = false;
@@ -68,6 +68,11 @@ class _GameSettingsState extends State<GameSettings> {
     _showSecretCategory = false;
     _beginButtonIsReady = false;
     _pageController = PageController(initialPage: 0);
+    _helpIndex = 0;
+    _helpMsg1 = Positioned(top: 0, left: 0, child: Container(),);
+    _helpMsg2 = Positioned(top: 0, left: 0, child: Container(),);
+    _helpMsg3 = Positioned(top: 0, left: 0, child: Container(),);
+    super.initState();
   }
 
   @override
@@ -80,36 +85,76 @@ class _GameSettingsState extends State<GameSettings> {
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomPadding: false,
-        body: Container(
-              color: Colors.grey[200],
-              child: Container(
-                margin: EdgeInsets.all(5),
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(
-                        color: Colors.black54,
-                        width: 2
-                    )
-                ),
-                child: Column(
-                  children: [
-                    Expanded(
-                      flex: 7,
-                      child: _categorySelector(context, _heightTotal * 0.5),
-                    ),
-                    Container(
-                        height: 320,
-                        child: _optionsMenu(_widthTotal)
-                    ),
-                    _beginButtonIsReady == true
-                        ? Expanded(
-                      flex: 1,
-                      child: _beginGameButton(),
-                    )
-                        : Container()
-                  ],
-                ),
-              )
+        body: Stack(
+          children: [
+            Container(
+                color: Colors.grey[200],
+                child: Container(
+                  margin: EdgeInsets.all(5),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      border: Border.all(
+                          color: Colors.black54,
+                          width: 2
+                      )
+                  ),
+                  child: Column(
+                    children: [
+                      Expanded(
+                        flex: 7,
+                        child: _categorySelector(context, _heightTotal * 0.5, _widthTotal),
+                      ),
+                      Container(
+                          height: 320,
+                          child: _optionsMenu(_widthTotal)
+                      ),
+                      _beginButtonIsReady == true
+                          ? Expanded(
+                        flex: 1,
+                        child: _beginGameButton(),
+                      )
+                          : Container()
+                    ],
+                  ),
+                )
+            ),
+            _helpIndex != 0
+                ? InkWell(
+                  onTap: () {
+                    if (_helpIndex == 1) {
+                      setState(() {
+                        _helpMsg1 = Positioned(top: 0, left: 0, child: Container(),);
+                        _helpMsg2 = _otherWidgets.helpMessage(_widthTotal, _widthTotal * 0.8, 130,  AppLocalization.of(context).translate('help_msj_2'), _heightTotal * 0.45, _widthTotal * 0.1 - 5);
+                        _helpMsg3 = Positioned(top: 0, left: 0, child: Container(),);
+                        _helpIndex = 2;
+                      });
+                    } else if (_helpIndex == 2) {
+                      setState(() {
+                        _helpMsg1 = Positioned(top: 0, left: 0, child: Container(),);
+                        _helpMsg2 = Positioned(top: 0, left: 0, child: Container(),);
+                        _helpMsg3 = _otherWidgets.helpMessageFromBottom(_widthTotal, _widthTotal * 0.8, 130,  AppLocalization.of(context).translate('help_msj_3'), 40, _widthTotal * 0.1 - 5);
+                        _helpIndex = 3;
+                      });
+                    } else if (_helpIndex == 3) {
+                      setState(() {
+                        _helpMsg1 = Positioned(top: 0, left: 0, child: Container(),);
+                        _helpMsg2 = Positioned(top: 0, left: 0, child: Container(),);
+                        _helpMsg3 = Positioned(top: 0, left: 0, child: Container(),);
+                        _helpIndex = 0;
+                      });
+                    }
+                  },
+                  child: Container(
+                    height: double.infinity,
+                    width: double.infinity,
+                    color: Colors.black38,
+                  ),
+                )
+                : Container(),
+            _helpMsg1,
+            _helpMsg2,
+            _helpMsg3,
+          ]
         ),
       ),
     );
@@ -117,7 +162,7 @@ class _GameSettingsState extends State<GameSettings> {
 
   // ============================== SECTIONS ==============================
 
-  Container _categorySelector(BuildContext context, double containerHeight) {
+  Container _categorySelector(BuildContext context, double containerHeight, double width) {
     return Container(
       child: Stack(
         children: [
@@ -142,17 +187,9 @@ class _GameSettingsState extends State<GameSettings> {
                   decoration: BoxDecoration(
                     color: Colors.white,
                     border: Border(
-                        top: BorderSide(color: Colors.black, width: 0.5),
-                        bottom: BorderSide(color: Colors.black, width: 0.5)
-                    ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.6),
-                        spreadRadius: 1.5,
-                        blurRadius: 3,
-                        offset: Offset(0, 2.5),
-                      ),
-                    ],
+                        top: BorderSide(color: Colors.black, width: 0.2),
+                        bottom: BorderSide(color: Colors.black, width: 0.3)
+                    )
                   ),
                   height: containerHeight * 0.9 - 60,
                   child: _controller
@@ -162,7 +199,19 @@ class _GameSettingsState extends State<GameSettings> {
             ],
           ),
           Positioned(top: 10, left: 5, child: _otherWidgets.backButton(context,1)),
-          Positioned(top: 9, right: 10, child: _otherWidgets.helpButtonSettingsMenu(context)),
+          Positioned(top: 9, right: 10,
+              child: Container(
+                child: IconButton(
+                  icon: Icon(Icons.help, color: Colors.black, size: 25,),
+                  onPressed: () {
+                    setState(() {
+                      _helpMsg1 = _otherWidgets.helpMessage(width, width * 0.8, 130,  AppLocalization.of(context).translate('help_msj_1'), 20, width * 0.1 - 5);
+                      _helpIndex = 1;
+                    });
+                  },
+                ),
+              )
+          )
         ],
       ),
     );
@@ -240,8 +289,8 @@ class _GameSettingsState extends State<GameSettings> {
                         borderRadius: BorderRadius.circular(8),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.grey.withOpacity(0.4),
-                            spreadRadius: 1,
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 0.7,
                             blurRadius: 1,
                             offset: Offset(2.5, 2.5),
                           )
@@ -256,7 +305,7 @@ class _GameSettingsState extends State<GameSettings> {
                                 ":  $_numPlayers",
                             style: _fontStyles.openSans(18, Colors.black)),
                         Divider(
-                          thickness: 1,
+                          thickness: 0.5,
                           color: Colors.black45,
                         ),
                         NumberPicker.integer(
@@ -281,8 +330,8 @@ class _GameSettingsState extends State<GameSettings> {
                         borderRadius: BorderRadius.circular(8),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.grey.withOpacity(0.4),
-                            spreadRadius: 1,
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 0.8,
                             blurRadius: 1,
                             offset: Offset(2.5, 2.5),
                           )
@@ -297,7 +346,7 @@ class _GameSettingsState extends State<GameSettings> {
                                 ":  $_numImpostors",
                             style: _fontStyles.openSans(18, Colors.black)),
                         Divider(
-                          thickness: 1,
+                          thickness: 0.5,
                           color: Colors.black45,
                         ),
                         NumberPicker.integer(

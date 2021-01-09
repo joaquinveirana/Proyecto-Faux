@@ -34,7 +34,7 @@ class _HowToPlayState extends State<HowToPlay> {
                             scrollDirection: Axis.vertical,
                             child: Container(
                               width: double.infinity,
-                              height: 2500,
+                              height: 2700,
                               child: Column(
                                 children: [
                                   Container(

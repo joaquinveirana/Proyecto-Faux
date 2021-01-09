@@ -248,7 +248,8 @@ class _GameStageState extends State<GameStage> {
                     width: 280,
                     height: 100,
                     decoration: BoxDecoration(
-                      gradient: !lastPlayer ? _colors.gameSettingsUnselectedButtonGradient() : _colors.gameSettingsSelectedButtonGradient(),
+                      borderRadius: BorderRadius.circular(4),
+                      gradient: !lastPlayer ? _colors.gameSettingsDarkerUnselectedButtonGradient() : _colors.gameSettingsSelectedButtonGradient(),
                     ),
                     child: Center(
                         child: !lastPlayer
@@ -285,6 +286,7 @@ class _GameStageState extends State<GameStage> {
                     width: 280,
                     height: 100,
                     decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(4),
                       gradient: _colors.gameSettingsSelectedButtonGradient(),
                     ),
                     child: Center(

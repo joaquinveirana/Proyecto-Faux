@@ -48,7 +48,7 @@ class _GradientEffectState extends State<GradientEffect> {
   Widget build(BuildContext context) {
 
     return AnimatedContainer(
-      duration: Duration(seconds: 2),
+      duration: Duration(seconds: 1),
       onEnd: () {
         setState(() {
           index >= colorList.length - 1 ? index = 0 : index += 1;

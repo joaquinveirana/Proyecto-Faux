@@ -76,8 +76,8 @@ class MoreOptions {
       BuildContext context) {
     return Container(
       height: isLast
-          ? 70
-          : 60,
+          ? 80
+          : 70,
       width: width * 0.9,
       padding: EdgeInsets.symmetric(vertical: 5),
       decoration: BoxDecoration(

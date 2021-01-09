@@ -6,6 +6,13 @@
   "home_page_about_button_label": "About",
   "home_page_language_button_label": "Language",
 
+  "help_msj_1": "Scroll on this list and tap on one o more categories to select them, the number on the right shows how many words there are in the category",
+  "help_msj_2": "Select the amount of players and impostors, swipe right for extra options!",
+  "help_msj_3": "Once at least one category is selected, the start button will appear here",
+
+  "help_msj_canvas_1": "Draw with your finger over the canvas. Remember that if you lift your finger while you are drawing your turn ends!",
+  "help_msj_canvas_2": "The player turn and the number of round is shown here. You can change the stoke's width and set the draw a bit above the finger or exactly over the point your finger",
+
   "game_settings_main_title": "Game Settings",
   "game_settings_categories_title": "Select your favourite categories!",
   "game_settings_difficulty_label_impostor": "Difficulty for the impostor",
@@ -96,6 +103,7 @@
   "game_player_label": "Turn:",
   "game_player": "Player",
   "game_round_label": "Round: ",
+  "game_round_label_end": "Game Over!",
 
   "topic_1": {
     "id": "1",

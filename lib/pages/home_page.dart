@@ -59,7 +59,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                     ),
                   ),
                   Expanded(
-                    flex: 6,
+                    flex: 9,
                     child: _homeButtons(),
                   ),
                   Expanded(
@@ -77,7 +77,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
   Container _logoGradient() {
     return Container(
-      margin: EdgeInsets.only(top: 30, left: 30, right: 30, bottom: 10),
+      margin: EdgeInsets.only(top: 20, left: 30, right: 30, bottom: 0),
       width: double.infinity,
       child: Column(
         children: [
@@ -134,7 +134,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                     .push(_navigator.createRoute(GameSettings(lang: _appLang,))),
                 AppLocalization.of(context)
                     .translate('home_page_play_button_label'),
-                [Color(0xff30c0cc), Color(0xff33A3fC)],
+                [Color(0xff33A3fC), Color(0xff33A3fC)],
                 20,
                 false)),
         Expanded(
@@ -143,7 +143,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                     .push(_navigator.createRoute(HowToPlay())),
                 AppLocalization.of(context)
                     .translate('home_page_how_to_play_button_label'),
-                [Color(0xff30c0cc), Color(0xff33A3fC)],
+                [Color(0xff33A3fC), Color(0xff33A3fC)],
                 20,
                 false)),
         Expanded(
@@ -152,7 +152,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                         .push(_navigator.createRoute(About())),
                 AppLocalization.of(context)
                     .translate('home_page_about_button_label'),
-                [Color(0xff30c0cc), Color(0xff33A3fC)],
+                [Color(0xff33A3fC), Color(0xff33A3fC)],
                 20,
                 false)),
         Expanded(
@@ -160,7 +160,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 () => _homePageAlert.showLanguageAlert(context, _setLanguage, _appLang),
                 AppLocalization.of(context)
                     .translate('home_page_language_button_label'),
-                [Color(0xff30c0cc), Color(0xff33A3fC)],
+                [Color(0xff33A3fC), Color(0xff33A3fC)],
                 20,
                 true)),
       ],
@@ -172,8 +172,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     return Container(
       width: 300,
       decoration: BoxDecoration(
-          gradient: LinearGradient(colors: backgroundColors),
-          borderRadius: BorderRadius.circular(6),
+          gradient: LinearGradient(colors: backgroundColors, begin: Alignment.topLeft, end: Alignment.bottomRight),
+          borderRadius: BorderRadius.circular(12),
           boxShadow: [
             BoxShadow(
               color: Colors.grey.withOpacity(0.4),

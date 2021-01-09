@@ -55,8 +55,8 @@ class CustomTileState extends State<CustomTile> {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.4),
-            spreadRadius: 1,
+            color: Colors.grey.withOpacity(0.5),
+            spreadRadius: 0.7,
             blurRadius: 1,
             offset: _selected
                 ? Offset(0, 0)
