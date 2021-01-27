@@ -2,6 +2,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
+import 'package:gallery_saver/gallery_saver.dart';
+import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:screenshot/screenshot.dart';
 
 import '../locale/app_localization.dart';
@@ -10,7 +12,6 @@ import '../widgets/other_widgets.dart';
 import '../clases/touch_point.dart';
 import '../styles/fonts.dart';
 import '../clases/painter_override.dart';
-import '../controller/io_functions.dart';
 
 class CanvasBoard extends StatefulWidget {
   final Map<String, dynamic> _data;
@@ -31,7 +32,6 @@ class _CanvasBoardState extends State<CanvasBoard> {
   final CustomIcons _customIcons = CustomIcons();
 
   final ScreenshotController screenshotController = ScreenshotController();
-  final IoFunctions _io = IoFunctions();
 
   Map<String, dynamic> _data;
   List<TouchPoints> points = [];
@@ -300,112 +300,120 @@ class _CanvasBoardState extends State<CanvasBoard> {
   }
 
   Expanded _drawCanvas(Orientation orientation) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return Expanded(
         child: Screenshot(
       controller: screenshotController,
-      child: Column(children: [
-        Container(
-          height: 50,
-          child: Column(
-            children: [
-              Center(
-                child: Text(_data['categoryDecoded'],
-                    style: orientation == Orientation.portrait
-                        ? _fonts.openSans(25, Colors.black)
-                        : _fonts.openSans(22, Colors.black)),
-              ),
-              Divider(
-                thickness: 1,
-                indent: orientation == Orientation.portrait ? 40 : 150,
-                endIndent: orientation == Orientation.portrait ? 40 : 150,
-                color: Colors.black54,
-              )
-            ],
-          ),
-        ),
-        Expanded(
-          child: GestureDetector(
-            onPanStart: (details) {
-              if (!_endgame) {
-                Offset offset;
-                orientation == Orientation.portrait
-                    ? _paintOverFinger
-                        ? offset = Offset(details.globalPosition.dx,
-                            details.globalPosition.dy - 140)
-                        : offset = Offset(details.globalPosition.dx,
-                            details.globalPosition.dy - 100)
-                    : _paintOverFinger
-                        ? offset = Offset(details.globalPosition.dx - 50,
-                            details.globalPosition.dy - 90)
-                        : offset = Offset(details.globalPosition.dx - 50,
-                            details.globalPosition.dy - 50);
-                setState(() {
-                  RenderBox renderBox = context.findRenderObject();
-                  points.add(TouchPoints(
-                      points: renderBox.globalToLocal(offset),
-                      paint: Paint()
-                        ..strokeCap = strokeType
-                        ..isAntiAlias = true
-                        ..color = _selectedColor.withOpacity(opacity)
-                        ..strokeWidth = _strokeWidth));
-                });
-              }
-            },
-            onPanUpdate: (details) {
-              if (!_endgame) {
-                Offset offset;
-                orientation == Orientation.portrait
-                    ? _paintOverFinger
-                        ? offset = Offset(details.globalPosition.dx,
-                            details.globalPosition.dy - 140)
-                        : offset = Offset(details.globalPosition.dx,
-                            details.globalPosition.dy - 100)
-                    : _paintOverFinger
-                        ? offset = Offset(details.globalPosition.dx - 50,
-                            details.globalPosition.dy - 90)
-                        : offset = Offset(details.globalPosition.dx - 50,
-                            details.globalPosition.dy - 50);
-                setState(() {
-                  RenderBox renderBox = context.findRenderObject();
-                  points.add(TouchPoints(
-                      points: renderBox.globalToLocal(offset),
-                      paint: Paint()
-                        ..strokeCap = strokeType
-                        ..isAntiAlias = true
-                        ..color = _selectedColor.withOpacity(opacity)
-                        ..strokeWidth = _strokeWidth));
-                });
-              }
-            },
-            onPanEnd: (details) {
-              setState(() {
-                if (!_endgame) {
-                  _currentPlayer += 1;
-                  if (_currentPlayer == _data['players'].length) {
-                    _round += 1;
-                    _currentPlayer = 0;
-                    if (_round == 3) {
-                      _endgame = true;
-                    }
-                  }
-                  _selectedColor = _listOfRandomColors[_currentPlayer];
-                  points.add(null);
-                }
-              });
-            },
-            child: Container(
-              child: CustomPaint(
-                size: Size.infinite,
-                painter: CanvasPainter(
-                    pointsList: points,
-                    totalHeight: MediaQuery.of(context).size.height,
-                    totalWidth: MediaQuery.of(context).size.width,
-                    orientation: orientation),
+      child: SizedBox(
+        height: height,
+        width: width,
+        child: Container(
+          child: Column(children: [
+            Container(
+              height: 50,
+              child: Column(
+                children: [
+                  Center(
+                    child: Text(_data['categoryDecoded'],
+                        style: orientation == Orientation.portrait
+                            ? _fonts.openSans(25, Colors.black)
+                            : _fonts.openSans(22, Colors.black)),
+                  ),
+                  Divider(
+                    thickness: 1,
+                    indent: orientation == Orientation.portrait ? 40 : 150,
+                    endIndent: orientation == Orientation.portrait ? 40 : 150,
+                    color: Colors.black54,
+                  )
+                ],
               ),
             ),
-          ),
+            Expanded(
+              child: GestureDetector(
+                onPanStart: (details) {
+                  if (!_endgame) {
+                    Offset offset;
+                    orientation == Orientation.portrait
+                        ? _paintOverFinger
+                            ? offset = Offset(details.globalPosition.dx,
+                                details.globalPosition.dy - 140)
+                            : offset = Offset(details.globalPosition.dx,
+                                details.globalPosition.dy - 100)
+                        : _paintOverFinger
+                            ? offset = Offset(details.globalPosition.dx - 50,
+                                details.globalPosition.dy - 90)
+                            : offset = Offset(details.globalPosition.dx - 50,
+                                details.globalPosition.dy - 50);
+                    setState(() {
+                      RenderBox renderBox = context.findRenderObject();
+                      points.add(TouchPoints(
+                          points: renderBox.globalToLocal(offset),
+                          paint: Paint()
+                            ..strokeCap = strokeType
+                            ..isAntiAlias = true
+                            ..color = _selectedColor.withOpacity(opacity)
+                            ..strokeWidth = _strokeWidth));
+                    });
+                  }
+                },
+                onPanUpdate: (details) {
+                  if (!_endgame) {
+                    Offset offset;
+                    orientation == Orientation.portrait
+                        ? _paintOverFinger
+                            ? offset = Offset(details.globalPosition.dx,
+                                details.globalPosition.dy - 140)
+                            : offset = Offset(details.globalPosition.dx,
+                                details.globalPosition.dy - 100)
+                        : _paintOverFinger
+                            ? offset = Offset(details.globalPosition.dx - 50,
+                                details.globalPosition.dy - 90)
+                            : offset = Offset(details.globalPosition.dx - 50,
+                                details.globalPosition.dy - 50);
+                    setState(() {
+                      RenderBox renderBox = context.findRenderObject();
+                      points.add(TouchPoints(
+                          points: renderBox.globalToLocal(offset),
+                          paint: Paint()
+                            ..strokeCap = strokeType
+                            ..isAntiAlias = true
+                            ..color = _selectedColor.withOpacity(opacity)
+                            ..strokeWidth = _strokeWidth));
+                    });
+                  }
+                },
+                onPanEnd: (details) {
+                  setState(() {
+                    if (!_endgame) {
+                      _currentPlayer += 1;
+                      if (_currentPlayer == _data['players'].length) {
+                        _round += 1;
+                        _currentPlayer = 0;
+                        if (_round == 3) {
+                          _endgame = true;
+                        }
+                      }
+                      _selectedColor = _listOfRandomColors[_currentPlayer];
+                      points.add(null);
+                    }
+                  });
+                },
+                child: Container(
+                  child: CustomPaint(
+                    size: Size.infinite,
+                    painter: CanvasPainter(
+                        pointsList: points,
+                        totalHeight: MediaQuery.of(context).size.height,
+                        totalWidth: MediaQuery.of(context).size.width,
+                        orientation: orientation),
+                  ),
+                ),
+              ),
+            ),
+          ]),
         ),
-      ]),
+      ),
     ));
   }
 
@@ -646,9 +654,10 @@ class _CanvasBoardState extends State<CanvasBoard> {
 
   // Guarda imagen del canvas en el carrete
   Future<void> _saveImage() async {
-    print("Screen saved!");
     screenshotController.capture().then((File image) {
-      _io.saveOnGallery(image);
+      if (image != null && image.path != null) {
+        GallerySaver.saveImage(image.path);
+      }
     }).catchError((onError) {
       print(onError);
     });
